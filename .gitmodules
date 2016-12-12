@@ -1,0 +1,3 @@
+[submodule "LoopMID2LoopOGG-CLI/libs/midifile"]
+	path = LoopMID2LoopOGG-CLI/libs/midifile
+	url = https://github.com/craigsapp/midifile.git
