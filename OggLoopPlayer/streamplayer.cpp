@@ -1,5 +1,4 @@
 ﻿#include "streamplayer.hpp"
-#include "external/libresample/include/libresample.h"
 #include <QStringBuilder>
 
 StreamPlayer::StreamPlayer(QObject *parent) :
