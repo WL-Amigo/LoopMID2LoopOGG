@@ -1,0 +1,15 @@
+## 本ソフトについて
+
+Copyright 2016 アミーゴ(WhiteLuckers)
+
+以下のファイルによって構成される本ソフトウェアは、 **Apache License Version 2.0** (本ライセンス)の下でライセンスされるものとします。あなたがこれらのファイルを使用するためには、本ライセンスに従わなければなりません。詳しくは、[Apache License Version 2.0の原文](http://www.apache.org/licenses/LICENSE-2.0)をご覧ください。
+
+
+
+* LoopMID2LoopOGG(.exe)
+* OGGLoopPlayer(.exe)
+
+* LoopMID2LoopOGG/ 以下の、下記を除く全ファイル
+    * LoopMID2LoopOGG/LoopMID2LoopOGG-CLI/libs
+    
+このソフトの利用者は、自由に本ソフトウェアの使用や頒布、修正、派生版の頒布を行うことができます。
