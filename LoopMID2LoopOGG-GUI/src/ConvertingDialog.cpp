@@ -10,6 +10,7 @@ ConvertingDialog::ConvertingDialog(QWidget *parent) :
     ui(new Ui::ConvertingDialog)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowCloseButtonHint);
 }
 
 ConvertingDialog::ConvertingDialog(QWidget *parent, QString &filename) :
@@ -19,6 +20,7 @@ ConvertingDialog::ConvertingDialog(QWidget *parent, QString &filename) :
 {
     ui->setupUi(this);
     ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowCloseButtonHint);
 
     QSettings settings;
     Q_ASSERT(!settings.value("outputDirectory").isNull());
