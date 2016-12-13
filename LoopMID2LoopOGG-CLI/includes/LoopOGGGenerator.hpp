@@ -21,6 +21,7 @@ private:
     bool generateLoopWAV();
     bool convertWAVToOGGWithLoopTag();
     QString getFileNameBase();
+    QString getFileNameBase(QString outputPath);
     void saveLoopInformation();
     void sweepTemporaryFiles();
 

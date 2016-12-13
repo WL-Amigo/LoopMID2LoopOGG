@@ -197,10 +197,7 @@ bool LoopOGGGenerator::generateLoopWAV(){
 }
 
 bool LoopOGGGenerator::convertWAVToOGGWithLoopTag(){
-    QFileInfo fi(this->smf);
-    QString filename(fi.fileName());
-    filename.remove(".mid");
-    QString outputFilename = outputDir + QDir::separator() + filename + ".ogg";
+    QString outputFilename = getFileNameBase(outputDir) + ".ogg";
     QString filenameBase = getFileNameBase();
 
     QStringList command;
@@ -218,10 +215,14 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag(){
 }
 
 QString LoopOGGGenerator::getFileNameBase(){
+    return this->getFileNameBase(this->tempFileDest.absolutePath());
+}
+
+QString LoopOGGGenerator::getFileNameBase(QString outputPath){
     QFileInfo fi(this->smf);
     QString filename(fi.fileName());
     filename.remove(".mid");
-    QString filenameBase = this->tempFileDest.absolutePath() + QDir::separator() + filename;
+    QString filenameBase = outputPath + QDir::separator() + filename;
     if(QSysInfo::windowsVersion() != QSysInfo::WV_None){
         if(filenameBase.indexOf('/') == 0)
         filenameBase.remove(0,1); // remove slash on head
@@ -231,7 +232,7 @@ QString LoopOGGGenerator::getFileNameBase(){
 }
 
 void LoopOGGGenerator::saveLoopInformation(){
-    QString liFileName = getFileNameBase() + LoopInformationSuffix;
+    QString liFileName = getFileNameBase(outputDir) + LoopInformationSuffix;
     QFile loopInfoFile(liFileName);
     QJsonDocument json;
     QJsonObject obj;
