@@ -2,6 +2,7 @@
 #include <QDropEvent>
 #include <QMimeData>
 #include <QDebug>
+#include <QUrl>
 
 ConverterSpawnGraphicsView::ConverterSpawnGraphicsView(QWidget *parent)
 {
@@ -29,8 +30,10 @@ void ConverterSpawnGraphicsView::dragEnterEvent(QDragEnterEvent *event){
 
 void ConverterSpawnGraphicsView::dropEvent(QDropEvent *event) {
     QString smfFullPath = getSMFFullPath(event->mimeData()->text());
+    QString smfFullPathDecoded = QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
     qDebug() << smfFullPath;
-    convertingDialog = new ConvertingDialog(this, smfFullPath);
+    qDebug() << QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
+    convertingDialog = new ConvertingDialog(this, smfFullPathDecoded);
     connect(convertingDialog, &ConvertingDialog::finished, convertingDialog, &QObject::deleteLater);
 
     convertingDialog->show();
