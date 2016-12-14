@@ -44,3 +44,6 @@ SOURCES += ../LoopMID2LoopOGG-CLI/src/LoopMIDIModifier.cpp \
 
 INCLUDEPATH += ../LoopMID2LoopOGG-CLI/includes/ \
         ../LoopMID2LoopOGG-CLI/libs/midifile/include/
+
+RESOURCES += \
+    resource.qrc
