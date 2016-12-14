@@ -26,7 +26,7 @@ HEADERS  += includes/mainwindow.h \
     includes/ConvertingWorker.hpp
 
 FORMS    += forms/mainwindow.ui \
-    convertingdialog.ui
+    forms/convertingdialog.ui
 
 # Link to LoopMID2LoopOGG-CLI
 
