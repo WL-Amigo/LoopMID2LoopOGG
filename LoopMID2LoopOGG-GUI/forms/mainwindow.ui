@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
-    <height>293</height>
+    <width>430</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,24 @@
       </property>
       <item>
        <widget class="ConverterSpawnGraphicsView" name="graphicsView">
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>400</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgba(0, 0, 0, 0);
+background-image: url(:/logo.png);
+background-position: center;
+background-repeat: no-repeat;</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
@@ -69,8 +87,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>338</width>
-     <height>21</height>
+     <width>430</width>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
