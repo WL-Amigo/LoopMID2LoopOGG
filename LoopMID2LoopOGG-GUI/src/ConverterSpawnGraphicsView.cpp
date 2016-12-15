@@ -33,7 +33,7 @@ void ConverterSpawnGraphicsView::dropEvent(QDropEvent *event) {
     QString smfFullPathDecoded = QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
     qDebug() << smfFullPath;
     qDebug() << QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
-    convertingDialog = new ConvertingDialog(this, smfFullPathDecoded);
+    convertingDialog = new ConvertingDialog(dynamic_cast<QWidget*>(this->parent()), smfFullPathDecoded);
     connect(convertingDialog, &ConvertingDialog::finished, convertingDialog, &QObject::deleteLater);
 
     convertingDialog->show();
