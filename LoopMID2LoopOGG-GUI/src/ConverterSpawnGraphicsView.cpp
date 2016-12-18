@@ -30,9 +30,9 @@ void ConverterSpawnGraphicsView::dragEnterEvent(QDragEnterEvent *event){
 
 void ConverterSpawnGraphicsView::dropEvent(QDropEvent *event) {
     QString smfFullPath = getSMFFullPath(event->mimeData()->text());
-    QString smfFullPathDecoded = QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
+    QString smfFullPathDecoded = QUrl::fromPercentEncoding(smfFullPath.toUtf8());
     qDebug() << smfFullPath;
-    qDebug() << QUrl::fromPercentEncoding(smfFullPath.toLocal8Bit());
+    qDebug() << QUrl::fromPercentEncoding(smfFullPath.toUtf8());
     convertingDialog = new ConvertingDialog(dynamic_cast<QWidget*>(this->parent()), smfFullPathDecoded);
     connect(convertingDialog, &ConvertingDialog::finished, convertingDialog, &QObject::deleteLater);
 
