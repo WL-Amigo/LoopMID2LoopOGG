@@ -17,16 +17,19 @@ SOURCES += src/main.cpp\
         src/mainwindow.cpp \
     src/ConverterSpawnGraphicsView.cpp \
     src/ConvertingDialog.cpp \
-    src/ConvertingWorker.cpp
+    src/ConvertingWorker.cpp \
+    src/conversionconfirmationdialog.cpp
 
 INCLUDEPATH += includes/
 HEADERS  += includes/mainwindow.h \
     includes/ConverterSpawnGraphicsView.hpp \
     includes/ConvertingDialog.hpp \
-    includes/ConvertingWorker.hpp
+    includes/ConvertingWorker.hpp \
+    includes/conversionconfirmationdialog.h
 
 FORMS    += forms/mainwindow.ui \
-    forms/convertingdialog.ui
+    forms/convertingdialog.ui \
+    forms/conversionconfirmationdialog.ui
 
 # Link to LoopMID2LoopOGG-CLI
 
