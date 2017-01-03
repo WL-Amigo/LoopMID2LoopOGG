@@ -4,16 +4,10 @@
 #include <QStyleFactory>
 #include <QDebug>
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    QCoreApplication::setOrganizationName("WhiteLuckers");
-    QCoreApplication::setApplicationName("LoopMID2LoopOGG");
-    MainWindow w;
-
+static void setFusionStyle(QApplication &app){
     // set fusion style
     //     from awesome gist: https://gist.github.com/Skyrpex/5547015
-    a.setStyle(QStyleFactory::create("fusion"));
+    app.setStyle(QStyleFactory::create("fusion"));
 
     QPalette palette;
     palette.setColor(QPalette::Window, QColor(53,53,53));
@@ -33,7 +27,30 @@ int main(int argc, char *argv[])
     palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
     palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
 
-    a.setPalette(palette);
+    app.setPalette(palette);
+}
+
+static void initializeSettings(){
+    // initialize settings on first execution of application
+    QSettings s;
+    s.setValue("outputDirectory", "");
+    s.setValue("preview", false);
+}
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    QCoreApplication::setOrganizationName("WhiteLuckers");
+    QCoreApplication::setApplicationName("LoopMID2LoopOGG");
+    MainWindow w;
+
+    setFusionStyle(a);
+
+    QSettings s;
+    if(s.value("reset", true).toBool()){
+        initializeSettings();
+        s.setValue("reset", false);
+    }
 
     w.show();
 
