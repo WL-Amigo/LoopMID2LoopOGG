@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>500</height>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,6 +58,13 @@ background-repeat: no-repeat;</string>
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Preview before conversion</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
@@ -88,7 +95,7 @@ background-repeat: no-repeat;</string>
      <x>0</x>
      <y>0</y>
      <width>430</width>
-     <height>18</height>
+     <height>17</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

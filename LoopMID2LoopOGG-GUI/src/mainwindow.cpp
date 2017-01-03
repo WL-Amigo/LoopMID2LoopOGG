@@ -14,11 +14,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::onBrowseButtonPressed);
+    connect(ui->checkBox, &QCheckBox::toggled, this, &MainWindow::onPreviewCheckBoxChanged);
 
     QSettings settings;
     if(!settings.value("outputDirectory").isNull()){
         ui->lineEdit->setText(settings.value("outputDirectory").toString());
     }
+    ui->checkBox->setChecked(settings.value("preview").toBool());
 }
 
 MainWindow::~MainWindow()
@@ -31,5 +33,10 @@ void MainWindow::onBrowseButtonPressed(){
     ui->lineEdit->setText(outputDirStr);
     QSettings settings;
     settings.setValue("outputDirectory", outputDirStr);
+}
+
+void MainWindow::onPreviewCheckBoxChanged(){
+    QSettings s;
+    s.setValue("preview", ui->checkBox->isChecked());
 }
 

@@ -1,8 +1,12 @@
 ﻿#include "includes/ConverterSpawnGraphicsView.hpp"
+
+#include "includes/conversionconfirmationdialog.h"
+
 #include <QDropEvent>
 #include <QMimeData>
 #include <QDebug>
 #include <QUrl>
+#include <QSettings>
 
 ConverterSpawnGraphicsView::ConverterSpawnGraphicsView(QWidget *parent)
 {
@@ -33,10 +37,19 @@ void ConverterSpawnGraphicsView::dropEvent(QDropEvent *event) {
     QString smfFullPathDecoded = QUrl::fromPercentEncoding(smfFullPath.toUtf8());
     qDebug() << smfFullPath;
     qDebug() << QUrl::fromPercentEncoding(smfFullPath.toUtf8());
-    convertingDialog = new ConvertingDialog(dynamic_cast<QWidget*>(this->parent()), smfFullPathDecoded);
-    connect(convertingDialog, &ConvertingDialog::finished, convertingDialog, &QObject::deleteLater);
 
-    convertingDialog->show();
+    QSettings s;
+    if(s.value("preview").toBool()){
+        ConversionConfirmationDialog* ccd = new ConversionConfirmationDialog(dynamic_cast<QWidget*>(this->parent()), smfFullPathDecoded);
+        connect(ccd, &ConversionConfirmationDialog::finished, ccd, &ConversionConfirmationDialog::deleteLater);
+        ccd->show();
+    } else {
+        convertingDialog = new ConvertingDialog(dynamic_cast<QWidget*>(this->parent()), smfFullPathDecoded);
+        connect(convertingDialog, &ConvertingDialog::finished, convertingDialog, &QObject::deleteLater);
+        convertingDialog->show();
+    }
+
+
 }
 
 void ConverterSpawnGraphicsView::destroyDialog() {

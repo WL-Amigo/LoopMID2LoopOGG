@@ -18,6 +18,7 @@ public:
 
 private slots:
     void onBrowseButtonPressed();
+    void onPreviewCheckBoxChanged();
 
 private:
     Ui::MainWindow *ui;
