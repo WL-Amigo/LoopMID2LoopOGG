@@ -88,7 +88,7 @@ OggLoopPlayerは現在かなり不安定なので、もし再生ボタンをお�
 
 ## 協力者募集！ (Contribution)
 
-本ソフトウェアは Apache License Version 2.0 に基づくオープンソース・ソフトウェアです。下記のような協力を激しく歓迎致します。
+下記のような協力を激しく歓迎致します。
 
 * 正常に変換できないMIDI素材の報告
     * 「配布元のホームページのアドレス」「曲名」を教えて頂けると、バグ修正のためのテストを多く行えるようになるため大変助かります。
@@ -96,6 +96,10 @@ OggLoopPlayerは現在かなり不安定なので、もし再生ボタンをお�
     * 上記の現状の問題点の修正・改善や、何らかの改善を含むプルリクエストを歓迎致します。
 * 翻訳 (translations)
     * I'm not good at using English, so I may produce strange translation if I try to translate this software's sentences. Translation from Japanese to your familiar language is highly appreciated. If you wonder how to send your translation, please contact to Amigo via issue on this repository, or Twitter, or E-Mail.
+* 使い方などの記事の執筆
+    * 使い方、応用方法など、本ソフトに関する記事の作成を歓迎致します。
+* 他の音源データへの対応
+    * TiMidity++用のcfgファイルを作成できれば、本ソフトで使用できる音源データの拡張を行うことが出来ます。
 
 
 ## 本ツールに関する問い合わせについて
