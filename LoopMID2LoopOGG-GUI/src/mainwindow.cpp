@@ -29,7 +29,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onBrowseButtonPressed(){
-    QString outputDirStr = QFileDialog::getExistingDirectory(this, "Select Output Direcotry...");
+    QString outputDirStr = QFileDialog::getExistingDirectory(this, tr("Select Output Direcotry..."));
     ui->lineEdit->setText(outputDirStr);
     QSettings settings;
     settings.setValue("outputDirectory", outputDirStr);

@@ -50,3 +50,6 @@ INCLUDEPATH += ../LoopMID2LoopOGG-CLI/includes/ \
 
 RESOURCES += \
     resource.qrc
+
+TRANSLATIONS += \
+    translations/ja.ts

@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>430</width>
-    <height>523</height>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>LoopMID2LoopOGG</string>
+  </property>
+  <property name="locale">
+   <locale language="Japanese" country="Japan"/>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -95,7 +98,7 @@ background-repeat: no-repeat;</string>
      <x>0</x>
      <y>0</y>
      <width>430</width>
-     <height>17</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

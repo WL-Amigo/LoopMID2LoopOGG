@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file alias="logo.png">resources/ConvertLogo.png</file>
+        <file>translations/ja.qm</file>
     </qresource>
 </RCC>

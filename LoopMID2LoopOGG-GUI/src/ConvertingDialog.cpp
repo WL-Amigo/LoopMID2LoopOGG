@@ -37,7 +37,7 @@ ConvertingDialog::~ConvertingDialog()
 
 void ConvertingDialog::whenFinished(){
     qDebug() << "finished";
-    ui->label->setText("変換完了!");
+    ui->label->setText(tr("Finished!"));
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 }
 

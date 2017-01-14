@@ -41,8 +41,11 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="locale">
+        <locale language="English" country="UnitedStates"/>
+       </property>
        <property name="text">
-        <string>変換中...</string>
+        <string>Converting...</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

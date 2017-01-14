@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QStyleFactory>
 #include <QDebug>
+#include <QTranslator>
 
 static void setFusionStyle(QApplication &app){
     // set fusion style
@@ -42,9 +43,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QCoreApplication::setOrganizationName("WhiteLuckers");
     QCoreApplication::setApplicationName("LoopMID2LoopOGG");
-    MainWindow w;
 
     setFusionStyle(a);
+
+    QTranslator translator;
+    qDebug().noquote() << translator.isEmpty();
+    translator.load(":/translations/ja");
+    qDebug().noquote() << translator.isEmpty();
+    a.installTranslator(&translator);
+//    QLocale::setDefault(QLocale::Japanese);
+    qDebug().noquote() << QLocale::system().name();
 
     QSettings s;
     if(s.value("reset", true).toBool()){
@@ -52,6 +60,7 @@ int main(int argc, char *argv[])
         s.setValue("reset", false);
     }
 
+    MainWindow w;
     w.show();
 
     return a.exec();
