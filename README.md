@@ -7,6 +7,8 @@ This software is a converter from looping Standard MIDI File which is conformabl
 
 ** 本ソフトを入手、利用した時点で、本ソフトの構成要素に付されている全てのライセンス条項にあなたが同意し、README(本文書)の「ツール利用上の注意事項」を理解し同意したものと見なします。 ** ライセンスについては同梱の LICENSE をご参照下さい。
 
+プロジェクトページは [こちら](https://wl-amigo.github.io/LoopMID2LoopOGG/) です。
+
 
 ## 何が出来るの？
 
@@ -110,4 +112,3 @@ OggLoopPlayerは現在かなり不安定なので、もし再生ボタンをお�
 
 Twitter: @WL_Amigo
 E-Mail: white.luckers at gmail.com
-
