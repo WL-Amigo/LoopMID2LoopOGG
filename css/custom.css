@@ -88,15 +88,20 @@ h2::after {
     vertical-align: middle;
 }
 
+.shares-wrap,
 .materials-wrap {
     text-align: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
+.shares-link,
 .material-link {
     text-decoration: none;
     color: #b9edfe;
 }
 
+.shares-link:hover,
 .material-link:hover {
     color: #b9edfe;
     text-shadow: 0 0 5px #FFF;
