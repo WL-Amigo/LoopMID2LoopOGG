@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>LoopMID2LoopOGG プロジェクトページ</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/vex.css">
+    <link rel="stylesheet" href="css/vex-theme-default.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+
+    <div class="logo-wrap">
+        <img src="images/Logo.svg" class="logo">
+    </div>
+
+    <div class="buttons-wrap">
+        <a href="#modal-before-download" class="button download-button modal-trigger"><img src="images/treasure.svg" />ダウンロード</a>
+    </div>
+
+    <div class="container">
+        <div class="content-wrap">
+            <p>
+                LoopMID2LoopOGG は、「RPGツクール2000規格で作成された、対応するRPGツクール(2000,2003,XP,VX,VXAce 等)においてループする標準MIDIファイルを、対応するRPGツクール(VXAce,MV 等)や対応する環境においてループするOGG Vorbisファイルへ変換する」ツールです。
+            </p>
+
+            <h2>出来ること</h2>
+            <ul class="fa-ul">
+                <li><i class="fa-li fa fa-magic"></i> RPGツクール2000規格で作成されたいわゆるMIDI素材(CC111を用いてループするように作られたMIDI素材)を、LOOPSTART/LOOPLENGTHタグによるループ情報を埋め込んだOGG Vorbisファイルへ変換することが出来ます。
+                </li>
+                <li><i class="fa-li fa fa-magic"></i> 変換時に同時にループ情報(LOOPSTART/LOOPLENGTH)を書きだしたjsonファイルも得られます。
+                    <br /> テキストエディタで開けばサンプル数単位のループ情報を得られます。
+                </li>
+                <li><i class="fa-li fa fa-magic"></i> 変換する前に、変換結果を確認するためのプレビュー再生を簡単に行うことが出来ます(プレビュー再生ではループ再生はされません)。
+                </li>
+            </ul>
+
+            <h2>セットアップ手順</h2>
+            <ol>
+                <li>ページ上部またはページ下部のダウンロードボタンを押し、注意事項を読んで頂いた上でZIPパッケージをダウンロードします。</li>
+                <li>音源データ(サウンドフォント)をダウンロードします。今の所、SGM V2.01のみサポートされていますので、<a href="https://sourceforge.net/projects/androidframe/files/soundfonts/">ここ</a> にアクセスして、”SGM-V2.01.sf2” を選択し、ダウンロードして下さい(サイズが大きいため時間が掛かります)。</li>
+                <li>1番でダウンロードしたZIPパッケージを、適当な場所に展開します。</li>
+                <li>2番でダウンロードした音源データ(SGM-V2.01.sf2)を、3番で展開したパッケージ内の “TiMidity++/sf2/“ フォルダに移動します。</li>
+                <li>これで準備完了です。 “LoopMID2LoopOGG.exe” をダブルクリックすると起動できます。</li>
+            </ol>
+
+            <h2>資料集</h2>
+            <div class="row materials-wrap">
+                <div class="six columns">
+                    <!--a href="" class="material-link">MIDI素材を配布されている作者様<br />HPへのリンク集</a-->
+                    <span class="material-link-na">MIDI素材を配布されている作者様<br />HPへのリンク集(Coming soon!)</span>
+                </div>
+                <div class="six columns">
+                    <!--a href="" class="material-link">本ツールの技術的詳細について</a-->
+                    <span class="material-link-na">本ツールの技術的詳細について(準備中)</span>
+                </div>
+            </div>
+            <div class="row materials-wrap">
+                <div class="six columns">
+                    <span class="material-link-na">正常に変換できないMIDI素材リスト(Coming soon)</span>
+                </div>
+            </div>
+
+            <div style="height: 2em;">
+            </div>
+
+            <div class="buttons-wrap">
+                <a href="#modal-before-download" class="button download-button modal-trigger"><img src="images/treasure.svg" />ダウンロード</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div style="height: 2em;">
+    </div>
+
+    <div class="footer">
+        <p>
+            変換受付部分の画像に利用している音符の画像は、<a href="http://www.flaticon.com/">www.flaticon.com</a> の Freepik さんによる素材 <a href="http://www.flaticon.com/free-icon/musical-note-in-black_26876">Musical note in black</a> を利用しています。
+        </p>
+        <p>
+            本ページの背景は <a href="http://www5d.biglobe.ne.jp/~gakai/index.htm">きまぐれアフター</a>, 及び <a href="https://subtlepatterns.com/">Subtle Patterns</a> より加工の上利用させて頂いております。
+        </p>
+        <p>
+            本ページでは、フォントとして <a href="http://mplus-fonts.osdn.jp/">M+ 2p</a>, 及び <a href="https://fonts.google.com/specimen/Atomic+Age">Atomic Age(Google Fonts)</a> を利用させて頂いております。
+        </p>
+        <p>
+            本ページの見出し飾りは <a href="http://frames-design.com/">フレームデザイン</a> より加工の上利用させて頂いております。
+        </p>
+        <p>
+            Powered by <a href="https://pages.github.com/">GitHub Pages(hosting)</a>, <a href="http://getskeleton.com/">Skeleton(css framework)</a>, and <a href="http://github.hubspot.com/vex/docs/welcome/">vex(modal window)</a>.
+        </p>
+        <p>
+            Presented by <a href="https://wl-amigo.github.io/">WhiteLuckers</a>.
+        </p>
+    </div>
+
+
+    <script src="js/vex.combined.min.js"></script>
+    <script>
+    vex.defaultOptions.className = 'vex-theme-default';
+    const modalBeforeDownload = {
+        'unsafeMessage': [
+            '<h4>ツール利用前のお願い</h4>',
+
+            '<p>',
+                '本ツールを利用される場合、必ず同梱のREADME.md、もしくは<a href="https://github.com/WL-Amigo/LoopMID2LoopOGG#-loopmid2loopogg" target="_blank">こちら</a>をご覧下さい(README.mdと同じ内容です)。<b>本ツールを入手・利用した時点で、本ツールの構成要素に付されている全てのライセンス条項にあなたが同意し、README.mdの「<a href="https://github.com/WL-Amigo/LoopMID2LoopOGG#%E3%83%84%E3%83%BC%E3%83%AB%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85" target="_blank">ツール利用上の注意事項</a>」を理解し同意したものと見なします。</b>',
+            '</p>',
+
+            '<p>',
+                '本ツールのZIPパッケージは以下よりダウンロードすることができます。',
+            '</p>',
+
+            '<a href="https://github.com/WL-Amigo/LoopMID2LoopOGG/releases/download/v1.0.0/LoopMID2LoopOGG-V1.0.0-Win32.zip" class="button button-primary"><i class="fa fa-download"></i>Windows用</a>'
+        ].join(''),
+        'buttons': [vex.dialog.buttons.YES]
+    };
+    var mts = document.getElementsByClassName('modal-trigger');
+    for(var mt of mts){
+        mt.addEventListener('click', function() {
+            vex.dialog.open(modalBeforeDownload);
+        });
+    }
+    </script>
+
+
+</body>
+
+</html>

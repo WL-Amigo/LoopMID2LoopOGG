@@ -1,0 +1,63 @@
+.modal-body-no-scroll {
+  overflow: hidden; }
+
+.modal {
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  overflow: hidden;
+  padding: 2rem;
+  color: #000;
+  font-size: 0.9em;
+}
+
+.modal--is-visible {
+  pointer-events: initial;
+  opacity: 1; }
+
+.modal__dialog {
+  background: white;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 100rem;
+  border-radius: 0.3rem;
+  overflow: hidden; }
+
+.modal__header,
+.modal__body {
+  padding: 1.5rem 2rem; }
+
+.modal__header {
+  border-bottom: 1px solid whitesmoke; }
+  .modal__header:before, .modal__header:after {
+    content: " ";
+    display: table; }
+  .modal__header:after {
+    clear: both; }
+
+.modal__title {
+  margin: 0;
+  float: left; }
+
+.modal__close {
+  float: right;
+  color: #000;
+ }
+
+/*# sourceMappingURL=style.min.css.map */
