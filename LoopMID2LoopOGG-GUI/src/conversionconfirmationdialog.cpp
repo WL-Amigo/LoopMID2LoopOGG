@@ -1,4 +1,4 @@
-#include "includes/conversionconfirmationdialog.h"
+﻿#include "includes/conversionconfirmationdialog.h"
 #include "ui_conversionconfirmationdialog.h"
 
 #include "includes/ConvertingDialog.hpp"
@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QCoreApplication>
 #include <QSysInfo>
+#include <QDebug>
 
 ConversionConfirmationDialog::ConversionConfirmationDialog(QWidget *parent) :
     QDialog(parent),
@@ -44,9 +45,10 @@ void ConversionConfirmationDialog::spawnTiMidity(QString smFile)
     QStringList command;
     if(QSysInfo::windowsVersion() != QSysInfo::WV_None){
         timidityBinPath = appDirStr + "/TiMidity++/timidity.exe";
-        command << "-Os"; // output to sound device? (this is for Linux environment)
+        command << "-Od"; // output to windows sound device
         command << "-c" << appDirStr + "/TiMidity++/sf2/SGM_v2.01.cfg";
-        command << smFile;
+        command << "-L" << appDirStr + "/TiMidity++/sf2/";
+        command << smFile.mid(1); // remove top of slash
     } else {
         timidityBinPath = "timidity";
         command << "-Os"; // output to ALSA PCM Device
