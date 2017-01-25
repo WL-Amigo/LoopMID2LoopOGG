@@ -19,7 +19,7 @@ This software is a converter from looping Standard MIDI File which is conformabl
 
 ## セットアップ
 
-1. [ここ]() からZIPパッケージをダウンロードします。
+1. [ここ](https://github.com/WL-Amigo/LoopMID2LoopOGG/releases) からZIPパッケージをダウンロードします。
 2. 音源データ(サウンドフォント)をダウンロードします。今の所、SGM V2.01のみサポートされていますので、[ここ](https://sourceforge.net/projects/androidframe/files/soundfonts/) にアクセスして、"SGM-V2.01.sf2" を選択し、ダウンロードして下さい(サイズが大きいため時間が掛かります)。
 3. 1番でダウンロードしたZIPパッケージを、適当な場所に展開します。
 4. 2番でダウンロードした音源データ(SGM-V2.01.sf2)を、3番で展開したパッケージ内の "TiMidity++/sf2/" フォルダに移動します。
@@ -82,6 +82,7 @@ OggLoopPlayerは現在かなり不安定なので、もし再生ボタンをお�
     * ループ終了地点がズレていて無音時間が発生してしまう
 * 音源データとして SGM-V2.01 しかサポートしていません。
 * 楽器単位の音量調整が出来ないため、曲によってはあるパートが聴きづらくなります(例えばチェロなどが小さいです)
+* 一部のMIDI素材において、ループ終了地点で楽器の発音が不自然に伸びることがあります。
 * WAVへの出力はまだサポートしていません。
 * 波形出力後の末尾処理を行っていないため、OGGファイルが無駄に大きいです(ループ再生時に再生されない波形を多く持っているためです)
 
@@ -99,9 +100,13 @@ OggLoopPlayerは現在かなり不安定なので、もし再生ボタンをお�
 * 翻訳 (translations)
     * I'm not good at using English, so I may produce strange translation if I try to translate this software's sentences. Translation from Japanese to your familiar language is highly appreciated. If you wonder how to send your translation, please contact to Amigo via issue on this repository, or Twitter, or E-Mail.
 * 使い方などの記事の執筆
-    * 使い方、応用方法など、本ソフトに関する記事の作成を歓迎致します。
+    * 使い方、応用方法など、本ソフトに関する記事(ブログ記事、Twitter モーメント等)の作成を歓迎致します。
+    * 記事を作成して頂いた際、アミーゴ宛にご一報頂けるとすごく喜びます。
 * 他の音源データへの対応
     * TiMidity++用のcfgファイルを作成できれば、本ソフトで使用できる音源データの拡張を行うことが出来ます。
+* 本ツールの宣伝
+    * もし本ツールを気にいって頂けましたら、是非Twitterやブログなどの上で紹介して下さい。本ツールを求めている方に届く可能性が高くなります。
+    * Twitterにおけるハッシュタグは `#LoopMID2LoopOGG` です。
 
 
 ## 本ツールに関する問い合わせについて
