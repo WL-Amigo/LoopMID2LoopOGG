@@ -53,6 +53,7 @@ void ConversionConfirmationDialog::spawnTiMidity(QString smFile)
         timidityBinPath = "timidity";
         command << "-Os"; // output to ALSA PCM Device
         command << "-c" << appDirStr + "/sf2/SGM_v2.01.cfg";
+        command << "-L" << appDirStr + "/sf2/";
         command << smFile;
     }
 
