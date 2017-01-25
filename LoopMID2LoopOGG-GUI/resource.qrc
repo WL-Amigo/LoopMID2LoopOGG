@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file alias="logo.png">resources/ConvertLogo.png</file>
         <file>translations/ja.qm</file>
+        <file alias="disk2x.png">resources/disk2x.png</file>
     </qresource>
 </RCC>
