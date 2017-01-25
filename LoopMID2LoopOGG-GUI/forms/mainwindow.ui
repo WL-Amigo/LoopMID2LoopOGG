@@ -105,6 +105,8 @@ background-repeat: no-repeat;</string>
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionConfig"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -113,6 +115,11 @@ background-repeat: no-repeat;</string>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionConfig">
+   <property name="text">
+    <string>Config</string>
    </property>
   </action>
  </widget>

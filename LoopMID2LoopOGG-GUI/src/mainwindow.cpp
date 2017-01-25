@@ -9,7 +9,8 @@ const quint32 SAMPLE_RATE = 44100;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    configDialog(new ConfigDialog(nullptr))
 {
     ui->setupUi(this);
 
@@ -21,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->lineEdit->setText(settings.value("outputDirectory").toString());
     }
     ui->checkBox->setChecked(settings.value("preview").toBool());
+
+    connect(ui->actionConfig, &QAction::triggered, this->configDialog, &ConfigDialog::show);
 }
 
 MainWindow::~MainWindow()

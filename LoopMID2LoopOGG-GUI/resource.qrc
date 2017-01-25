@@ -3,5 +3,7 @@
         <file alias="logo.png">resources/ConvertLogo.png</file>
         <file>translations/ja.qm</file>
         <file alias="disk2x.png">resources/disk2x.png</file>
+        <file alias="magiccircle2x.png">resources/magiccircle2x.png</file>
+        <file alias="minilogo.png">resources/minilogo.png</file>
     </qresource>
 </RCC>

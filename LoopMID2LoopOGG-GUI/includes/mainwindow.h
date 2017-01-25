@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ConvertingDialog.hpp"
+#include "includes/ConfigDialog.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     ConvertingDialog *convertingDialog;
+    ConfigDialog *configDialog;
 };
 
 #endif // MAINWINDOW_H
