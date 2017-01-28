@@ -255,6 +255,7 @@ float RIFFWaveEditor::getMaxAmplitude() {
 }
 
 void RIFFWaveEditor::cutoutAfter(quint32 offsetSample) {
+    if (offsetSample >= getLengthInSample()) return;
     lChannelFloat.remove(offsetSample, lChannelFloat.size() - offsetSample);
     rChannelFloat.remove(offsetSample, rChannelFloat.size() - offsetSample);
 }
@@ -267,9 +268,27 @@ void RIFFWaveEditor::expFadeout(quint32 offsetSample, quint32 fadeLength) {
     quint32 endSample = offsetSample + fadeLength;
     float fadeLengthFloat = static_cast<float>(fadeLength);
     for (quint32 sidx = offsetSample; sidx < endSample; sidx++) {
-        float amp = qPow(
-            0.1, static_cast<float>(sidx - offsetSample) / fadeLength * 4.0f);
+        float amp = qPow(0.1, static_cast<float>(sidx - offsetSample)
+                                  / fadeLengthFloat * 4.0f);
         lChannelFloat[sidx] *= amp;
         rChannelFloat[sidx] *= amp;
     }
+}
+
+void RIFFWaveEditor::safeExpFadeoutWithLoop(quint32 offsetSample,
+                                            quint32 fadeLength,
+                                            quint32 loopStart,
+                                            quint32 loopLength) {
+    bool first = true;
+    while (offsetSample + fadeLength > getLengthInSample()) {
+        // remove unnecessary samples
+        if (first) {
+            cutoutAfter(loopStart + loopLength);
+            first = false;
+        }
+        // append loop samples
+        lChannelFloat.append(lChannelFloat.mid(loopStart, loopLength));
+        rChannelFloat.append(rChannelFloat.mid(loopStart, loopLength));
+    }
+    expFadeout(offsetSample, fadeLength);
 }

@@ -15,6 +15,8 @@ public:
     quint32 getLengthInSample();
     void cutoutAfter(quint32 offsetSample);
     void expFadeout(quint32 offsetSample, quint32 fadeLength);
+    void safeExpFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
+                                quint32 loopStart, quint32 loopLength);
 
 private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);
