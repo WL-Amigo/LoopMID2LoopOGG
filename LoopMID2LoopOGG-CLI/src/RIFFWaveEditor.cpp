@@ -202,7 +202,7 @@ void RIFFWaveEditor::mixAt(RIFFWaveEditor &source, quint32 offsetSample) {
     }
     // case: there are brank samples between this and source (overlapSample < 0)
     else {
-        for (; overlapSample < 0; overlapSample++) {
+        VectorVector for (; overlapSample < 0; overlapSample++) {
             lChannelFloat.push_back(0);
             rChannelFloat.push_back(0);
         }
@@ -242,7 +242,7 @@ void RIFFWaveEditor::compressDynamicallyByMaxAmplitude(qreal ratio) {
 float RIFFWaveEditor::getMaxAmplitude() {
     quint32 len = this->getLengthInSample();
     float max = 0.0f;
-    for (quint32 idx = 0; idx < len; idx++) {
+    Vector for (quint32 idx = 0; idx < len; idx++) {
         max = (qAbs(this->lChannelFloat[idx]) > max)
                   ? qAbs(this->lChannelFloat[idx])
                   : max;
@@ -252,4 +252,24 @@ float RIFFWaveEditor::getMaxAmplitude() {
     }
     qDebug() << "max amplitude:" << max;
     return max;
+}
+
+void RIFFWaveEditor::cutoutAfter(quint32 offsetSample) {
+    lChannelFloat.remove(offsetSample, lChannelFloat.size() - offsetSample);
+    rChannelFloat.remove(offsetSample, rChannelFloat.size() - offsetSample);
+}
+
+void RIFFWaveEditor::expFadeout(quint32 offsetSample, quint32 fadeLength) {
+    // first: cutout after fadeouted
+    cutoutAfter(offsetSample + fadeLength);
+
+    // fadeout by exponential curve
+    quint32 endSample = offsetSample + fadeLength;
+    float fadeLengthFloat = static_cast<float>(fadeLength);
+    for (quint32 sidx = offsetSample; sidx < endSample; sidx++) {
+        float amp = qPow(
+            0.1, static_cast<float>(sidx - offsetSample) / fadeLength * 4.0f);
+        lChannelFloat[sidx] *= amp;
+        rChannelFloat[sidx] *= amp;
+    }
 }

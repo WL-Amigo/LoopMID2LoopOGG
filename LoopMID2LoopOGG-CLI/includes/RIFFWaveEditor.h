@@ -1,12 +1,11 @@
 ﻿#ifndef RIFFWAVEEDITOR_H
 #define RIFFWAVEEDITOR_H
 
-#include <QVector>
-#include <QFile>
 #include <QByteArray>
+#include <QFile>
+#include <QVector>
 
-class RIFFWaveEditor
-{
+class RIFFWaveEditor {
 public:
     RIFFWaveEditor();
     bool open(QFile& wavefile);
@@ -14,8 +13,10 @@ public:
     quint32 getOverlap(quint32 offsetSample);
     void mixAt(RIFFWaveEditor& source, quint32 offsetSample);
     quint32 getLengthInSample();
+    void cutoutAfter(quint32 offsetSample);
+    void expFadeout(quint32 offsetSample, quint32 fadeLength);
 
-private: // methods
+private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);
     void loadWaveForm(const QByteArray& dataChunk);
     void serializeWaveForm(QByteArray& dataChunkDest);
@@ -24,10 +25,10 @@ private: // methods
     void compressAllByMaxAmplitude();
     void compressDynamicallyByMaxAmplitude(qreal ratio);
 
-private: // variable
+private:  // variable
     QVector<float> rChannelFloat;
     QVector<float> lChannelFloat;
     quint32 sampleRate;
 };
 
-#endif // RIFFWAVEEDITOR_H
+#endif  // RIFFWAVEEDITOR_H
