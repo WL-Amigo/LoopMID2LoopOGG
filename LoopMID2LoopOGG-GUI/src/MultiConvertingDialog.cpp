@@ -2,6 +2,7 @@
 #include "LoopOGGGenerator.hpp"
 #include "ui_MultiConvertingDialog.h"
 
+#include <QFileInfo>
 #include <QModelIndex>
 #include <QPushButton>
 #include <QSettings>
@@ -62,11 +63,15 @@ MultiConvertingDialog::MultiConvertingDialog(QStringList &smFileList,
     // set items to tableview
     for (int idx = 0; idx < smFileList.size(); idx++) {
         ui->progressDetailTable->insertRow(idx);
-        ui->progressDetailTable->setItem(
-            idx, 0, new QTableWidgetItem(smFileList.at(idx)));
-        ui->progressDetailTable->setItem(
-            idx, 1, new QTableWidgetItem(tr("pending or converting...")));
+        QFileInfo fi(smFileList.at(idx));
+        ui->progressDetailTable->setItem(idx, 0,
+                                         new QTableWidgetItem(fi.fileName()));
+        auto progressItem = new QTableWidgetItem(
+            QIcon(":/converting.png"), tr("pending or converting..."));
+
+        ui->progressDetailTable->setItem(idx, 1, progressItem);
     }
+    ui->progressDetailTable->resizeColumnToContents(0);
 
     // set progress bar attributes
     ui->progressBar->setMaximum(smFileList.size());
@@ -82,7 +87,8 @@ MultiConvertingDialog::~MultiConvertingDialog() { delete ui; }
 
 void MultiConvertingDialog::showEvent(QShowEvent *event) {
     // setup worker and watcher
-    this->results = QtConcurrent::mapped(this->fileNameList, TestWorker());
+    this->results
+        = QtConcurrent::mapped(this->fileNameList, MultiConversionWorker());
     this->watcher.setFuture(this->results);
     connect(&watcher, &QFutureWatcher<bool>::progressValueChanged, this,
             &MultiConvertingDialog::onProgressValueChanged);
@@ -92,10 +98,22 @@ void MultiConvertingDialog::showEvent(QShowEvent *event) {
 
 void MultiConvertingDialog::onProgressValueChanged(int value) {
     ui->progressBar->setValue(value);
-    if (value == this->fileNameList.size())
+    if (value == this->fileNameList.size()) {
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+        ui->stateLabel->setText(tr("Finished!"));
+    }
 }
 
 void MultiConvertingDialog::onOneWorkerFinished(int index) {
-    ui->progressDetailTable->item(index, 1)->setText(tr("Done!"));
+    bool result = results.resultAt(index);
+    if (result) {
+        ui->progressDetailTable->item(index, 1)->setText(
+            tr("Done!", "single work"));
+        ui->progressDetailTable->item(index, 1)->setIcon(
+            QIcon(":/succeeded.png"));
+    } else {
+        ui->progressDetailTable->item(index, 1)->setText(
+            tr("Failed by some error...", "single work"));
+        ui->progressDetailTable->item(index, 1)->setIcon(QIcon(":/failed.png"));
+    }
 }
