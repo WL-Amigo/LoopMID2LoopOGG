@@ -5,5 +5,9 @@
         <file alias="disk2x.png">resources/disk2x.png</file>
         <file alias="magiccircle2x.png">resources/magiccircle2x.png</file>
         <file alias="minilogo.png">resources/minilogo.png</file>
+        <file alias="converting.png">resources/skill_011_alpha.png</file>
+        <file alias="pending.png">resources/iconH005_b.png</file>
+        <file alias="failed.png">resources/iconI024.png</file>
+        <file alias="succeeded.png">resources/iconI025.png</file>
     </qresource>
 </RCC>
