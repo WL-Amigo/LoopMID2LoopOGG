@@ -1,37 +1,35 @@
 #ifndef CONFIGDIALOG_HPP
 #define CONFIGDIALOG_HPP
 
-#include <QWidget>
-#include <QString>
 #include <QListWidgetItem>
 #include <QStackedWidget>
+#include <QString>
+#include <QWidget>
 
 namespace Ui {
 class ConfigDialog;
 }
 
-class ConfigDialog : public QWidget
-{
+class ConfigDialog : public QWidget {
     Q_OBJECT
 
 public:
-    explicit ConfigDialog(QWidget *parent = 0);
+    explicit ConfigDialog(QWidget* parent = 0);
     ~ConfigDialog();
 
 private:
     void setupConfigSelectorButtons();
 
 private:
-    Ui::ConfigDialog *ui;
-
+    Ui::ConfigDialog* ui;
 };
 
-class CDChangePageSlotObject : public QObject
-{
+class CDChangePageSlotObject : public QObject {
     Q_OBJECT
 
 public:
-    CDChangePageSlotObject(QObject* parent, QStackedWidget* targetSW, int targetPage);
+    CDChangePageSlotObject(QObject* parent, QStackedWidget* targetSW,
+                           int targetPage);
     ~CDChangePageSlotObject();
 
 public slots:
@@ -40,8 +38,6 @@ public slots:
 private:
     QStackedWidget* targetSW;
     int targetPage;
-
-
 };
 
-#endif // CONFIGDIALOG_HPP
+#endif  // CONFIGDIALOG_HPP

@@ -1,22 +1,20 @@
 ﻿#include <math.h>
 #include <QString>
-#include "MIDIInfoCollector.hpp"
 #include <QSysInfo>
+#include "MIDIInfoCollector.hpp"
 
 MIDIInfoCollector::MIDIInfoCollector(std::string &filename) {
     this->filename = filename;
 
     // attempt to read given file
-    if(QSysInfo::windowsVersion() != QSysInfo::WV_None){
+    if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
         std::string filenameWin = filename.substr(1);
         this->midifile.read(filenameWin);
     } else
         this->midifile.read(filename);
 
     // convert delta to absolute if tick count mode is delta
-    if (!(this->midifile.isAbsoluteTicks())) {
-        this->midifile.absoluteTicks();
-    }
+    if (!(this->midifile.isAbsoluteTicks())) { this->midifile.absoluteTicks(); }
 
     // sort all tracks for proper analysis
     this->midifile.sortTracks();
@@ -29,7 +27,7 @@ MIDIInfoCollector::MIDIInfoCollector(std::string &filename) {
     qDebug() << "Tracks: " << this->midifile.getTrackCount();
 }
 
-std::string& MIDIInfoCollector::getFileName() { return this->filename; }
+std::string &MIDIInfoCollector::getFileName() { return this->filename; }
 
 MidiEvent *MIDIInfoCollector::getLoopStartControl() {
     // merge all tracks for analysis
@@ -56,9 +54,10 @@ MidiEvent *MIDIInfoCollector::getLoopStartControl() {
 
 int MIDIInfoCollector::getLoopStartTick() {
     auto cc111 = getLoopStartControl();
-    if(cc111 != nullptr) return cc111->tick;
+    if (cc111 != nullptr) return cc111->tick;
 
-    // if CC111 was not found, assumes that loop start tick is equal to song start tick
+    // if CC111 was not found, assumes that loop start tick is equal to song
+    // start tick
     return this->findSongStartTick();
 }
 
@@ -79,9 +78,10 @@ int MIDIInfoCollector::findSongLastTick() {
     }
     */
     // case: last of song is EOT
-    for(int idx = this->midifile[0].size() - 1; idx > 0; idx--){
+    for (int idx = this->midifile[0].size() - 1; idx > 0; idx--) {
         event = &this->midifile[0][idx];
-        if(event->isMeta() && (*event)[1] == 0x2F && (*event)[2] == 0x00) break;
+        if (event->isMeta() && (*event)[1] == 0x2F && (*event)[2] == 0x00)
+            break;
     }
     int songLastTick = event->tick;
 
@@ -90,7 +90,9 @@ int MIDIInfoCollector::findSongLastTick() {
 
     qDebug() << "song last tick:" << songLastTick;
     qDebug() << "event track:" << event->track;
-    qDebug() << "event dump:" << QString::asprintf("%02X %02X %02X", (*event)[0], (*event)[1], (*event)[2]);
+    qDebug() << "event dump:"
+             << QString::asprintf("%02X %02X %02X", (*event)[0], (*event)[1],
+                                  (*event)[2]);
 
     return songLastTick;
 }
@@ -128,9 +130,7 @@ int MIDIInfoCollector::findSongStartTick() {
 QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
     QVector<MIDISettings> settings(16);  // MIDI Channel maximum
     // set channel to each setting structure
-    for (int idx = 0; idx < 16; idx++) {
-        settings[idx].channel = idx;
-    }
+    for (int idx = 0; idx < 16; idx++) { settings[idx].channel = idx; }
 
     // join tracks for analysis
     midifile.joinTracks();
@@ -145,8 +145,8 @@ QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
 
         // get pitchbend
         if (mev->isPitchbend()) {
-            settings[mev->getChannel()].pitchbend =
-                (int)(*mev)[1] + ((int)(*mev)[2] << 8 & 0xFF00);
+            settings[mev->getChannel()].pitchbend
+                = (int)(*mev)[1] + ((int)(*mev)[2] << 8 & 0xFF00);
         }
 
         // get control change
@@ -154,9 +154,9 @@ QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
             settings[mev->getChannel()].controlls[(*mev)[1]] = (int)(*mev)[2];
 
         // get pitchbend range
-        if (mev->isController() && (*mev)[1] == 6 &&
-            settings[mev->getChannel()].controlls[100] == 0 &&
-            settings[mev->getChannel()].controlls[101] == 0) {
+        if (mev->isController() && (*mev)[1] == 6
+            && settings[mev->getChannel()].controlls[100] == 0
+            && settings[mev->getChannel()].controlls[101] == 0) {
             settings[mev->getChannel()].pitchbendSensitivity = (int)(*mev)[2];
         }
 
@@ -235,10 +235,10 @@ int MIDIInfoCollector::getLoopAppendOffsetSample(int sampleRate) {
         return 0;
     else {
         double cc111Sec = this->midifile.getTimeInSeconds(cc111Tick);
-        double firstNoteSecAfterLoop =
-            this->midifile.getTimeInSeconds(firstNoteTickAfterLoop);
-        return (int)(floor((double)sampleRate *
-                           (firstNoteSecAfterLoop - cc111Sec)));
+        double firstNoteSecAfterLoop
+            = this->midifile.getTimeInSeconds(firstNoteTickAfterLoop);
+        return (int)(floor((double)sampleRate
+                           * (firstNoteSecAfterLoop - cc111Sec)));
     }
 
     return -1;  // should not be reached
@@ -251,15 +251,16 @@ bool MIDIInfoCollector::hasIntro() {
     return !(cc111Tick <= songStartTick);
 }
 
-void MIDIInfoCollector::getAllEOT(){
+void MIDIInfoCollector::getAllEOT() {
     // merge all tracks for analysis
     this->midifile.joinTracks();
 
     MidiEvent *event = nullptr;
     for (int idx = 0; idx < midifile[0].size(); idx++) {
         event = &midifile[0][idx];
-        if(event->isMeta() && (*event)[1] == 0x2F && (*event)[2] == 0x00){
-            qDebug() << "EOT: track =" << event->track << ", tick =" << event->tick;
+        if (event->isMeta() && (*event)[1] == 0x2F && (*event)[2] == 0x00) {
+            qDebug() << "EOT: track =" << event->track
+                     << ", tick =" << event->tick;
         }
     }
 
@@ -269,15 +270,17 @@ void MIDIInfoCollector::getAllEOT(){
     return;
 }
 
-void MIDIInfoCollector::getAllEventOn(quint32 tick){
+void MIDIInfoCollector::getAllEventOn(quint32 tick) {
     // merge all tracks for analysis
     this->midifile.joinTracks();
 
     MidiEvent *event = nullptr;
     for (int idx = 0; idx < midifile[0].size(); idx++) {
         event = &midifile[0][idx];
-        if(event->tick == tick){
-            qDebug() << "Event on " << tick << ": track =" << event->track << ", " << QString::asprintf("%02X %02X %02X", (*event)[0], (*event)[1], (*event)[2]);
+        if (event->tick == tick) {
+            qDebug() << "Event on " << tick << ": track =" << event->track
+                     << ", " << QString::asprintf("%02X %02X %02X", (*event)[0],
+                                                  (*event)[1], (*event)[2]);
         }
     }
 
@@ -334,8 +337,8 @@ void MIDIInfoCollector::test() {
     */
 
     // analyse beat on song start
-    MIDIMasterSettings masterSettingsOnStart =
-        this->getMasterSettingsAt(songStartTick);
+    MIDIMasterSettings masterSettingsOnStart
+        = this->getMasterSettingsAt(songStartTick);
     qDebug() << "Beat at" << songStartTick;
     qDebug() << "\tBeat numerator:" << masterSettingsOnStart.beatNum;
     qDebug() << "\tBeat denominator:" << masterSettingsOnStart.beatDenom;
@@ -350,7 +353,7 @@ void MIDIInfoCollector::test() {
              << this->getLoopAppendOffsetSample(44100);
 
     // analyse end of track
-//    this->getAllEOT();
+    //    this->getAllEOT();
 
     this->getAllEventOn(84720);
 }

@@ -1,18 +1,12 @@
 ﻿#include "LoopOGGGenerator.hpp"
-#include "LoopMIDIModifier.hpp"
-#include <QDebug>
-#include <QProcess>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <qmath.h>
 #include <QCoreApplication>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QProcess>
 #include <iostream>
-
-// constants
-//static const QString TimidityXXBinary = "/home/wlamigo-data/ubin/timidity++-bin/bin/timidity";
-//static const QString TimidityConfig = "/home/wlamigo-data/Music/sf2/SGM_v2.01.cfg";
-// static const QString TimidityConfig = "/home/wlamigo-data/timidity.cfg";
-//static const QString OggEncBinary = "oggenc";
+#include "LoopMIDIModifier.hpp"
 
 static const QString IntroSMFSuffix = "_i.mid";
 static const QString FirstLoopSMFSuffix = "_l1.mid";
@@ -25,32 +19,41 @@ static const QString LoopInformationSuffix = "_loopinfo.json";
 
 static const quint32 SampleRate = 44100;
 
-LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir, QString timidityXXBinaryPath, QString timidityConfigPath, QString oggEncBinaryPath):
-    needSplit(false), smf(sourceSMFName),
-    loopStartOnMIDI(0), loopLength(0), loopOffset(0), loopStart(0),
-    tempFileDest(QCoreApplication::applicationDirPath() + "/tmp/"),
-    timidityXXBinary(timidityXXBinaryPath), oggEncBinary(oggEncBinaryPath),
-    timidityConfig(timidityConfigPath),
-    outputDir(outputDir)
-{
+LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
+                                   QString timidityXXBinaryPath,
+                                   QString timidityConfigPath,
+                                   QString oggEncBinaryPath)
+    : needSplit(false),
+      smf(sourceSMFName),
+      loopStartOnMIDI(0),
+      loopLength(0),
+      loopOffset(0),
+      loopStart(0),
+      tempFileDest(QCoreApplication::applicationDirPath() + "/tmp/"),
+      timidityXXBinary(timidityXXBinaryPath),
+      oggEncBinary(oggEncBinaryPath),
+      timidityConfig(timidityConfigPath),
+      outputDir(outputDir) {}
 
-}
-
-bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir, QString timidityXXBinaryPath, QString timidityConfigPath, QString oggEncBinaryPath){
-    LoopOGGGenerator log(sourceSMFName, outputDir, timidityXXBinaryPath, timidityConfigPath, oggEncBinaryPath);
+bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir,
+                               QString timidityXXBinaryPath,
+                               QString timidityConfigPath,
+                               QString oggEncBinaryPath) {
+    LoopOGGGenerator log(sourceSMFName, outputDir, timidityXXBinaryPath,
+                         timidityConfigPath, oggEncBinaryPath);
     return log.convert();
 }
 
-bool LoopOGGGenerator::convert(){
+bool LoopOGGGenerator::convert() {
     // run converting process sequencially
     qDebug() << smf.fileName();
-    if(!this->analyzeSMF()) return false;
-    if(this->needSplit){
-        if(!this->splitSMF()) return false;
+    if (!this->analyzeSMF()) return false;
+    if (this->needSplit) {
+        if (!this->splitSMF()) return false;
     }
-    if(!this->convertSMFToWAV()) return false;
-    if(!this->generateLoopWAV()) return false;
-    if(!this->convertWAVToOGGWithLoopTag()) return false;
+    if (!this->convertSMFToWAV()) return false;
+    if (!this->generateLoopWAV()) return false;
+    if (!this->convertWAVToOGGWithLoopTag()) return false;
     this->saveLoopInformation();
     this->sweepTemporaryFiles();
 
@@ -63,8 +66,8 @@ bool LoopOGGGenerator::convert(){
     return true;
 }
 
-bool LoopOGGGenerator::analyzeSMF(){
-//    std::string smfname = smf.fileName().toUtf8().toStdString();
+bool LoopOGGGenerator::analyzeSMF() {
+    //    std::string smfname = smf.fileName().toUtf8().toStdString();
     std::string smfname = QFile::encodeName(smf.fileName()).toStdString();
     qDebug() << QString::fromStdString(smfname);
     MIDIInfoCollector mic(smfname);
@@ -82,23 +85,22 @@ bool LoopOGGGenerator::analyzeSMF(){
     return true;
 }
 
-bool LoopOGGGenerator::splitSMF(){
+bool LoopOGGGenerator::splitSMF() {
     std::string smfname = QFile::encodeName(smf.fileName()).toStdString();
     MIDIInfoCollector mic(smfname);
     QString outputFileNameBase = getFileNameBase();
 
     // split SMF by using LoopMIDIModifier::split();
-    return LoopMIDIModifier::split(mic,
-                                   outputFileNameBase + IntroSMFSuffix,
+    return LoopMIDIModifier::split(mic, outputFileNameBase + IntroSMFSuffix,
                                    outputFileNameBase + FirstLoopSMFSuffix,
                                    outputFileNameBase + AfterLoopSMFSuffix);
 }
 
-bool LoopOGGGenerator::convertSMFToWAV(){
+bool LoopOGGGenerator::convertSMFToWAV() {
     // spawn timidity++
     QString fileNameBase = getFileNameBase();
 
-    if(this->needSplit){
+    if (this->needSplit) {
         QStringList command;
         QString inputName;
         QString outputName;
@@ -107,11 +109,13 @@ bool LoopOGGGenerator::convertSMFToWAV(){
         command << "-o" << outputName;
         command << "-Ow";
         command << "-c" << timidityConfig;
-        if(SampleRate != 44100) command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L" << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
+        if (SampleRate != 44100)
+            command << "-s" << QString::asprintf("%u", SampleRate);
+        command << "-L"
+                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
         command << inputName;
 
-        if(QProcess::execute(timidityXXBinary, command) != 0) return false;
+        if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
         command.clear();
         inputName.clear();
@@ -122,26 +126,30 @@ bool LoopOGGGenerator::convertSMFToWAV(){
         command << "-o" << outputName;
         command << "-Ow";
         command << "-c" << timidityConfig;
-        if(SampleRate != 44100) command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L" << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
+        if (SampleRate != 44100)
+            command << "-s" << QString::asprintf("%u", SampleRate);
+        command << "-L"
+                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
         command << inputName;
 
-        if(QProcess::execute(timidityXXBinary, command) != 0) return false;
+        if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
     } else {
         QStringList command;
         QString inputFile = this->smf.fileName();
-        if(QSysInfo::windowsVersion() != QSysInfo::WV_None){
-            //inputFile = QFile::encodeName(inputFile);
-            inputFile.remove(0,1);
+        if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
+            // inputFile = QFile::encodeName(inputFile);
+            inputFile.remove(0, 1);
         }
         QString outputName;
         outputName = fileNameBase + FirstLoopWAVSuffix;
         command << "-o" << outputName;
         command << "-Ow";
         command << "-c" << timidityConfig;
-        if(SampleRate != 44100) command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L" << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
+        if (SampleRate != 44100)
+            command << "-s" << QString::asprintf("%u", SampleRate);
+        command << "-L"
+                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
         command << inputFile;
 
         return QProcess::execute(timidityXXBinary, command) == 0;
@@ -150,7 +158,7 @@ bool LoopOGGGenerator::convertSMFToWAV(){
     return true;
 }
 
-bool LoopOGGGenerator::generateLoopWAV(){
+bool LoopOGGGenerator::generateLoopWAV() {
     QString filenameBase = getFileNameBase();
 
     // create intro source wav file object
@@ -165,7 +173,7 @@ bool LoopOGGGenerator::generateLoopWAV(){
     // create complete loop wav file destination object
     QFile CompleteLoopWAV(filenameBase + CompleteLoopWAVSuffix);
 
-    if(this->needSplit){
+    if (this->needSplit) {
         // TODO: implement wav generation process (Intro + Loop + Loop)
         RIFFWaveEditor rweIntro;
         RIFFWaveEditor rweLoop;
@@ -176,19 +184,23 @@ bool LoopOGGGenerator::generateLoopWAV(){
 
         // get true loop start
         int introToLoopOS = rweIntro.getOverlap(this->loopStartOnMIDI);
-        int loopToLoopOS = rweLoop.getOverlap(this->loopLength + this->loopOffset);
-        this->loopStart = this->loopStartOnMIDI + qMax(introToLoopOS, loopToLoopOS);
+        int loopToLoopOS
+            = rweLoop.getOverlap(this->loopLength + this->loopOffset);
+        this->loopStart
+            = this->loopStartOnMIDI + qMax(introToLoopOS, loopToLoopOS);
 
         // mix wav with form of Intro + Loop + Loop
         rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopOffset);
-        rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopLength + this->loopOffset);
+        rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopLength
+                                    + this->loopOffset);
 
         // save to complete loop wave
         rweIntro.save(CompleteLoopWAV);
     } else {
         RIFFWaveEditor rwe;
         rwe.open(FirstLoopSourceWAV);
-        this->loopStart = this->loopStartOnMIDI + rwe.getOverlap(this->loopLength + this->loopOffset);
+        this->loopStart = this->loopStartOnMIDI
+                          + rwe.getOverlap(this->loopLength + this->loopOffset);
         rwe.mixAt(rwe, this->loopLength + this->loopOffset);
         rwe.save(CompleteLoopWAV);
     }
@@ -196,17 +208,19 @@ bool LoopOGGGenerator::generateLoopWAV(){
     return true;
 }
 
-bool LoopOGGGenerator::convertWAVToOGGWithLoopTag(){
+bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
     QString outputFilename = getFileNameBase(outputDir) + ".ogg";
     QString filenameBase = getFileNameBase();
 
     QStringList command;
     QString loopStartStr = QString::asprintf("LOOPSTART=%u", this->loopStart);
-    QString loopLengthStr = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
+    QString loopLengthStr
+        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
     command << "-c" << loopStartStr;
     command << "-c" << loopLengthStr;
-    command << "-Q"; // enable quiet mode
-    command << "-q" << "4"; // TODO: able to set by configuration
+    command << "-Q";  // enable quiet mode
+    command << "-q"
+            << "4";  // TODO: able to set by configuration
     command << "-o" << outputFilename;
     command << filenameBase + CompleteLoopWAVSuffix;
 
@@ -214,24 +228,24 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag(){
     return QProcess::execute(oggEncBinary, command) == 0;
 }
 
-QString LoopOGGGenerator::getFileNameBase(){
+QString LoopOGGGenerator::getFileNameBase() {
     return this->getFileNameBase(this->tempFileDest.absolutePath());
 }
 
-QString LoopOGGGenerator::getFileNameBase(QString outputPath){
+QString LoopOGGGenerator::getFileNameBase(QString outputPath) {
     QFileInfo fi(this->smf);
     QString filename(fi.fileName());
     filename.remove(".mid");
     QString filenameBase = outputPath + QDir::separator() + filename;
-    if(QSysInfo::windowsVersion() != QSysInfo::WV_None){
-        if(filenameBase.indexOf('/') == 0)
-        filenameBase.remove(0,1); // remove slash on head
+    if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
+        if (filenameBase.indexOf('/') == 0)
+            filenameBase.remove(0, 1);  // remove slash on head
     }
 
     return filenameBase;
 }
 
-void LoopOGGGenerator::saveLoopInformation(){
+void LoopOGGGenerator::saveLoopInformation() {
     QString liFileName = getFileNameBase(outputDir) + LoopInformationSuffix;
     QFile loopInfoFile(liFileName);
     QJsonDocument json;
@@ -243,20 +257,27 @@ void LoopOGGGenerator::saveLoopInformation(){
     json.setObject(obj);
 
     // open file in write mode
-    if(!loopInfoFile.open(QIODevice::WriteOnly)) return;
+    if (!loopInfoFile.open(QIODevice::WriteOnly)) return;
 
     // write JSON Document to file
     loopInfoFile.write(json.toJson());
 }
 
-void LoopOGGGenerator::sweepTemporaryFiles(){
+void LoopOGGGenerator::sweepTemporaryFiles() {
     // remove all temporary files
     QString fileNameBase = getFileNameBase();
-    if(QFileInfo::exists(fileNameBase + IntroSMFSuffix)) QFile::remove(fileNameBase + IntroSMFSuffix);
-    if(QFileInfo::exists(fileNameBase + IntroWAVSuffix)) QFile::remove(fileNameBase + IntroWAVSuffix);
-    if(QFileInfo::exists(fileNameBase + FirstLoopSMFSuffix)) QFile::remove(fileNameBase + FirstLoopSMFSuffix);
-    if(QFileInfo::exists(fileNameBase + FirstLoopWAVSuffix)) QFile::remove(fileNameBase + FirstLoopWAVSuffix);
-    if(QFileInfo::exists(fileNameBase + AfterLoopSMFSuffix)) QFile::remove(fileNameBase + AfterLoopSMFSuffix);
-    if(QFileInfo::exists(fileNameBase + AfterLoopWAVSuffix)) QFile::remove(fileNameBase + AfterLoopWAVSuffix);
-    if(QFileInfo::exists(fileNameBase + CompleteLoopWAVSuffix)) QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
+    if (QFileInfo::exists(fileNameBase + IntroSMFSuffix))
+        QFile::remove(fileNameBase + IntroSMFSuffix);
+    if (QFileInfo::exists(fileNameBase + IntroWAVSuffix))
+        QFile::remove(fileNameBase + IntroWAVSuffix);
+    if (QFileInfo::exists(fileNameBase + FirstLoopSMFSuffix))
+        QFile::remove(fileNameBase + FirstLoopSMFSuffix);
+    if (QFileInfo::exists(fileNameBase + FirstLoopWAVSuffix))
+        QFile::remove(fileNameBase + FirstLoopWAVSuffix);
+    if (QFileInfo::exists(fileNameBase + AfterLoopSMFSuffix))
+        QFile::remove(fileNameBase + AfterLoopSMFSuffix);
+    if (QFileInfo::exists(fileNameBase + AfterLoopWAVSuffix))
+        QFile::remove(fileNameBase + AfterLoopWAVSuffix);
+    if (QFileInfo::exists(fileNameBase + CompleteLoopWAVSuffix))
+        QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
 }

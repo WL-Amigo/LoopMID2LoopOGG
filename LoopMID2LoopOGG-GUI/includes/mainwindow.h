@@ -9,8 +9,7 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -27,4 +26,4 @@ private:
     ConfigDialog *configDialog;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

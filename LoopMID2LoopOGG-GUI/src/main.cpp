@@ -1,28 +1,28 @@
-#include "mainwindow.h"
 #include <QApplication>
+#include <QDebug>
 #include <QSettings>
 #include <QStyleFactory>
-#include <QDebug>
 #include <QTranslator>
+#include "mainwindow.h"
 
-static void setFusionStyle(QApplication &app){
+static void setFusionStyle(QApplication &app) {
     // set fusion style
     //     from awesome gist: https://gist.github.com/Skyrpex/5547015
     app.setStyle(QStyleFactory::create("fusion"));
 
     QPalette palette;
-    palette.setColor(QPalette::Window, QColor(53,53,53));
+    palette.setColor(QPalette::Window, QColor(53, 53, 53));
     palette.setColor(QPalette::WindowText, Qt::white);
-    palette.setColor(QPalette::Base, QColor(15,15,15));
-    palette.setColor(QPalette::AlternateBase, QColor(53,53,53));
+    palette.setColor(QPalette::Base, QColor(15, 15, 15));
+    palette.setColor(QPalette::AlternateBase, QColor(53, 53, 53));
     palette.setColor(QPalette::ToolTipBase, Qt::white);
     palette.setColor(QPalette::ToolTipText, Qt::white);
     palette.setColor(QPalette::Text, Qt::white);
-    palette.setColor(QPalette::Button, QColor(53,53,53));
+    palette.setColor(QPalette::Button, QColor(53, 53, 53));
     palette.setColor(QPalette::ButtonText, Qt::white);
     palette.setColor(QPalette::BrightText, Qt::red);
 
-    palette.setColor(QPalette::Highlight, QColor(142,45,197).lighter());
+    palette.setColor(QPalette::Highlight, QColor(142, 45, 197).lighter());
     palette.setColor(QPalette::HighlightedText, Qt::black);
 
     palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
@@ -31,15 +31,14 @@ static void setFusionStyle(QApplication &app){
     app.setPalette(palette);
 }
 
-static void initializeSettings(){
+static void initializeSettings() {
     // initialize settings on first execution of application
     QSettings s;
     s.setValue("outputDirectory", "");
     s.setValue("preview", false);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     QCoreApplication::setOrganizationName("WhiteLuckers");
     QCoreApplication::setApplicationName("LoopMID2LoopOGG");
@@ -51,11 +50,11 @@ int main(int argc, char *argv[])
     translator.load(":/translations/ja");
     qDebug().noquote() << translator.isEmpty();
     a.installTranslator(&translator);
-//    QLocale::setDefault(QLocale::Japanese);
+    //    QLocale::setDefault(QLocale::Japanese);
     qDebug().noquote() << QLocale::system().name();
 
     QSettings s;
-    if(s.value("reset", true).toBool()){
+    if (s.value("reset", true).toBool()) {
         initializeSettings();
         s.setValue("reset", false);
     }

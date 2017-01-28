@@ -8,8 +8,7 @@ namespace Ui {
 class ConversionConfirmationDialog;
 }
 
-class ConversionConfirmationDialog : public QDialog
-{
+class ConversionConfirmationDialog : public QDialog {
     Q_OBJECT
 
 public:
@@ -31,4 +30,4 @@ private:
     QString smFile;
 };
 
-#endif // CONVERSIONCONFIRMATIONDIALOG_H
+#endif  // CONVERSIONCONFIRMATIONDIALOG_H

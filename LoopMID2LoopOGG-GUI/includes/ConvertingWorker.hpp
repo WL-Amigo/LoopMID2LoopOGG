@@ -4,11 +4,11 @@
 #include <QObject>
 #include <QThread>
 
-class ConvertingWorker : public QThread
-{
+class ConvertingWorker : public QThread {
     Q_OBJECT
 public:
-    ConvertingWorker(QObject* parent, QString& filename, QString &outputDirectory);
+    ConvertingWorker(QObject* parent, QString& filename,
+                     QString& outputDirectory);
     void run() Q_DECL_OVERRIDE;
 
 signals:
@@ -19,4 +19,4 @@ private:
     QString outputDirectory;
 };
 
-#endif // CONVERTINGWORKER_HPP
+#endif  // CONVERTINGWORKER_HPP
