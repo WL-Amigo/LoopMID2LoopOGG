@@ -36,6 +36,14 @@ static void initializeSettings() {
     QSettings s;
     s.setValue("outputDirectory", "");
     s.setValue("preview", false);
+
+    // output configuration
+    s.setValue("output/fileType", "ogg");    // ogg, wav
+    s.setValue("output/mode", "optimized");  // optimized, soundtrack
+    s.setValue("output/maxSamplesAfterLoopEnd", 22050);
+    s.setValue("output/fadeoutStartSec", 2.0f);
+    s.setValue("output/fadeoutLengthSec", 6.0f);
+    s.setValue("output/loopNumber", 2);
 }
 
 int main(int argc, char *argv[]) {

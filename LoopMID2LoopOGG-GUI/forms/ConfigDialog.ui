@@ -168,14 +168,14 @@ border: none;</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_5">
               <item>
-               <widget class="QRadioButton" name="radioButton">
+               <widget class="QRadioButton" name="OFFOggRadio">
                 <property name="text">
                  <string>Ogg Vorbis (with loop tag)</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_2">
+               <widget class="QRadioButton" name="OFFWaveRadio">
                 <property name="text">
                  <string>Wave</string>
                 </property>
@@ -191,7 +191,7 @@ border: none;</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <widget class="QRadioButton" name="radioButton_3">
+               <widget class="QRadioButton" name="OMOptimizedRadio">
                 <property name="text">
                  <string>Optimized mode (for game use)</string>
                 </property>
@@ -211,13 +211,13 @@ border: none;</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox"/>
+                  <widget class="QSpinBox" name="OMOOMinSamples"/>
                  </item>
                 </layout>
                </widget>
               </item>
               <item>
-               <widget class="QRadioButton" name="radioButton_4">
+               <widget class="QRadioButton" name="OMSoundtrackRadio">
                 <property name="text">
                  <string>Sound-track mode (for listening use)</string>
                 </property>
@@ -237,17 +237,27 @@ border: none;</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSpinBox" name="spinBox_2"/>
+                  <widget class="QSpinBox" name="OMOSNumLoop"/>
                  </item>
-                 <item row="1" column="0">
+                 <item row="2" column="0">
                   <widget class="QLabel" name="label_3">
                    <property name="text">
                     <string>fade-out length (sec.)</string>
                    </property>
                   </widget>
                  </item>
+                 <item row="2" column="1">
+                  <widget class="QDoubleSpinBox" name="OMOSFOLength"/>
+                 </item>
                  <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+                  <widget class="QDoubleSpinBox" name="OMOSFOStartTime"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>fade-out start time (sec.)</string>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
