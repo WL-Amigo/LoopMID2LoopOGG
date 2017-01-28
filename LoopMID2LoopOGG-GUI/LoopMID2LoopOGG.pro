@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -19,7 +19,8 @@ SOURCES += src/main.cpp\
     src/ConvertingDialog.cpp \
     src/ConvertingWorker.cpp \
     src/conversionconfirmationdialog.cpp \
-    src/ConfigDialog.cpp
+    src/ConfigDialog.cpp \
+    src/MultiConvertingDialog.cpp
 
 INCLUDEPATH += includes/
 HEADERS  += includes/mainwindow.h \
@@ -27,12 +28,15 @@ HEADERS  += includes/mainwindow.h \
     includes/ConvertingDialog.hpp \
     includes/ConvertingWorker.hpp \
     includes/conversionconfirmationdialog.h \
-    includes/ConfigDialog.hpp
+    includes/ConfigDialog.hpp \
+    includes/MultiConvertingDialog.hpp
+
 
 FORMS    += forms/mainwindow.ui \
     forms/convertingdialog.ui \
     forms/conversionconfirmationdialog.ui \
-    forms/ConfigDialog.ui
+    forms/ConfigDialog.ui \
+    forms/MultiConvertingDialog.ui
 
 # Link to LoopMID2LoopOGG-CLI
 
