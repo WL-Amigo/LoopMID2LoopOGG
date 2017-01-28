@@ -52,6 +52,12 @@ SOURCES += ../LoopMID2LoopOGG-CLI/src/LoopMIDIModifier.cpp \
         ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiMessage.cpp \
         ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/Options.cpp
 
+HEADERS += ../LoopMID2LoopOGG-CLI/includes/LoopMIDIModifier.hpp \
+        ../LoopMID2LoopOGG-CLI/includes/LoopOGGGenerator.hpp \
+        ../LoopMID2LoopOGG-CLI/includes/MIDIInfoCollector.hpp \
+        ../LoopMID2LoopOGG-CLI/includes/midisettings.h \
+        ../LoopMID2LoopOGG-CLI/includes/RIFFWaveEditor.h
+
 INCLUDEPATH += ../LoopMID2LoopOGG-CLI/includes/ \
         ../LoopMID2LoopOGG-CLI/libs/midifile/include/
 
