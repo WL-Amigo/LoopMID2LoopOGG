@@ -202,7 +202,7 @@ void RIFFWaveEditor::mixAt(RIFFWaveEditor &source, quint32 offsetSample) {
     }
     // case: there are brank samples between this and source (overlapSample < 0)
     else {
-        VectorVector for (; overlapSample < 0; overlapSample++) {
+        for (; overlapSample < 0; overlapSample++) {
             lChannelFloat.push_back(0);
             rChannelFloat.push_back(0);
         }
@@ -242,7 +242,7 @@ void RIFFWaveEditor::compressDynamicallyByMaxAmplitude(qreal ratio) {
 float RIFFWaveEditor::getMaxAmplitude() {
     quint32 len = this->getLengthInSample();
     float max = 0.0f;
-    Vector for (quint32 idx = 0; idx < len; idx++) {
+    for (quint32 idx = 0; idx < len; idx++) {
         max = (qAbs(this->lChannelFloat[idx]) > max)
                   ? qAbs(this->lChannelFloat[idx])
                   : max;
