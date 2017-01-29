@@ -1,8 +1,12 @@
 #include <QApplication>
 #include <QDebug>
+#include <QMap>
 #include <QSettings>
+#include <QString>
 #include <QStyleFactory>
 #include <QTranslator>
+#include <QVariant>
+
 #include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
 
@@ -32,19 +36,26 @@ static void setFusionStyle(QApplication &app) {
     app.setPalette(palette);
 }
 
-static void initializeSettings() {
-    // initialize settings on first execution of application
+static inline void updateSetting(QSettings &s, const char *key,
+                                 QVariant defaultValue, bool &reset) {
+    return s.setValue(key, reset ? defaultValue : s.value(key, defaultValue));
+}
+
+static void updateSettings(bool reset = false) {
     QSettings s;
-    s.setValue("outputDirectory", "");
-    s.setValue("preview", false);
+    // update settings with taking over settings already set by user
+    //     or initialize settings on demand of application reset
+    // top page configuration
+    updateSetting(s, "outputDirectory", "", reset);
+    updateSetting(s, "preview", false, reset);
 
     // output configuration
-    s.setValue("output/fileType", "ogg");    // ogg, wav
-    s.setValue("output/mode", "optimized");  // optimized, soundtrack
-    s.setValue("output/maxSamplesAfterLoopEnd", 22050);
-    s.setValue("output/fadeoutStartSec", 2.0f);
-    s.setValue("output/fadeoutLengthSec", 6.0f);
-    s.setValue("output/loopNumber", 2);
+    updateSetting(s, "output/fileType", "ogg", reset);
+    updateSetting(s, "output/mode", "optimized", reset);
+    updateSetting(s, "output/maxSamplesAfterLoopEnd", 22050, reset);
+    updateSetting(s, "output/fadeoutStartSec", 2.0f, reset);
+    updateSetting(s, "output/fadeoutLengthSec", 6.0f, reset);
+    updateSetting(s, "output/loopNumber", 2, reset);
 }
 
 int main(int argc, char *argv[]) {
@@ -66,7 +77,7 @@ int main(int argc, char *argv[]) {
     if (s.value("reset", true).toBool()
         || s.value("lastUsedVersion", "").toString()
                != GlobalConstants::CURRENT_VERSION) {
-        initializeSettings();
+        updateSettings(s.value("reset", true).toBool());
         s.setValue("reset", false);
         s.setValue("lastUsedVersion", GlobalConstants::CURRENT_VERSION);
     }
