@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QProcess>
+#include <QSettings>
 #include <iostream>
 #include "LoopMIDIModifier.hpp"
 
@@ -45,6 +46,8 @@ bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir,
 }
 
 bool LoopOGGGenerator::convert() {
+    QSettings s;
+    QString outputFileType = s.value("output/fileType").toString();
     // run converting process sequencially
     qDebug() << smf.fileName();
     if (!this->analyzeSMF()) return false;
@@ -53,7 +56,11 @@ bool LoopOGGGenerator::convert() {
     }
     if (!this->convertSMFToWAV()) return false;
     if (!this->generateLoopWAV()) return false;
-    if (!this->convertWAVToOGGWithLoopTag()) return false;
+    if (outputFileType == "wav") {
+        if (!this->resaveWAV()) return false;
+    } else {
+        if (!this->convertWAVToOGGWithLoopTag()) return false;
+    }
     this->saveLoopInformation();
     this->sweepTemporaryFiles();
 
@@ -226,6 +233,13 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
 
     // spawn oggenc
     return QProcess::execute(oggEncBinary, command) == 0;
+}
+
+bool LoopOGGGenerator::resaveWAV() {
+    QString outputFilename = getFileNameBase(outputDir) + ".wav";
+
+    return QDir::root().rename(getFileNameBase() + CompleteLoopWAVSuffix,
+                               outputFilename);
 }
 
 QString LoopOGGGenerator::getFileNameBase() {

@@ -1,18 +1,21 @@
 #ifndef LOOPOGGGENERATOR_H
 #define LOOPOGGGENERATOR_H
 
-#include <QString>
 #include <QDir>
+#include <QString>
 #include "MIDIInfoCollector.hpp"
 #include "RIFFWaveEditor.h"
 #include "midisettings.h"
 
-class LoopOGGGenerator
-{
+class LoopOGGGenerator {
 public:
-    LoopOGGGenerator(QString sourceSMFName, QString outputDir, QString timidityXXBinaryPath, QString timidityConfigPath, QString oggEncBinaryPath);
+    LoopOGGGenerator(QString sourceSMFName, QString outputDir,
+                     QString timidityXXBinaryPath, QString timidityConfigPath,
+                     QString oggEncBinaryPath);
     bool convert();
-    static bool convert(QString sourceSMFName, QString outputDir, QString timidityXXBinaryPath, QString timidityConfigPath, QString oggEncBinaryPath);
+    static bool convert(QString sourceSMFName, QString outputDir,
+                        QString timidityXXBinaryPath,
+                        QString timidityConfigPath, QString oggEncBinaryPath);
 
 private:
     bool analyzeSMF();
@@ -20,6 +23,7 @@ private:
     bool convertSMFToWAV();
     bool generateLoopWAV();
     bool convertWAVToOGGWithLoopTag();
+    bool resaveWAV();
     QString getFileNameBase();
     QString getFileNameBase(QString outputPath);
     void saveLoopInformation();
@@ -38,7 +42,6 @@ private:
     QString timidityXXBinary;
     QString timidityConfig;
     QString oggEncBinary;
-
 };
 
-#endif // LOOPOGGGENERATOR_H
+#endif  // LOOPOGGGENERATOR_H
