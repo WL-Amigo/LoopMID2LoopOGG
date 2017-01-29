@@ -191,12 +191,13 @@ bool RIFFWaveEditor::saveWithLoop(QFile &wavefile, quint32 loopStart,
     wavefile.write("data");
     wavefile.write(reinterpret_cast<const char *>(&actualWaveformDataSize), 4);
     quint64 wroteSize = 0;
-    wroteSize += wavefile.write(waveformData.mid(0, loopStart));  // write intro
+    wroteSize
+        += wavefile.write(waveformData.mid(0, loopStart * 4));  // write intro
     for (quint32 lidx = 0; lidx < loopNum; lidx++) {
         wroteSize += wavefile.write(
-            waveformData.mid(loopStart, loopLength));  // write loop
+            waveformData.mid(loopStart * 4, loopLength * 4));  // write loop
     }
-    wroteSize += wavefile.write(waveformData.mid(loopStart + loopLength));
+    wroteSize += wavefile.write(waveformData.mid((loopStart + loopLength) * 4));
     Q_ASSERT(wroteSize == actualWaveformDataSize);
 
     // close file
@@ -314,8 +315,9 @@ void RIFFWaveEditor::expFadeout(quint32 offsetSample, quint32 fadeLength) {
     quint32 endSample = offsetSample + fadeLength;
     float fadeLengthFloat = static_cast<float>(fadeLength);
     for (quint32 sidx = offsetSample; sidx < endSample; sidx++) {
-        float amp = qPow(0.1, static_cast<float>(sidx - offsetSample)
-                                  / fadeLengthFloat * 4.0f);
+        float amp = 1.0f - qPow(0.1, static_cast<float>(fadeLengthFloat
+                                                        - (sidx - offsetSample))
+                                         / fadeLengthFloat * 1.0f);
         lChannelFloat[sidx] *= amp;
         rChannelFloat[sidx] *= amp;
     }
@@ -325,6 +327,14 @@ void RIFFWaveEditor::safeExpFadeoutWithLoop(quint32 offsetSample,
                                             quint32 fadeLength,
                                             quint32 loopStart,
                                             quint32 loopLength) {
+    prepareSafeFadeoutWithLoop(offsetSample, fadeLength, loopStart, loopLength);
+    expFadeout(offsetSample, fadeLength);
+}
+
+void RIFFWaveEditor::prepareSafeFadeoutWithLoop(quint32 offsetSample,
+                                                quint32 fadeLength,
+                                                quint32 loopStart,
+                                                quint32 loopLength) {
     bool first = true;
     while (offsetSample + fadeLength > getLengthInSample()) {
         // remove unnecessary samples
@@ -336,5 +346,26 @@ void RIFFWaveEditor::safeExpFadeoutWithLoop(quint32 offsetSample,
         lChannelFloat.append(lChannelFloat.mid(loopStart, loopLength));
         rChannelFloat.append(rChannelFloat.mid(loopStart, loopLength));
     }
-    expFadeout(offsetSample, fadeLength);
+}
+
+void RIFFWaveEditor::linearFadeout(quint32 offsetSample, quint32 fadeLength) {
+    // first: cutout after fadeouted
+    cutoutAfter(offsetSample + fadeLength);
+
+    // fadeout by linear
+    quint32 endSample = offsetSample + fadeLength;
+    float fadeLengthFloat = static_cast<float>(fadeLength);
+    for (quint32 sidx = offsetSample; sidx < endSample; sidx++) {
+        float amp = 1.0f - (sidx - offsetSample) / fadeLengthFloat;
+        lChannelFloat[sidx] *= amp;
+        rChannelFloat[sidx] *= amp;
+    }
+}
+
+void RIFFWaveEditor::safeLinearFadeoutWithLoop(quint32 offsetSample,
+                                               quint32 fadeLength,
+                                               quint32 loopStart,
+                                               quint32 loopLength) {
+    prepareSafeFadeoutWithLoop(offsetSample, fadeLength, loopStart, loopLength);
+    linearFadeout(offsetSample, fadeLength);
 }

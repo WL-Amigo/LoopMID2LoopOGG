@@ -19,6 +19,9 @@ public:
     void expFadeout(quint32 offsetSample, quint32 fadeLength);
     void safeExpFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
                                 quint32 loopStart, quint32 loopLength);
+    void linearFadeout(quint32 offsetSample, quint32 fadeLength);
+    void safeLinearFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
+                                   quint32 loopStart, quint32 loopLength);
 
 private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);
@@ -29,6 +32,8 @@ private:  // methods
     float getMaxAmplitude();
     void compressAllByMaxAmplitude();
     void compressDynamicallyByMaxAmplitude(qreal ratio);
+    void prepareSafeFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
+                                    quint32 loopStart, quint32 loopLength);
 
 private:  // variable
     QVector<float> rChannelFloat;

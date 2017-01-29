@@ -239,7 +239,7 @@ bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor &savingWAV) {
         // apply fade out process
         quint32 fadeoutStartSample = qRound(44100.0f * fadeoutStartSec);
         quint32 fadeoutLengthSample = qRound(44100.0f * fadeoutLengthSec);
-        savingWAV.safeExpFadeoutWithLoop(
+        savingWAV.safeLinearFadeoutWithLoop(
             this->loopStart + this->loopLength + fadeoutStartSample,
             fadeoutLengthSample, this->loopStart, this->loopLength);
 
