@@ -211,7 +211,11 @@ border: none;</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSpinBox" name="OMOOMinSamples"/>
+                  <widget class="QSpinBox" name="OMOOMinSamples">
+                   <property name="maximum">
+                    <number>2147483647</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </widget>
@@ -237,7 +241,11 @@ border: none;</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QSpinBox" name="OMOSNumLoop"/>
+                  <widget class="QSpinBox" name="OMOSNumLoop">
+                   <property name="maximum">
+                    <number>2147483647</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_3">

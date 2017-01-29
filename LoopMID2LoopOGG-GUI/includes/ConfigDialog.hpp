@@ -19,6 +19,10 @@ public:
 
 private:
     void setupConfigSelectorButtons();
+    void restoreSettingsToUI();
+
+private slots:
+    void saveSettingsAndClose();
 
 private:
     Ui::ConfigDialog* ui;
