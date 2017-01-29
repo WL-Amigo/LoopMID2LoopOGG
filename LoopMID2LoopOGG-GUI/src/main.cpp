@@ -3,6 +3,7 @@
 #include <QSettings>
 #include <QStyleFactory>
 #include <QTranslator>
+#include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
 
 static void setFusionStyle(QApplication &app) {
@@ -62,9 +63,12 @@ int main(int argc, char *argv[]) {
     qDebug().noquote() << QLocale::system().name();
 
     QSettings s;
-    if (s.value("reset", true).toBool()) {
+    if (s.value("reset", true).toBool()
+        || s.value("lastUsedVersion", "").toString()
+               != GlobalConstants::CURRENT_VERSION) {
         initializeSettings();
         s.setValue("reset", false);
+        s.setValue("lastUsedVersion", GlobalConstants::CURRENT_VERSION);
     }
 
     MainWindow w;

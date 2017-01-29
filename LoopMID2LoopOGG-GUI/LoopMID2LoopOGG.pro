@@ -20,7 +20,8 @@ SOURCES += src/main.cpp\
     src/ConvertingWorker.cpp \
     src/conversionconfirmationdialog.cpp \
     src/ConfigDialog.cpp \
-    src/MultiConvertingDialog.cpp
+    src/MultiConvertingDialog.cpp \
+    src/GlobalConstants.cpp
 
 INCLUDEPATH += includes/
 HEADERS  += includes/mainwindow.h \
@@ -29,7 +30,8 @@ HEADERS  += includes/mainwindow.h \
     includes/ConvertingWorker.hpp \
     includes/conversionconfirmationdialog.h \
     includes/ConfigDialog.hpp \
-    includes/MultiConvertingDialog.hpp
+    includes/MultiConvertingDialog.hpp \
+    includes/GlobalConstants.hpp
 
 
 FORMS    += forms/mainwindow.ui \
