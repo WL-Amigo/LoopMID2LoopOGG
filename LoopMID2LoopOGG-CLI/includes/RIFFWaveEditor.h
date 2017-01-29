@@ -22,6 +22,7 @@ private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);
     void loadWaveForm(const QByteArray& dataChunk);
     void serializeWaveForm(QByteArray& dataChunkDest);
+    bool saveCommonData(QFile& wavefile, quint32 waveformSize);
     quint32 getSampleRate(const QByteArray& formatChunk);
     float getMaxAmplitude();
     void compressAllByMaxAmplitude();

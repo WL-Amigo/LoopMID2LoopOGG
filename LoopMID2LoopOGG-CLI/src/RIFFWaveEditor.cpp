@@ -106,23 +106,13 @@ void RIFFWaveEditor::loadWaveForm(const QByteArray &dataChunk) {
     }
 }
 
-bool RIFFWaveEditor::save(QFile &wavefile) {
-    // open file with write mode
-    if (!wavefile.open(QIODevice::WriteOnly)) return false;
-
-    // compress waveform if necessary
-    if (this->getMaxAmplitude() > 1.0f) this->compressAllByMaxAmplitude();
-    qDebug() << "max amp after compress:" << this->getMaxAmplitude();
-
-    // create serialized wave-form data
-    QByteArray waveformData;
-    this->serializeWaveForm(waveformData);
-    quint32 waveformDataSize = waveformData.size();
+bool RIFFWaveEditor::saveCommonData(QFile &wavefile, quint32 waveformSize) {
+    // assume that wavefile is already opened
 
     // calculate filesize
-    quint32 fileSize = 12                       // RIFF File Header
-                       + 24                     // format chunk
-                       + 8 + waveformDataSize;  // data chunk
+    quint32 fileSize = 12                   // RIFF File Header
+                       + 24                 // format chunk
+                       + 8 + waveformSize;  // data chunk
     quint32 fileSizeWithoutHeader = fileSize - 8;
 
     // write RIFF header
@@ -147,6 +137,25 @@ bool RIFFWaveEditor::save(QFile &wavefile) {
     formatChunk.append(1, 0x10);
     formatChunk.append(1, 0x00);
     wavefile.write(formatChunk);
+
+    return true;
+}
+
+bool RIFFWaveEditor::save(QFile &wavefile) {
+    // open file with write mode
+    if (!wavefile.open(QIODevice::WriteOnly)) return false;
+
+    // compress waveform if necessary
+    if (this->getMaxAmplitude() > 1.0f) this->compressAllByMaxAmplitude();
+    qDebug() << "max amp after compress:" << this->getMaxAmplitude();
+
+    // create serialized wave-form data
+    QByteArray waveformData;
+    this->serializeWaveForm(waveformData);
+    quint32 waveformDataSize = waveformData.size();
+
+    // write common datas
+    saveCommonData(wavefile, waveformDataSize);
 
     // write data chunk
     wavefile.write("data");
