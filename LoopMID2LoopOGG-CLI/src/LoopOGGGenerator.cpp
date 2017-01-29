@@ -202,17 +202,53 @@ bool LoopOGGGenerator::generateLoopWAV() {
                                     + this->loopOffset);
 
         // save to complete loop wave
-        rweIntro.save(CompleteLoopWAV);
+        //        rweIntro.save(CompleteLoopWAV);
+        saveWAVWithTailProcess(rweIntro);
     } else {
         RIFFWaveEditor rwe;
         rwe.open(FirstLoopSourceWAV);
         this->loopStart = this->loopStartOnMIDI
                           + rwe.getOverlap(this->loopLength + this->loopOffset);
         rwe.mixAt(rwe, this->loopLength + this->loopOffset);
-        rwe.save(CompleteLoopWAV);
+        //        rwe.save(CompleteLoopWAV);
+        saveWAVWithTailProcess(rwe);
     }
 
     return true;
+}
+
+bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor &savingWAV) {
+    QSettings s;
+    QString tailProcessMode = s.value("output/mode").toString();
+    quint32 remainingSamplesAfterLoop
+        = s.value("output/maxSamplesAfterLoopEnd").toUInt();
+    qreal fadeoutStartSec = s.value("output/fadeoutStartSec").toReal();
+    qreal fadeoutLengthSec = s.value("output/fadeoutLengthSec").toReal();
+    quint32 loopNum = s.value("output/loopNumber").toUInt();
+
+    QFile CompleteLoopWAV(getFileNameBase() + CompleteLoopWAVSuffix);
+
+    if (tailProcessMode == "optimized") {  // optimized mode for game use
+        // cutout unnecessary samples
+        savingWAV.cutoutAfter(this->loopStart + this->loopLength
+                              + remainingSamplesAfterLoop);
+        // save to file
+        return savingWAV.save(CompleteLoopWAV);
+
+    } else if (tailProcessMode == "soundtrack") {  // sound-track mode
+        // apply fade out process
+        quint32 fadeoutStartSample = qRound(44100.0f * fadeoutStartSec);
+        quint32 fadeoutLengthSample = qRound(44100.0f * fadeoutLengthSec);
+        savingWAV.safeExpFadeoutWithLoop(
+            this->loopStart + this->loopLength + fadeoutStartSample,
+            fadeoutLengthSample, this->loopStart, this->loopLength);
+
+        // save to file with loopNum-times loop
+        return savingWAV.saveWithLoop(CompleteLoopWAV, this->loopStart,
+                                      this->loopLength, loopNum);
+    }
+
+    return false;
 }
 
 bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {

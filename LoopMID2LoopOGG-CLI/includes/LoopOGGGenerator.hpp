@@ -22,6 +22,7 @@ private:
     bool splitSMF();
     bool convertSMFToWAV();
     bool generateLoopWAV();
+    bool saveWAVWithTailProcess(RIFFWaveEditor &savingWAV);
     bool convertWAVToOGGWithLoopTag();
     bool resaveWAV();
     QString getFileNameBase();
