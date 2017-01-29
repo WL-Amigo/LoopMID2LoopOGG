@@ -10,13 +10,15 @@ public:
     RIFFWaveEditor();
     bool open(QFile& wavefile);
     bool save(QFile& wavefile);
+    bool saveWithLoop(QFile& wavefile, quint32 loopStart, quint32 loopLength);
     quint32 getOverlap(quint32 offsetSample);
     void mixAt(RIFFWaveEditor& source, quint32 offsetSample);
     quint32 getLengthInSample();
     void cutoutAfter(quint32 offsetSample);
     void expFadeout(quint32 offsetSample, quint32 fadeLength);
     void safeExpFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
-                                quint32 loopStart, quint32 loopLength);
+                                quint32 loopStart, quint32 loopLength,
+                                quint32 loopNum);
 
 private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);

@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QIODevice>
+#include <QSettings>
 #include <QtMath>
 
 RIFFWaveEditor::RIFFWaveEditor() {
@@ -165,7 +166,43 @@ bool RIFFWaveEditor::save(QFile &wavefile) {
     // close file
     wavefile.close();
 
-    return false;
+    return true;
+}
+
+bool RIFFWaveEditor::saveWithLoop(QFile &wavefile, quint32 loopStart,
+                                  quint32 loopLength, quint32 loopNum) {
+    // open file with write mode
+    if (!wavefile.open(QIODevice::WriteOnly)) return false;
+
+    // compress waveform if necessary
+    if (this->getMaxAmplitude() > 1.0f) this->compressAllByMaxAmplitude();
+    qDebug() << "max amp after compress:" << this->getMaxAmplitude();
+
+    // create serialized wave-form data
+    QByteArray waveformData;
+    this->serializeWaveForm(waveformData);
+
+    // write common datas
+    quint32 actualWaveformDataSize
+        = waveformData.size() + (loopLength * 4 * (loopNum - 1));
+    saveCommonData(wavefile, actualWaveformDataSize);
+
+    // write data chunk with loop
+    wavefile.write("data");
+    wavefile.write(reinterpret_cast<const char *>(&actualWaveformDataSize), 4);
+    quint64 wroteSize = 0;
+    wroteSize += wavefile.write(waveformData.mid(0, loopStart));  // write intro
+    for (quint32 lidx = 0; lidx < loopNum; lidx++) {
+        wroteSize += wavefile.write(
+            waveformData.mid(loopStart, loopLength));  // write loop
+    }
+    wroteSize += wavefile.write(waveformData.mid(loopStart + loopLength));
+    Q_ASSERT(wroteSize == actualWaveformDataSize);
+
+    // close file
+    wavefile.close();
+
+    return true;
 }
 
 void RIFFWaveEditor::serializeWaveForm(QByteArray &dataChunkDest) {
