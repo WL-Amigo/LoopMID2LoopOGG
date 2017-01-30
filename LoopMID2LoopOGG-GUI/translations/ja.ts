@@ -54,27 +54,32 @@
         <translation>ループ終了後に残す最大サンプル数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="222"/>
+        <location filename="../forms/ConfigDialog.ui" line="226"/>
         <source>Sound-track mode (for listening use)</source>
         <translation>サウンドトラックモード (鑑賞したい方向け)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="229"/>
+        <location filename="../forms/ConfigDialog.ui" line="233"/>
         <source>Options for sound-track mode</source>
         <translation>サウンドトラックモードのオプション</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="235"/>
+        <location filename="../forms/ConfigDialog.ui" line="239"/>
         <source>number of loop</source>
         <translation>出力に含めるループ回数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="245"/>
+        <location filename="../forms/ConfigDialog.ui" line="253"/>
         <source>fade-out length (sec.)</source>
         <translation>フェードアウト秒数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="299"/>
+        <location filename="../forms/ConfigDialog.ui" line="266"/>
+        <source>fade-out start time (sec.)</source>
+        <translation>ループ後からのフェードアウト開始秒数</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="317"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
