@@ -273,6 +273,8 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
 
 bool LoopOGGGenerator::resaveWAV() {
     QString outputFilename = getFileNameBase(outputDir) + ".wav";
+    QFile outputFileDest(outputFilename);
+    if (outputFileDest.exists()) outputFileDest.remove();
 
     return QDir::root().rename(getFileNameBase() + CompleteLoopWAVSuffix,
                                outputFilename);
