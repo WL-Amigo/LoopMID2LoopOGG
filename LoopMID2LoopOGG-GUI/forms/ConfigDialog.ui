@@ -242,6 +242,9 @@ border: none;</string>
                  </item>
                  <item row="0" column="1">
                   <widget class="QSpinBox" name="OMOSNumLoop">
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
                    <property name="maximum">
                     <number>2147483647</number>
                    </property>
@@ -255,10 +258,24 @@ border: none;</string>
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QDoubleSpinBox" name="OMOSFOLength"/>
+                  <widget class="QDoubleSpinBox" name="OMOSFOLength">
+                   <property name="maximum">
+                    <double>600.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.100000000000000</double>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QDoubleSpinBox" name="OMOSFOStartTime"/>
+                  <widget class="QDoubleSpinBox" name="OMOSFOStartTime">
+                   <property name="maximum">
+                    <double>100.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.100000000000000</double>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_4">
