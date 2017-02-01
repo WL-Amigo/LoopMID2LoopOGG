@@ -44,12 +44,18 @@
 
             <h2>出来ること</h2>
             <ul class="fa-ul">
-                <li><i class="fa-li fa fa-magic"></i> RPGツクール2000規格で作成されたいわゆるMIDI素材(CC111を用いてループするように作られたMIDI素材)を、LOOPSTART/LOOPLENGTHタグによるループ情報を埋め込んだOGG Vorbisファイルへ変換することが出来ます。
+                <li class="featured"><i class="fa-li fa fa-magic"></i> RPGツクール2000規格で作成されたいわゆるMIDI素材(CC111を用いてループするように作られたMIDI素材)を、LOOPSTART/LOOPLENGTHタグによるループ情報を埋め込んだOGG Vorbisファイルへ変換することが出来ます。
                 </li>
-                <li><i class="fa-li fa fa-magic"></i> 変換時に同時にループ情報(LOOPSTART/LOOPLENGTH)を書きだしたjsonファイルも得られます。
+                <li class="featured"><i class="fa-li fa fa-magic"></i> ループ再生に不要なデータを削って出力する「サイズ節約モード」と、音楽プレイヤーで聴くために指定回数ループとフェードアウトを行って出力する「サウンドトラックモード」が使えます。
+                </li>
+                <li class="subfeature"><i class="fa-li fa fa-magic"></i> 変換する前に、変換結果を確認するためのプレビュー再生を簡単に行うことが出来ます(プレビュー再生ではループ再生はされません)。
+                </li>
+                <li class="subfeature"><i class="fa-li fa fa-magic"></i> 複数のMIDI素材をまとめて変換することもできます。
+                </li>
+                <li class="subfeature"><i class="fa-li fa fa-magic"></i> 他の形式への変換用にWAV出力もできます。
+                </li>
+                <li class="subfeature"><i class="fa-li fa fa-magic"></i> 変換時に同時にループ情報(LOOPSTART/LOOPLENGTH)を書きだしたjsonファイルも得られます。
                     <br /> テキストエディタで開けばサンプル数単位のループ情報を得られます。
-                </li>
-                <li><i class="fa-li fa fa-magic"></i> 変換する前に、変換結果を確認するためのプレビュー再生を簡単に行うことが出来ます(プレビュー再生ではループ再生はされません)。
                 </li>
             </ul>
 
@@ -129,7 +135,7 @@
                 '本ツールのZIPパッケージは以下よりダウンロードすることができます。',
             '</p>',
 
-            '<a href="https://github.com/WL-Amigo/LoopMID2LoopOGG/releases/download/v1.0.0/LoopMID2LoopOGG-V1.0.0-Win32.zip" class="button button-primary"><i class="fa fa-download"></i>Windows用</a>'
+            '<a href="https://github.com/WL-Amigo/LoopMID2LoopOGG/releases/download/1.1.0/LoopMID2LoopOGG-V1.1.0-Win32.zip" class="button button-primary"><i class="fa fa-download"></i>Windows用</a>'
         ].join(''),
         'buttons': [vex.dialog.buttons.YES]
     };
