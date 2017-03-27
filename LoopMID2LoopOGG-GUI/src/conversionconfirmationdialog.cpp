@@ -51,6 +51,7 @@ void ConversionConfirmationDialog::spawnTiMidity(QString smFile) {
         command << "-Os";  // output to ALSA PCM Device
         command << "-c" << appDirStr + "/sf2/SGM_v2.01.cfg";
         command << "-L" << appDirStr + "/sf2/";
+        command << "-B4,12";  // to prevent unproper playbacking
         command << smFile;
     }
 
