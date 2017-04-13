@@ -11,5 +11,6 @@
         <file alias="succeeded.png">resources/iconI025.png</file>
         <file alias="magic1_2x.png">resources/magic1_2x.png</file>
         <file alias="note2x.png">resources/note2x.png</file>
+        <file alias="effect2x.png">resources/effect2x.png</file>
     </qresource>
 </RCC>
