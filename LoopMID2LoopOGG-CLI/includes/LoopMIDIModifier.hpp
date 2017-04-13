@@ -20,6 +20,7 @@ private:
     bool createIntroSMF();
     bool createFirstLoopSMF();
     bool createAfterLoopSMF();
+    void copyEventProperly(MidiFile &target, MidiEvent* sourceEvent, int track, int offsetTick);
     void writeSettings(MidiFile& target, const QVector<MIDISettings>& settings, const MIDIMasterSettings& masterSettings);
 
 private:
