@@ -1,4 +1,5 @@
 ﻿#include "LoopMIDIModifier.hpp"
+#include <QDebug>
 
 // constants
 const quint32 SetupTickRange = 240;
@@ -92,7 +93,7 @@ bool LoopMIDIModifier::createIntroSMF() {
                            // with note-on)
 
             output.addEvent(track, me->tick, *me);
-            if (me->isLinked())
+            if (me->isNoteOn() && me->isLinked())
                 output.addEvent(track, me->getLinkedEvent()->tick,
                                 *(me->getLinkedEvent()));
         }
@@ -132,12 +133,15 @@ bool LoopMIDIModifier::createFirstLoopSMF() {
                 continue;  // skip note off event (note-off will be inserted
                            // with note-on)
 
+            Q_ASSERT(me->tick - this->cc111Tick >= 0);
             output.addEvent(track, me->tick - this->cc111Tick + SetupTickRange,
                             *me);
-            if (me->isLinked())
+            if (me->isNoteOn() && me->isLinked()){
+                Q_ASSERT(me->getLinkedEvent()->tick - this->cc111Tick >= 0);
                 output.addEvent(track, me->getLinkedEvent()->tick
                                            - this->cc111Tick + SetupTickRange,
                                 *(me->getLinkedEvent()));
+            }
         }
     }
 
