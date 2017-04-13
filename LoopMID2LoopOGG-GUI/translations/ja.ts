@@ -69,17 +69,17 @@
         <translation>出力に含めるループ回数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="253"/>
+        <location filename="../forms/ConfigDialog.ui" line="256"/>
         <source>fade-out length (sec.)</source>
         <translation>フェードアウト秒数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="266"/>
+        <location filename="../forms/ConfigDialog.ui" line="283"/>
         <source>fade-out start time (sec.)</source>
         <translation>ループ後からのフェードアウト開始秒数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="317"/>
+        <location filename="../forms/ConfigDialog.ui" line="334"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
