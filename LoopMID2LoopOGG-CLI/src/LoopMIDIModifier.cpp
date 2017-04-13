@@ -133,11 +133,9 @@ bool LoopMIDIModifier::createFirstLoopSMF() {
                 continue;  // skip note off event (note-off will be inserted
                            // with note-on)
 
-            Q_ASSERT(me->tick - this->cc111Tick >= 0);
             output.addEvent(track, me->tick - this->cc111Tick + SetupTickRange,
                             *me);
             if (me->isNoteOn() && me->isLinked()){
-                Q_ASSERT(me->getLinkedEvent()->tick - this->cc111Tick >= 0);
                 output.addEvent(track, me->getLinkedEvent()->tick
                                            - this->cc111Tick + SetupTickRange,
                                 *(me->getLinkedEvent()));
