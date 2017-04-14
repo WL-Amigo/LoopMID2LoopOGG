@@ -205,6 +205,7 @@ void MainWindow::changeCullentPlayPosition() {
 
     // change progress bar value
     positionBar->setValue(cullentPosition);
+    positionBar->repaint();
 
     // change time display label
     QString cullentTimeText = "";
