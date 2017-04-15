@@ -6,16 +6,17 @@
 #include "MIDIInfoCollector.hpp"
 #include "RIFFWaveEditor.h"
 #include "midisettings.h"
+#include "TiMidityCommandBuilder.hpp"
 
 class LoopOGGGenerator {
 public:
     LoopOGGGenerator(QString sourceSMFName, QString outputDir,
-                     QString timidityXXBinaryPath, QString timidityConfigPath,
+                     QString timidityXXBinaryPath, TiMidityCommandBuilder configuredTCB,
                      QString oggEncBinaryPath);
     bool convert();
     static bool convert(QString sourceSMFName, QString outputDir,
                         QString timidityXXBinaryPath,
-                        QString timidityConfigPath, QString oggEncBinaryPath);
+                        TiMidityCommandBuilder configuredCommandBuilder, QString oggEncBinaryPath);
 
 private:
     bool analyzeSMF();
@@ -41,7 +42,7 @@ private:
 
     QString outputDir;
     QString timidityXXBinary;
-    QString timidityConfig;
+    TiMidityCommandBuilder timidityCommandBuilder;
     QString oggEncBinary;
 };
 

@@ -22,7 +22,7 @@ static const quint32 SampleRate = 44100;
 
 LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
                                    QString timidityXXBinaryPath,
-                                   QString timidityConfigPath,
+                                   TiMidityCommandBuilder configuredTCB,
                                    QString oggEncBinaryPath)
     : needSplit(false),
       smf(sourceSMFName),
@@ -33,15 +33,15 @@ LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
       tempFileDest(QCoreApplication::applicationDirPath() + "/tmp/"),
       timidityXXBinary(timidityXXBinaryPath),
       oggEncBinary(oggEncBinaryPath),
-      timidityConfig(timidityConfigPath),
+      timidityCommandBuilder(configuredTCB),
       outputDir(outputDir) {}
 
 bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir,
                                QString timidityXXBinaryPath,
-                               QString timidityConfigPath,
+                               TiMidityCommandBuilder configuredCommandBuilder,
                                QString oggEncBinaryPath) {
     LoopOGGGenerator log(sourceSMFName, outputDir, timidityXXBinaryPath,
-                         timidityConfigPath, oggEncBinaryPath);
+                         configuredCommandBuilder, oggEncBinaryPath);
     return log.convert();
 }
 
@@ -113,14 +113,7 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         QString outputName;
         inputName = fileNameBase + IntroSMFSuffix;
         outputName = fileNameBase + IntroWAVSuffix;
-        command << "-o" << outputName;
-        command << "-Ow";
-        command << "-c" << timidityConfig;
-        if (SampleRate != 44100)
-            command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L"
-                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
-        command << inputName;
+        this->timidityCommandBuilder.build(command, inputName, TiMidityDevice::RIFFWave, outputName);
 
         if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
@@ -130,14 +123,7 @@ bool LoopOGGGenerator::convertSMFToWAV() {
 
         inputName = fileNameBase + FirstLoopSMFSuffix;
         outputName = fileNameBase + FirstLoopWAVSuffix;
-        command << "-o" << outputName;
-        command << "-Ow";
-        command << "-c" << timidityConfig;
-        if (SampleRate != 44100)
-            command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L"
-                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
-        command << inputName;
+        this->timidityCommandBuilder.build(command, inputName, TiMidityDevice::RIFFWave, outputName);
 
         if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
@@ -150,14 +136,7 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         }
         QString outputName;
         outputName = fileNameBase + FirstLoopWAVSuffix;
-        command << "-o" << outputName;
-        command << "-Ow";
-        command << "-c" << timidityConfig;
-        if (SampleRate != 44100)
-            command << "-s" << QString::asprintf("%u", SampleRate);
-        command << "-L"
-                << QCoreApplication::applicationDirPath() + "/TiMidity++/sf2/";
-        command << inputFile;
+        this->timidityCommandBuilder.build(command, inputFile, TiMidityDevice::RIFFWave, outputName);
 
         return QProcess::execute(timidityXXBinary, command) == 0;
     }
