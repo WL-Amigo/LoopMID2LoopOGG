@@ -5,6 +5,7 @@
 #include <QStackedWidget>
 #include <QString>
 #include <QWidget>
+#include <QToolButton>
 
 namespace Ui {
 class ConfigDialog;
@@ -19,6 +20,7 @@ public:
 
 private:
     void setupConfigSelectorButtons();
+    void connectCSBToPage(QToolButton* toolButton, QWidget *targetPageWidget);
     void restoreSettingsToUI();
 
 private slots:

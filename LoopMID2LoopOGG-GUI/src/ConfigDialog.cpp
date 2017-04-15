@@ -26,19 +26,18 @@ ConfigDialog::~ConfigDialog() { delete ui; }
 
 void ConfigDialog::setupConfigSelectorButtons() {
     // connect each config selector button to page
-    CDChangePageSlotObject* cpso = new CDChangePageSlotObject(
-        this, ui->pagesWidget, ui->pagesWidget->indexOf(ui->CPOutput));
-    connect(ui->CSBOutput, &QToolButton::clicked, cpso,
-            &CDChangePageSlotObject::changePage);
-    connect(this, &ConfigDialog::destroyed, cpso,
-            &CDChangePageSlotObject::deleteLater);
+    this->connectCSBToPage(ui->CSBOutput, ui->CPOutput);
+    this->connectCSBToPage(ui->CSBTiMidity, ui->CPTiMidity);
+    this->connectCSBToPage(ui->CSBEffect, ui->CPEffect);
+    this->connectCSBToPage(ui->CSBEncoder, ui->CPEncoder);
+    this->connectCSBToPage(ui->CSBAbout, ui->CPAbout);
+}
 
-    cpso = new CDChangePageSlotObject(this, ui->pagesWidget,
-                                      ui->pagesWidget->indexOf(ui->CPAbout));
-    connect(ui->CSBAbout, &QToolButton::clicked, cpso,
-            &CDChangePageSlotObject::changePage);
-    connect(this, &ConfigDialog::destroyed, cpso,
-            &CDChangePageSlotObject::deleteLater);
+void ConfigDialog::connectCSBToPage(QToolButton *toolButton, QWidget* targetPageWidget){
+    // connect config selector button to page specified
+    CDChangePageSlotObject* cpso = new CDChangePageSlotObject(this, ui->pagesWidget, ui->pagesWidget->indexOf(targetPageWidget));
+    connect(toolButton, &QToolButton::clicked, cpso, &CDChangePageSlotObject::changePage);
+    connect(this, &ConfigDialog::destroyed, cpso, &CDChangePageSlotObject::deleteLater);
 }
 
 void ConfigDialog::restoreSettingsToUI() {
