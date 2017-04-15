@@ -18,7 +18,8 @@ SOURCES += src/main.cpp \
     src/midisettings.cpp \
     src/RIFFWaveEditor.cpp \
     src/LoopOGGGenerator.cpp \
-    src/LoopMIDIModifier.cpp
+    src/LoopMIDIModifier.cpp \
+    src/TiMidityCommandBuilder.cpp
 
 
 HEADERS += \
@@ -26,7 +27,8 @@ HEADERS += \
     includes/midisettings.h \
     includes/RIFFWaveEditor.h \
     includes/LoopOGGGenerator.hpp \
-    includes/LoopMIDIModifier.hpp
+    includes/LoopMIDIModifier.hpp \
+    includes/TiMidityCommandBuilder.hpp
 
 DEPENDPATH += libs/midifile/include/
 
