@@ -126,7 +126,7 @@ border: none;</string>
             </widget>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QToolButton" name="CSBEffect">
              <property name="minimumSize">
               <size>
                <width>106</width>
@@ -492,7 +492,7 @@ border: none;</string>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page">
+         <widget class="QWidget" name="CPEffect">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QGroupBox" name="groupBox_6">
