@@ -5,6 +5,9 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QSettings>
+#include <QMetaEnum>
+
+#include "GlobalConstants.hpp"
 
 ConfigDialog::ConfigDialog(QWidget* parent)
     : QWidget(parent), ui(new Ui::ConfigDialog) {
@@ -43,44 +46,51 @@ void ConfigDialog::connectCSBToPage(QToolButton *toolButton, QWidget* targetPage
 void ConfigDialog::restoreSettingsToUI() {
     // restore all settings to correspond UI elements
     QSettings s;
+    QMetaEnum me;
+
     // --- output section
-    QString temp = s.value("output/fileType").toString();
-    if (temp == "ogg") {
+    QString temp = s.value(ConfigKey::Output::FileType).toString();
+    me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
+    if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg))) {
         ui->OFFOggRadio->setChecked(true);
-    } else if (temp == "wav") {
+    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::wav))) {
         ui->OFFWaveRadio->setChecked(true);
     }
-    temp = s.value("output/mode").toString();
-    if (temp == "optimized") {
+    temp = s.value(ConfigKey::Output::Mode).toString();
+    me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
+    if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized))) {
         ui->OMOptimizedRadio->setChecked(true);
-    } else if (temp == "soundtrack") {
+    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::soundtrack))) {
         ui->OMSoundtrackRadio->setChecked(true);
     }
     ui->OMOOMinSamples->setValue(
-        s.value("output/maxSamplesAfterLoopEnd").toInt());
-    ui->OMOSFOStartTime->setValue(s.value("output/fadeoutStartSec").toDouble());
-    ui->OMOSFOLength->setValue(s.value("output/fadeoutLengthSec").toDouble());
-    ui->OMOSNumLoop->setValue(s.value("output/loopNumber").toInt());
+        s.value(ConfigKey::Output::MaxSamplesAfterLoopEnd).toInt());
+    ui->OMOSFOStartTime->setValue(s.value(ConfigKey::Output::FadeoutStartSec).toDouble());
+    ui->OMOSFOLength->setValue(s.value(ConfigKey::Output::FadeoutLengthSec).toDouble());
+    ui->OMOSNumLoop->setValue(s.value(ConfigKey::Output::LoopNumber).toInt());
 }
 
 void ConfigDialog::saveSettingsAndClose() {
     // save all settings
     QSettings s;
+    QMetaEnum me;
     // --- output section
+    me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
     if (ui->OFFOggRadio->isChecked()) {
-        s.setValue("output/fileType", "ogg");
+        s.setValue(ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg)));
     } else if (ui->OFFWaveRadio->isChecked()) {
-        s.setValue("output/fileType", "wav");
+        s.setValue(ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::wav)));
     }
+    me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
     if (ui->OMOptimizedRadio->isChecked()) {
-        s.setValue("output/mode", "optimized");
+        s.setValue(ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized)));
     } else if (ui->OMSoundtrackRadio->isChecked()) {
-        s.setValue("output/mode", "soundtrack");
+        s.setValue(ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::soundtrack)));
     }
-    s.setValue("output/maxSamplesAfterLoopEnd", ui->OMOOMinSamples->value());
-    s.setValue("output/fadeoutStartSec", ui->OMOSFOStartTime->value());
-    s.setValue("output/fadeoutLengthSec", ui->OMOSFOLength->value());
-    s.setValue("output/loopNumber", ui->OMOSNumLoop->value());
+    s.setValue(ConfigKey::Output::MaxSamplesAfterLoopEnd, ui->OMOOMinSamples->value());
+    s.setValue(ConfigKey::Output::FadeoutStartSec, ui->OMOSFOStartTime->value());
+    s.setValue(ConfigKey::Output::FadeoutLengthSec, ui->OMOSFOLength->value());
+    s.setValue(ConfigKey::Output::LoopNumber, ui->OMOSNumLoop->value());
 
     // close this window
     close();
