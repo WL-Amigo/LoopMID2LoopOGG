@@ -6,6 +6,7 @@
 #include <QStyleFactory>
 #include <QTranslator>
 #include <QVariant>
+#include <QMetaEnum>
 
 #include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
@@ -36,26 +37,29 @@ static void setFusionStyle(QApplication &app) {
     app.setPalette(palette);
 }
 
-static inline void updateSetting(QSettings &s, const char *key,
+static inline void updateSetting(QSettings &s, const QString &key,
                                  QVariant defaultValue, bool &reset) {
     return s.setValue(key, reset ? defaultValue : s.value(key, defaultValue));
 }
 
 static void updateSettings(bool reset = false) {
     QSettings s;
+    QMetaEnum me;
     // update settings with taking over settings already set by user
     //     or initialize settings on demand of application reset
     // top page configuration
-    updateSetting(s, "outputDirectory", "", reset);
-    updateSetting(s, "preview", false, reset);
+    updateSetting(s, ConfigKey::OutputDirectory, "", reset);
+    updateSetting(s, ConfigKey::Preview, false, reset);
 
     // output configuration
-    updateSetting(s, "output/fileType", "ogg", reset);
-    updateSetting(s, "output/mode", "optimized", reset);
-    updateSetting(s, "output/maxSamplesAfterLoopEnd", 22050, reset);
-    updateSetting(s, "output/fadeoutStartSec", 2.0f, reset);
-    updateSetting(s, "output/fadeoutLengthSec", 6.0f, reset);
-    updateSetting(s, "output/loopNumber", 2, reset);
+    me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
+    updateSetting(s, ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg)), reset);
+    me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
+    updateSetting(s, ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized)), reset);
+    updateSetting(s, ConfigKey::Output::MaxSamplesAfterLoopEnd, 22050, reset);
+    updateSetting(s, ConfigKey::Output::FadeoutStartSec, 2.0f, reset);
+    updateSetting(s, ConfigKey::Output::FadeoutLengthSec, 6.0f, reset);
+    updateSetting(s, ConfigKey::Output::LoopNumber, 2, reset);
 }
 
 int main(int argc, char *argv[]) {
