@@ -249,7 +249,7 @@ border: none;</string>
           </size>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="CPOutput">
           <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,1">
@@ -412,34 +412,13 @@ border: none;</string>
              </property>
              <layout class="QFormLayout" name="formLayout_3">
               <item row="0" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>binary</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
-                <item>
-                 <widget class="QLineEdit" name="TPBinaryLineEdit"/>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="TPBinaryBrowseButton">
-                  <property name="text">
-                   <string>Browse...</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="1" column="0">
                <widget class="QLabel" name="label_6">
                 <property name="text">
                  <string>config file</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="0" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
                  <widget class="QLineEdit" name="TPConfigFileLineEdit"/>
@@ -453,14 +432,14 @@ border: none;</string>
                 </item>
                </layout>
               </item>
-              <item row="2" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="label_7">
                 <property name="text">
                  <string>soundfont directory</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="1" column="1">
                <layout class="QHBoxLayout" name="horizontalLayout_4">
                 <item>
                  <widget class="QLineEdit" name="TPSFDirectoryLineEdit"/>
