@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QSysInfo>
 
+#include "TiMidityCommandBuilderProvider.h"
+
 ConvertingWorker::ConvertingWorker(QObject *parent, QString &filename,
                                    QString &outputDirectory)
     : filename(filename), outputDirectory(outputDirectory), QThread(parent) {}
@@ -14,13 +16,14 @@ void ConvertingWorker::run() {
     qDebug() << "filename:" << filename;
     qDebug() << "output directory:" << outputDirectory;
     QString appDirStr = QCoreApplication::applicationDirPath();
+    TiMidityCommandBuilder tcb = TiMidityCommandBuilderProvider::getDefault();
     if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
         LoopOGGGenerator::convert(filename, outputDirectory,
                                   appDirStr + "/TiMidity++/timidity.exe",
-                                  appDirStr + "/TiMidity++/sf2/SGM_v2.01.cfg",
+                                  tcb,
                                   appDirStr + "/oggenc2.exe");
     } else {
         LoopOGGGenerator::convert(filename, outputDirectory, "timidity",
-                                  appDirStr + "/sf2/SGM_v2.01.cfg", "oggenc");
+                                  tcb, "oggenc");
     }
 }

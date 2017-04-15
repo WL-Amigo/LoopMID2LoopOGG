@@ -9,6 +9,8 @@
 #include <QTableWidgetItem>
 #include <QVariant>
 
+#include "TiMidityCommandBuilderProvider.h"
+
 #ifdef QT_DEBUG
 #include <QThread>
 #include <random>
@@ -37,16 +39,17 @@ public:
         QString outputDirectory = s.value("outputDirectory").toString();
         qDebug() << "output directory:" << outputDirectory;
         QString appDirStr = QCoreApplication::applicationDirPath();
+        TiMidityCommandBuilder tcb = TiMidityCommandBuilderProvider::getDefault();
         if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
             return LoopOGGGenerator::convert(
                 fileName, outputDirectory,
                 appDirStr + "/TiMidity++/timidity.exe",
-                appDirStr + "/TiMidity++/sf2/SGM_v2.01.cfg",
+                tcb,
                 appDirStr + "/oggenc2.exe");
         } else {
             return LoopOGGGenerator::convert(
                 fileName, outputDirectory, "timidity",
-                appDirStr + "/sf2/SGM_v2.01.cfg", "oggenc");
+                tcb, "oggenc");
         }
     }
 };
