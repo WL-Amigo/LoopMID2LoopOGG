@@ -1,6 +1,7 @@
-#include "includes/TiMidityCommandBuilder.hpp"
+#include "TiMidityCommandBuilder.hpp"
 
 #include <QSysInfo>
+#include <QDebug>
 
 TiMidityCommandBuilder::TiMidityCommandBuilder():
     m_configFilePath(""),
@@ -37,6 +38,7 @@ void TiMidityCommandBuilder::build(QStringList &target, QString inputFilePath, T
         target << "-Os";
     }
     target << inputFilePath;
+    qDebug().noquote() << target;
 }
 
 TiMidityCommandBuilder* TiMidityCommandBuilder::setConfigFilePath(QString configFilePath){
