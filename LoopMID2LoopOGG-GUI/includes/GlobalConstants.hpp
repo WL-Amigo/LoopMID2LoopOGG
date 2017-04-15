@@ -35,8 +35,8 @@ CONFIGKEY LoopNumber = "output/loopNumber";
 
 // --- TiMidity
 namespace TiMidity {
-CONFIGKEY ConfigFilePath = "timidity/configFilePath";
-CONFIGKEY SoundfontDirPath = "timidity/soundfontDirectoryPath";
+CONFIGKEY ConfigFilePath = "timidity/configFilePath"; // relative
+CONFIGKEY SoundfontDirPath = "timidity/soundfontDirectoryPath"; // relative
 }
 
 // --- Effect
