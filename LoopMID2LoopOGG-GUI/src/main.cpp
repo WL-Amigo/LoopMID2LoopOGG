@@ -7,6 +7,7 @@
 #include <QTranslator>
 #include <QVariant>
 #include <QMetaEnum>
+#include <QSysInfo>
 
 #include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
@@ -60,6 +61,21 @@ static void updateSettings(bool reset = false) {
     updateSetting(s, ConfigKey::Output::FadeoutStartSec, 2.0f, reset);
     updateSetting(s, ConfigKey::Output::FadeoutLengthSec, 6.0f, reset);
     updateSetting(s, ConfigKey::Output::LoopNumber, 2, reset);
+
+    // TiMidity++ configuration
+    QString appDirStr = QCoreApplication::applicationDirPath();
+    updateSetting(s, ConfigKey::TiMidity::ConfigFilePath, "sf2/SGM_v2.01.cfg", reset);
+    updateSetting(s, ConfigKey::TiMidity::SoundfontDirPath, "sf2/", reset);
+
+    // effect configuration
+    me = QMetaEnum::fromType<ConfigEnums::Effect::ReverbModeEnum>();
+    updateSetting(s, ConfigKey::Effect::ReverbMode, me.valueToKey(static_cast<int>(ConfigEnums::Effect::ReverbModeEnum::enable)), reset);
+    updateSetting(s, ConfigKey::Effect::ReverbLevel, 64, reset);
+
+    // encoder configuration
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::OVQualityModeEnum>();
+    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode, me.valueToKey(static_cast<int>(ConfigEnums::Encoder::OVQualityModeEnum::normal)), reset);
+    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityValue, 4, reset);
 }
 
 int main(int argc, char *argv[]) {
