@@ -8,6 +8,8 @@
 #include <QPushButton>
 #include <QSysInfo>
 
+#include "TiMidityCommandBuilderProvider.h"
+
 ConversionConfirmationDialog::ConversionConfirmationDialog(QWidget *parent)
     : QDialog(parent), ui(new Ui::ConversionConfirmationDialog) {
     ui->setupUi(this);
@@ -39,21 +41,20 @@ void ConversionConfirmationDialog::spawnTiMidity(QString smFile) {
     // make command list
     QString appDirStr = QCoreApplication::applicationDirPath();
     QString timidityBinPath;
+    QString inputFilePath;
+    TiMidityDevice device;
     QStringList command;
+    TiMidityCommandBuilder tcb = TiMidityCommandBuilderProvider::getDefault();
     if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
         timidityBinPath = appDirStr + "/TiMidity++/timidity.exe";
-        command << "-Od";  // output to windows sound device
-        command << "-c" << appDirStr + "/TiMidity++/sf2/SGM_v2.01.cfg";
-        command << "-L" << appDirStr + "/TiMidity++/sf2/";
-        command << smFile.mid(1);  // remove top of slash
+        inputFilePath = smFile.mid(1);  // remove top of slash
+        device = TiMidityDevice::WinSoundDevice;
     } else {
         timidityBinPath = "timidity";
-        command << "-Os";  // output to ALSA PCM Device
-        command << "-c" << appDirStr + "/sf2/SGM_v2.01.cfg";
-        command << "-L" << appDirStr + "/sf2/";
-        command << "-B4,12";  // to prevent unproper playbacking
-        command << smFile;
+        inputFilePath = smFile;
+        device = TiMidityDevice::ALSA;
     }
+    tcb.build(command, inputFilePath, device);
 
     // spawn TiMidity++ process
     timidityProc.start(timidityBinPath, command);
