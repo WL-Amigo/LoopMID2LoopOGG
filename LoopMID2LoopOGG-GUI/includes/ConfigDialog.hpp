@@ -22,6 +22,7 @@ public:
 
 private:
     void setupConfigSelectorButtons();
+    void setupFileBrowseLineEdits();
     void connectCSBToPage(QToolButton* toolButton, QWidget* targetPageWidget);
     void restoreSettingsToUI();
 
@@ -56,7 +57,7 @@ public:
                                 QLineEdit* lineEdit, bool directory,
                                 bool absolute);
     ~FileBrowseLineEditConnector();
-    void setAcceptFileTypes(QString& fileTypesString);
+    void setAcceptFileTypes(const QString& fileTypesString);
 
 public slots:
     void browseFile();

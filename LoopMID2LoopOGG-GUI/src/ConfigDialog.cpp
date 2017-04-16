@@ -19,6 +19,9 @@ ConfigDialog::ConfigDialog(QWidget* parent)
     setupConfigSelectorButtons();
     ui->pagesWidget->setCurrentIndex(0);
 
+    // setup file browse line edits
+    this->setupFileBrowseLineEdits();
+
     // connect behavior
     connect(ui->buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked,
             this, &ConfigDialog::saveSettingsAndClose);
@@ -36,6 +39,17 @@ void ConfigDialog::setupConfigSelectorButtons() {
     this->connectCSBToPage(ui->CSBEffect, ui->CPEffect);
     this->connectCSBToPage(ui->CSBEncoder, ui->CPEncoder);
     this->connectCSBToPage(ui->CSBAbout, ui->CPAbout);
+}
+
+void ConfigDialog::setupFileBrowseLineEdits() {
+    // connect each correspond line edit and push button
+    auto fblec =
+        new FileBrowseLineEditConnector(this, ui->TPConfigFileBrowseButton,
+                                        ui->TPConfigFileLineEdit, false, false);
+    fblec->setAcceptFileTypes(tr("TiMidity++ config file (*.cfg)"));
+    fblec =
+        new FileBrowseLineEditConnector(this, ui->TPSFDirectoryBrowseButton,
+                                        ui->TPSFDirectoryLineEdit, true, false);
 }
 
 void ConfigDialog::connectCSBToPage(QToolButton* toolButton,
@@ -227,6 +241,11 @@ FileBrowseLineEditConnector::FileBrowseLineEditConnector(
 
 FileBrowseLineEditConnector::~FileBrowseLineEditConnector() {}
 
+void FileBrowseLineEditConnector::setAcceptFileTypes(
+    const QString& fileTypesString) {
+    this->m_acceptFileTypes = fileTypesString;
+}
+
 void FileBrowseLineEditConnector::browseFile() {
     QString path;
     if (this->m_directory) {
@@ -234,9 +253,12 @@ void FileBrowseLineEditConnector::browseFile() {
                                                  tr("Select directory..."));
 
     } else {
-        path = QFileDialog::getOpenFileName(
-            this->m_parent, tr("Select file..."), this->m_acceptFileTypes);
+        path =
+            QFileDialog::getOpenFileName(this->m_parent, tr("Select file..."),
+                                         QString(), this->m_acceptFileTypes);
     }
+    if (path.isEmpty()) return;
+
     if (!this->m_absolute) {
         // calcurate relative path
         QDir applicationDir(QCoreApplication::applicationDirPath());
