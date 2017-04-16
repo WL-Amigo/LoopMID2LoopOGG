@@ -37,6 +37,7 @@ void TiMidityCommandBuilder::build(QStringList &target, QString inputFilePath, T
     } else if(outputDevice == TiMidityDevice::ALSA){
         target << "-Os";
     }
+    target << "-B4,12"; // to prevent unproper playbacking
     target << inputFilePath;
     qDebug().noquote() << target;
 }
