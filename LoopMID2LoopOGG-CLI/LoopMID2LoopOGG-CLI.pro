@@ -12,14 +12,15 @@ TEMPLATE = app
 INCLUDEPATH += includes/ \
     libs/midifile/include/
 
-
 SOURCES += src/main.cpp \
     src/midiinfocollector.cpp \
     src/midisettings.cpp \
     src/RIFFWaveEditor.cpp \
     src/LoopOGGGenerator.cpp \
     src/LoopMIDIModifier.cpp \
-    src/TiMidityCommandBuilder.cpp
+    src/TiMidityCommandBuilder.cpp \
+    src/EncoderExecutor.cpp \
+    src/OggVorbisEncoderExecutor.cpp
 
 
 HEADERS += \
@@ -28,7 +29,9 @@ HEADERS += \
     includes/RIFFWaveEditor.h \
     includes/LoopOGGGenerator.hpp \
     includes/LoopMIDIModifier.hpp \
-    includes/TiMidityCommandBuilder.hpp
+    includes/TiMidityCommandBuilder.hpp \
+    includes/EncoderExecutor.hpp \
+    includes/OggVorbisEncoderExecutor.hpp
 
 DEPENDPATH += libs/midifile/include/
 
