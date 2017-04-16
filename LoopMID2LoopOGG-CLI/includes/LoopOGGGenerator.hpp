@@ -7,16 +7,17 @@
 #include "RIFFWaveEditor.h"
 #include "midisettings.h"
 #include "TiMidityCommandBuilder.hpp"
+#include "EncoderExecutor.hpp"
 
 class LoopOGGGenerator {
 public:
     LoopOGGGenerator(QString sourceSMFName, QString outputDir,
                      QString timidityXXBinaryPath, TiMidityCommandBuilder configuredTCB,
-                     QString oggEncBinaryPath);
+                     EncoderExecutor encoderExecutor);
     bool convert();
     static bool convert(QString sourceSMFName, QString outputDir,
                         QString timidityXXBinaryPath,
-                        TiMidityCommandBuilder configuredCommandBuilder, QString oggEncBinaryPath);
+                        TiMidityCommandBuilder configuredCommandBuilder, EncoderExecutor encoderExecutor);
 
 private:
     bool analyzeSMF();
@@ -43,7 +44,7 @@ private:
     QString outputDir;
     QString timidityXXBinary;
     TiMidityCommandBuilder timidityCommandBuilder;
-    QString oggEncBinary;
+    EncoderExecutor m_encoderExecutor;
 };
 
 #endif  // LOOPOGGGENERATOR_H

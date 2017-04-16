@@ -23,7 +23,7 @@ static const quint32 SampleRate = 44100;
 LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
                                    QString timidityXXBinaryPath,
                                    TiMidityCommandBuilder configuredTCB,
-                                   QString oggEncBinaryPath)
+                                   EncoderExecutor encoderExecutor)
     : needSplit(false),
       smf(sourceSMFName),
       loopStartOnMIDI(0),
@@ -32,16 +32,16 @@ LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
       loopStart(0),
       tempFileDest(QCoreApplication::applicationDirPath() + "/tmp/"),
       timidityXXBinary(timidityXXBinaryPath),
-      oggEncBinary(oggEncBinaryPath),
+      m_encoderExecutor(encoderExecutor),
       timidityCommandBuilder(configuredTCB),
       outputDir(outputDir) {}
 
 bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir,
                                QString timidityXXBinaryPath,
                                TiMidityCommandBuilder configuredCommandBuilder,
-                               QString oggEncBinaryPath) {
+                               EncoderExecutor encoderExecutor) {
     LoopOGGGenerator log(sourceSMFName, outputDir, timidityXXBinaryPath,
-                         configuredCommandBuilder, oggEncBinaryPath);
+                         configuredCommandBuilder, encoderExecutor);
     return log.convert();
 }
 
@@ -231,23 +231,24 @@ bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor &savingWAV) {
 }
 
 bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
-    QString outputFilename = getFileNameBase(outputDir) + ".ogg";
+    QString outputFilename = getFileNameBase(outputDir);
     QString filenameBase = getFileNameBase();
 
-    QStringList command;
-    QString loopStartStr = QString::asprintf("LOOPSTART=%u", this->loopStart);
-    QString loopLengthStr
-        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
-    command << "-c" << loopStartStr;
-    command << "-c" << loopLengthStr;
-    command << "-Q";  // enable quiet mode
-    command << "-q"
-            << "4";  // TODO: able to set by configuration
-    command << "-o" << outputFilename;
-    command << filenameBase + CompleteLoopWAVSuffix;
+//    QStringList command;
+//    QString loopStartStr = QString::asprintf("LOOPSTART=%u", this->loopStart);
+//    QString loopLengthStr
+//        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
+//    command << "-c" << loopStartStr;
+//    command << "-c" << loopLengthStr;
+//    command << "-Q";  // enable quiet mode
+//    command << "-q"
+//            << "4";  // TODO: able to set by configuration
+//    command << "-o" << outputFilename;
+//    command << filenameBase + CompleteLoopWAVSuffix;
 
-    // spawn oggenc
-    return QProcess::execute(oggEncBinary, command) == 0;
+//    // spawn oggenc
+//    return QProcess::execute(oggEncBinary, command) == 0;
+    return this->m_encoderExecutor.execute(filenameBase + CompleteLoopWAVSuffix, outputFilename, this->loopStart, this->loopLength) == 0;
 }
 
 bool LoopOGGGenerator::resaveWAV() {
