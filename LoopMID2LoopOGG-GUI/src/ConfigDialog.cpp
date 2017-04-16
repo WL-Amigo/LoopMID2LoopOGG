@@ -3,6 +3,8 @@
 
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QDir>
+#include <QFileDialog>
 #include <QMetaEnum>
 #include <QPushButton>
 #include <QSettings>
@@ -206,4 +208,39 @@ CDChangePageSlotObject::~CDChangePageSlotObject() {}
 void CDChangePageSlotObject::changePage() {
     targetSW->setCurrentIndex(targetPage);
     qDebug().noquote() << QString::asprintf("change page: %d", targetPage);
+}
+
+// FileBrowseLineEditConnector
+
+FileBrowseLineEditConnector::FileBrowseLineEditConnector(
+    QWidget* parent, QPushButton* browseButton, QLineEdit* lineEdit,
+    bool directory, bool absolute)
+    : QObject(parent),
+      m_parent(parent),
+      m_absolute(absolute),
+      m_directory(directory),
+      m_lineEdit(lineEdit),
+      m_acceptFileTypes("") {
+    connect(browseButton, &QPushButton::clicked, this,
+            &FileBrowseLineEditConnector::browseFile);
+}
+
+FileBrowseLineEditConnector::~FileBrowseLineEditConnector() {}
+
+void FileBrowseLineEditConnector::browseFile() {
+    QString path;
+    if (this->m_directory) {
+        path = QFileDialog::getExistingDirectory(this->m_parent,
+                                                 tr("Select directory..."));
+
+    } else {
+        path = QFileDialog::getOpenFileName(
+            this->m_parent, tr("Select file..."), this->m_acceptFileTypes);
+    }
+    if (!this->m_absolute) {
+        // calcurate relative path
+        QDir applicationDir(QCoreApplication::applicationDirPath());
+        path = applicationDir.relativeFilePath(path);
+    }
+    this->m_lineEdit->setText(path);
 }
