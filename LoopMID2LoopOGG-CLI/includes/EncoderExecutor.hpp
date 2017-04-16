@@ -11,6 +11,7 @@ protected:
     QString m_binaryPath;
 public:
     EncoderExecutor();
+    virtual ~EncoderExecutor(){}
     void setQualityValue(qreal value);
     void setBinaryPath(QString binaryPath);
     virtual int execute(QString inputFilePath, QString outputFilePath, qint32 loopStart = -1, qint32 loopLength = -1){ return -1; }

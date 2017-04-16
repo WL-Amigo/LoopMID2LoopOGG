@@ -2,6 +2,7 @@
 
 #include <QProcess>
 #include <QStringList>
+#include <QDebug>
 
 OggVorbisEncoderExecutor::OggVorbisEncoderExecutor() {
     this->m_qualityValue = 4.0f;
@@ -20,6 +21,7 @@ int OggVorbisEncoderExecutor::execute(QString inputFilePath, QString outputFileP
     command << "-o" << outputFilePath + ".ogg";
     command << inputFilePath;
 
+    qDebug().noquote() << command;
     // spawn ogg vorbis encoder
     return QProcess::execute(this->m_binaryPath, command);
 }

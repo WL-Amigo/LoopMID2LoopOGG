@@ -21,7 +21,8 @@ SOURCES += src/main.cpp\
     src/conversionconfirmationdialog.cpp \
     src/ConfigDialog.cpp \
     src/MultiConvertingDialog.cpp \
-    src/TiMidityCommandBuilderProvider.cpp
+    src/TiMidityCommandBuilderProvider.cpp \
+    src/EncoderExecutorProvider.cpp
 
 INCLUDEPATH += includes/
 HEADERS  += includes/mainwindow.h \
@@ -32,7 +33,8 @@ HEADERS  += includes/mainwindow.h \
     includes/ConfigDialog.hpp \
     includes/MultiConvertingDialog.hpp \
     includes/GlobalConstants.hpp \
-    includes/TiMidityCommandBuilderProvider.h
+    includes/TiMidityCommandBuilderProvider.h \
+    includes/EncoderExecutorProvider.hpp
 
 
 FORMS    += forms/mainwindow.ui \
@@ -49,6 +51,8 @@ SOURCES += ../LoopMID2LoopOGG-CLI/src/LoopMIDIModifier.cpp \
         ../LoopMID2LoopOGG-CLI/src/midiinfocollector.cpp \
         ../LoopMID2LoopOGG-CLI/src/midisettings.cpp \
         ../LoopMID2LoopOGG-CLI/src/TiMidityCommandBuilder.cpp \
+        ../LoopMID2LoopOGG-CLI/src/EncoderExecutor.cpp \
+        ../LoopMID2LoopOGG-CLI/src/OggVorbisEncoderExecutor.cpp \
         ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/Binasc.cpp \
         ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiEvent.cpp \
         ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiEventList.cpp \
