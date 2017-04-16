@@ -23,7 +23,7 @@ void TiMidityCommandBuilder::build(QStringList &target, QString inputFilePath, T
     if(this->m_reverbType == TiMidityReverbType::None){
         target << "--reverb=d";
     } else if(this->m_reverbType == TiMidityReverbType::FreeVerb){
-        target << QString::asprintf("--reverb=f,%d", this->m_reverbValue);
+        target << "--reverb=f";
     } else if(this->m_reverbType == TiMidityReverbType::FreeVerbGlobal){
         target << QString::asprintf("--reverb=G,%d", this->m_reverbValue);
     }
