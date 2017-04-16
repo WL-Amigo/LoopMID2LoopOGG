@@ -7,7 +7,7 @@ class OggVorbisEncoderExecutor: public EncoderExecutor
 {
 public:
     OggVorbisEncoderExecutor();
-    int execute(QString inputFilePath, QString outputFilePath);
+    int execute(QString inputFilePath, QString outputFilePath, qint32 loopStart = -1, qint32 loopLength = -1);
 };
 
 #endif // OGGVORBISENCODEREXECUTOR_HPP
