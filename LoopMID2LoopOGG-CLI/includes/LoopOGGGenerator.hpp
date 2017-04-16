@@ -13,11 +13,11 @@ class LoopOGGGenerator {
 public:
     LoopOGGGenerator(QString sourceSMFName, QString outputDir,
                      QString timidityXXBinaryPath, TiMidityCommandBuilder configuredTCB,
-                     EncoderExecutor encoderExecutor);
+                     EncoderExecutor* encoderExecutor);
     bool convert();
     static bool convert(QString sourceSMFName, QString outputDir,
                         QString timidityXXBinaryPath,
-                        TiMidityCommandBuilder configuredCommandBuilder, EncoderExecutor encoderExecutor);
+                        TiMidityCommandBuilder configuredCommandBuilder, EncoderExecutor* encoderExecutor);
 
 private:
     bool analyzeSMF();
@@ -44,7 +44,7 @@ private:
     QString outputDir;
     QString timidityXXBinary;
     TiMidityCommandBuilder timidityCommandBuilder;
-    EncoderExecutor m_encoderExecutor;
+    EncoderExecutor* m_encoderExecutor;
 };
 
 #endif  // LOOPOGGGENERATOR_H

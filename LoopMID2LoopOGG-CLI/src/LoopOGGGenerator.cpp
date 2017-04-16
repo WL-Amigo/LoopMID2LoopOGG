@@ -23,7 +23,7 @@ static const quint32 SampleRate = 44100;
 LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
                                    QString timidityXXBinaryPath,
                                    TiMidityCommandBuilder configuredTCB,
-                                   EncoderExecutor encoderExecutor)
+                                   EncoderExecutor* encoderExecutor)
     : needSplit(false),
       smf(sourceSMFName),
       loopStartOnMIDI(0),
@@ -39,7 +39,7 @@ LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
 bool LoopOGGGenerator::convert(QString sourceSMFName, QString outputDir,
                                QString timidityXXBinaryPath,
                                TiMidityCommandBuilder configuredCommandBuilder,
-                               EncoderExecutor encoderExecutor) {
+                               EncoderExecutor* encoderExecutor) {
     LoopOGGGenerator log(sourceSMFName, outputDir, timidityXXBinaryPath,
                          configuredCommandBuilder, encoderExecutor);
     return log.convert();
@@ -248,7 +248,7 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
 
 //    // spawn oggenc
 //    return QProcess::execute(oggEncBinary, command) == 0;
-    return this->m_encoderExecutor.execute(filenameBase + CompleteLoopWAVSuffix, outputFilename, this->loopStart, this->loopLength) == 0;
+    return this->m_encoderExecutor->execute(filenameBase + CompleteLoopWAVSuffix, outputFilename, this->loopStart, this->loopLength) == 0;
 }
 
 bool LoopOGGGenerator::resaveWAV() {

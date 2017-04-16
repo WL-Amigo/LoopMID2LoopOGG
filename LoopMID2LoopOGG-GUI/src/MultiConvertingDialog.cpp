@@ -10,6 +10,7 @@
 #include <QVariant>
 
 #include "TiMidityCommandBuilderProvider.h"
+#include "EncoderExecutorProvider.hpp"
 
 #ifdef QT_DEBUG
 #include <QThread>
@@ -40,16 +41,17 @@ public:
         qDebug() << "output directory:" << outputDirectory;
         QString appDirStr = QCoreApplication::applicationDirPath();
         TiMidityCommandBuilder tcb = TiMidityCommandBuilderProvider::getDefault();
+        OggVorbisEncoderExecutor ee = EncoderExecutorProvider::getOggVorbis();
         if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
             return LoopOGGGenerator::convert(
                 fileName, outputDirectory,
                 appDirStr + "/TiMidity++/timidity.exe",
                 tcb,
-                appDirStr + "/oggenc2.exe");
+                &ee);
         } else {
             return LoopOGGGenerator::convert(
                 fileName, outputDirectory, "timidity",
-                tcb, "oggenc");
+                tcb, &ee);
         }
     }
 };
