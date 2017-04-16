@@ -3,9 +3,9 @@
 
 #include <QDebug>
 #include <QDialogButtonBox>
+#include <QMetaEnum>
 #include <QPushButton>
 #include <QSettings>
-#include <QMetaEnum>
 
 #include "GlobalConstants.hpp"
 
@@ -36,11 +36,15 @@ void ConfigDialog::setupConfigSelectorButtons() {
     this->connectCSBToPage(ui->CSBAbout, ui->CPAbout);
 }
 
-void ConfigDialog::connectCSBToPage(QToolButton *toolButton, QWidget* targetPageWidget){
+void ConfigDialog::connectCSBToPage(QToolButton* toolButton,
+                                    QWidget* targetPageWidget) {
     // connect config selector button to page specified
-    CDChangePageSlotObject* cpso = new CDChangePageSlotObject(this, ui->pagesWidget, ui->pagesWidget->indexOf(targetPageWidget));
-    connect(toolButton, &QToolButton::clicked, cpso, &CDChangePageSlotObject::changePage);
-    connect(this, &ConfigDialog::destroyed, cpso, &CDChangePageSlotObject::deleteLater);
+    CDChangePageSlotObject* cpso = new CDChangePageSlotObject(
+        this, ui->pagesWidget, ui->pagesWidget->indexOf(targetPageWidget));
+    connect(toolButton, &QToolButton::clicked, cpso,
+            &CDChangePageSlotObject::changePage);
+    connect(this, &ConfigDialog::destroyed, cpso,
+            &CDChangePageSlotObject::deleteLater);
 }
 
 void ConfigDialog::restoreSettingsToUI() {
@@ -51,23 +55,72 @@ void ConfigDialog::restoreSettingsToUI() {
     // --- output section
     QString temp = s.value(ConfigKey::Output::FileType).toString();
     me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
-    if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg))) {
+    if (temp ==
+        me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg))) {
         ui->OFFOggRadio->setChecked(true);
-    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::wav))) {
+    } else if (temp ==
+               me.valueToKey(
+                   static_cast<int>(ConfigEnums::Output::FileType::wav))) {
         ui->OFFWaveRadio->setChecked(true);
     }
     temp = s.value(ConfigKey::Output::Mode).toString();
     me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
-    if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized))) {
+    if (temp ==
+        me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized))) {
         ui->OMOptimizedRadio->setChecked(true);
-    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::soundtrack))) {
+    } else if (temp ==
+               me.valueToKey(
+                   static_cast<int>(ConfigEnums::Output::Mode::soundtrack))) {
         ui->OMSoundtrackRadio->setChecked(true);
     }
     ui->OMOOMinSamples->setValue(
         s.value(ConfigKey::Output::MaxSamplesAfterLoopEnd).toInt());
-    ui->OMOSFOStartTime->setValue(s.value(ConfigKey::Output::FadeoutStartSec).toDouble());
-    ui->OMOSFOLength->setValue(s.value(ConfigKey::Output::FadeoutLengthSec).toDouble());
+    ui->OMOSFOStartTime->setValue(
+        s.value(ConfigKey::Output::FadeoutStartSec).toDouble());
+    ui->OMOSFOLength->setValue(
+        s.value(ConfigKey::Output::FadeoutLengthSec).toDouble());
     ui->OMOSNumLoop->setValue(s.value(ConfigKey::Output::LoopNumber).toInt());
+
+    // --- TiMidity++ section
+    ui->TPConfigFileLineEdit->setText(
+        s.value(ConfigKey::TiMidity::ConfigFilePath).toString());
+    ui->TPSFDirectoryLineEdit->setText(
+        s.value(ConfigKey::TiMidity::SoundfontDirPath).toString());
+
+    // --- Effect section
+    me = QMetaEnum::fromType<ConfigEnums::Effect::ReverbModeEnum>();
+    auto reverbMode =
+        static_cast<ConfigEnums::Effect::ReverbModeEnum>(me.keyToValue(
+            s.value(ConfigKey::Effect::ReverbMode).toString().toUtf8().data()));
+    if (reverbMode == ConfigEnums::Effect::ReverbModeEnum::disenable) {
+        ui->FxRDisenableRadio->setChecked(true);
+    } else if (reverbMode == ConfigEnums::Effect::ReverbModeEnum::enable) {
+        ui->FxREnableRadio->setChecked(true);
+    } else if (reverbMode ==
+               ConfigEnums::Effect::ReverbModeEnum::enableGlobal) {
+        ui->FxREnableGlobalRadio->setChecked(true);
+    }
+    ui->FxRLevelSpinBox->setValue(
+        s.value(ConfigKey::Effect::ReverbLevel).toInt());
+
+    // -- Encoder section
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::OVQualityModeEnum>();
+    auto ovQualityMode = static_cast<ConfigEnums::Encoder::OVQualityModeEnum>(
+        me.keyToValue(s.value(ConfigKey::Encoder::OggVorbisQualityMode)
+                          .toString()
+                          .toUtf8()
+                          .data()));
+    if (ovQualityMode == ConfigEnums::Encoder::OVQualityModeEnum::normal) {
+        ui->EncOVQNormalRadio->setChecked(true);
+    } else if (ovQualityMode ==
+               ConfigEnums::Encoder::OVQualityModeEnum::priorSize) {
+        ui->EncOVQPriorSizeRadio->setChecked(true);
+    } else if (ovQualityMode ==
+               ConfigEnums::Encoder::OVQualityModeEnum::custom) {
+        ui->EncOVQCustomRadio->setChecked(true);
+    }
+    ui->EncOVQValueSpinBox->setValue(
+        s.value(ConfigKey::Encoder::OggVorbisQualityValue).toInt());
 }
 
 void ConfigDialog::saveSettingsAndClose() {
@@ -77,20 +130,65 @@ void ConfigDialog::saveSettingsAndClose() {
     // --- output section
     me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
     if (ui->OFFOggRadio->isChecked()) {
-        s.setValue(ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg)));
+        s.setValue(ConfigKey::Output::FileType,
+                   me.valueToKey(
+                       static_cast<int>(ConfigEnums::Output::FileType::ogg)));
     } else if (ui->OFFWaveRadio->isChecked()) {
-        s.setValue(ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::wav)));
+        s.setValue(ConfigKey::Output::FileType,
+                   me.valueToKey(
+                       static_cast<int>(ConfigEnums::Output::FileType::wav)));
     }
     me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
     if (ui->OMOptimizedRadio->isChecked()) {
-        s.setValue(ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized)));
+        s.setValue(ConfigKey::Output::Mode,
+                   me.valueToKey(
+                       static_cast<int>(ConfigEnums::Output::Mode::optimized)));
     } else if (ui->OMSoundtrackRadio->isChecked()) {
-        s.setValue(ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::soundtrack)));
+        s.setValue(ConfigKey::Output::Mode,
+                   me.valueToKey(static_cast<int>(
+                       ConfigEnums::Output::Mode::soundtrack)));
     }
-    s.setValue(ConfigKey::Output::MaxSamplesAfterLoopEnd, ui->OMOOMinSamples->value());
-    s.setValue(ConfigKey::Output::FadeoutStartSec, ui->OMOSFOStartTime->value());
+    s.setValue(ConfigKey::Output::MaxSamplesAfterLoopEnd,
+               ui->OMOOMinSamples->value());
+    s.setValue(ConfigKey::Output::FadeoutStartSec,
+               ui->OMOSFOStartTime->value());
     s.setValue(ConfigKey::Output::FadeoutLengthSec, ui->OMOSFOLength->value());
     s.setValue(ConfigKey::Output::LoopNumber, ui->OMOSNumLoop->value());
+
+    // --- TiMidity++ section
+    s.setValue(ConfigKey::TiMidity::ConfigFilePath,
+               ui->TPConfigFileLineEdit->text());
+    s.setValue(ConfigKey::TiMidity::SoundfontDirPath,
+               ui->TPSFDirectoryLineEdit->text());
+
+    // --- Effect section
+    me = QMetaEnum::fromType<ConfigEnums::Effect::ReverbModeEnum>();
+    ConfigEnums::Effect::ReverbModeEnum reverbMode;
+    if (ui->FxRDisenableRadio->isChecked()) {
+        reverbMode = ConfigEnums::Effect::ReverbModeEnum::disenable;
+    } else if (ui->FxREnableRadio->isChecked()) {
+        reverbMode = ConfigEnums::Effect::ReverbModeEnum::enable;
+    } else if (ui->FxREnableGlobalRadio->isChecked()) {
+        reverbMode = ConfigEnums::Effect::ReverbModeEnum::enableGlobal;
+    }
+    s.setValue(ConfigKey::Effect::ReverbMode,
+               me.valueToKey(static_cast<int>(reverbMode)));
+    s.setValue(ConfigKey::Effect::ReverbLevel, ui->FxRLevelSpinBox->value());
+
+    // --- Encoder section
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::OVQualityModeEnum>();
+    ConfigEnums::Encoder::OVQualityModeEnum ovQualityMode;
+    if (ui->EncOVQNormalRadio->isChecked()) {
+        ovQualityMode = ConfigEnums::Encoder::OVQualityModeEnum::normal;
+    } else if (ui->EncOVQPriorSizeRadio->isChecked()) {
+        ovQualityMode = ConfigEnums::Encoder::OVQualityModeEnum::priorSize;
+    } else if (ui->EncOVQCustomRadio->isChecked()) {
+        ovQualityMode = ConfigEnums::Encoder::OVQualityModeEnum::custom;
+    }
+    s.setValue(ConfigKey::Encoder::OggVorbisQualityMode,
+               me.valueToKey(static_cast<int>(ovQualityMode)));
+    s.setValue(ConfigKey::Encoder::OggVorbisQualityValue,
+               ui->EncOVQValueSpinBox->value());
 
     // close this window
     close();
