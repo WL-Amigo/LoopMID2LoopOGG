@@ -3,58 +3,55 @@
 
 #include <QMainWindow>
 
-#include <QProgressBar>
-#include <QSlider>
+#include <QAction>
+#include <QFileDialog>
 #include <QLabel>
 #include <QMenu>
 #include <QMenuBar>
-#include <QAction>
-#include <QFileDialog>
+#include <QProgressBar>
+#include <QSlider>
 
 #include "streamplayer.hpp"
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private:
-	void configureFileDialog();
+    void configureFileDialog();
 
-	// variables
+    // variables
 private:
-	StreamPlayer* player;
-	QString cullentFileName;
-	// widgets
-	QProgressBar* positionBar;
-	QSlider* seekPositionSelector;
-	QSlider* volumeSlider;
-	QLabel* cullentTimeLabel;
-	QLabel* cullentFileNameLabel;
-	QMenu* mainMenu;
-	QMenuBar* mainMenuBar;
-	QFileDialog* fileDialog;
-	QAction* openAct;
-	QAction* quitAct;
+    StreamPlayer* player;
+    QString cullentFileName;
+    // widgets
+    QProgressBar* positionBar;
+    QSlider* seekPositionSelector;
+    QSlider* volumeSlider;
+    QLabel* cullentTimeLabel;
+    QLabel* cullentFileNameLabel;
+    QMenu* mainMenu;
+    QMenuBar* mainMenuBar;
+    QAction* openAct;
+    QAction* quitAct;
 
-	// action slots
+    // action slots
 private slots:
-	void openFile();
-	void play();
-	void stop();
-	void pause();
-	void seek();
-	void changeVolume(int value);
-	void changeCullentPlayPosition();
-	void changeTimeDisplayFormat();
-	void emitQuit();
+    void openFile();
+    void play();
+    void stop();
+    void pause();
+    void seek();
+    void changeVolume(int value);
+    void changeCullentPlayPosition();
+    void changeTimeDisplayFormat();
+    void emitQuit();
 
 signals:
-	void quit();
-
+    void quit();
 };
 
-#endif // MAINWINDOW_HPP
+#endif  // MAINWINDOW_HPP

@@ -43,9 +43,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
     connect(volumeSlider, SIGNAL(valueChanged(int)), this,
             SLOT(changeVolume(int)));
 
-    // configure fileDialog
-    configureFileDialog();
-
     // set menu contents
     mainMenuBar = new QMenuBar();
 
@@ -124,34 +121,25 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent) {
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::configureFileDialog() {
-    QSettings settings;
-
-    fileDialog = new QFileDialog(this);
-    fileDialog->setFileMode(QFileDialog::AnyFile);
-    //    fileDialog->setDirectory();
-    fileDialog->setNameFilter(tr("ogg vorbis audio (*.ogg)"));
-}
+void MainWindow::configureFileDialog() {}
 
 // action slots
 
 void MainWindow::openFile() {
-    QStringList fileNames;
+    QString fileName;
     QSettings settings;
-    if (!settings.value("LastDirectory").isNull()) {
-        fileDialog->setDirectory(settings.value("LastDirectory").toString());
-    }
 
-    if (fileDialog->exec()) {
-        fileNames = fileDialog->selectedFiles();
-
-        cullentFileName = fileNames.at(0);
+    if (!(fileName = QFileDialog::getOpenFileName(
+              this, "select ogg vorbis file with loop tag...",
+              settings.value("LastDirectory", "").toString(),
+              tr("ogg vorbis audio (*.ogg)")))
+             .isEmpty()) {
+        cullentFileName = fileName;
 
         // record last selected directory contains file of cullentFileName
         QFileInfo fi(cullentFileName);
         settings.setValue("LastDirectory", fi.dir().absolutePath());
 
-        //        if(!player->open(QFile::encodeName(cullentFileName).data())){
         if (!player->open(cullentFileName)) {
             QMessageBox::warning(this, "Cannot open file",
                                  QString("Couldn't open file: ")
