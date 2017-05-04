@@ -9,6 +9,10 @@ Copyright 2016 アミーゴ(WhiteLuckers)
 * LoopMID2LoopOGG(.exe)
 * OGGLoopPlayer(.exe)
 
+### その他のファイル
+
+* sf2/ 以下のcfgファイル
+
 ### ソースコード
 
 * LoopMID2LoopOGG/ 以下の、下記を除く全ファイル
@@ -48,6 +52,6 @@ HPのロゴに利用しているフォントは、Google Fonts収録の [Atomic 
 
 コンフィグ画面、複数変換中画面のアイコンには、それぞれ以下のサイトの素材を必要に応じて加工の上使用しています。
 
-* ディスク/キラキラ : [Whitecat (もやししゃも 様)](http://whitecafe.sakura.ne.jp/index.html)
+* ディスク/キラキラ/音符/虹/風魔法 : [Whitecat (もやししゃも 様)](http://whitecafe.sakura.ne.jp/index.html)
 * 魔法陣 : [CounterClockWise (苗代 様)](http://ccw.blog.shinobi.jp/)
-* ○/× : [素材屋Rosa ()](http://sozairosa.blog.fc2.com/)
+* ○/× : [素材屋Rosa](http://sozairosa.blog.fc2.com/)
