@@ -128,3 +128,8 @@ h2::after {
     font-size: 0.9em;
     color: #EEE;
 }
+
+.download-counter{
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}

@@ -18,6 +18,10 @@
         <img src="images/Logo.svg" class="logo">
     </div>
 
+    <div class="download-counter">
+        <span id="latestDownloadCount"></span><span style="margin-left: 40px;">&nbsp;</span><span id="allDownloadCount"></span>
+    </div>
+
     <div class="buttons-wrap">
         <a href="#modal-before-download" class="button download-button modal-trigger"><img src="images/treasure.svg" />ダウンロード</a><br/>
         <a href="./attention.html" class="shares-link" style="font-size: 16px;">上記ダウンロードボタンが反応しない方はこちら</a>
@@ -149,6 +153,34 @@
             vex.dialog.open(modalBeforeDownload);
         });
     }
+
+    // Download counter
+    var ghAPIRequest = new XMLHttpRequest();
+    var latestDownloadCount = 0;
+    var allDownloadCount = 0;
+    function analyzeDownloadCount(obj){
+        var isFirst = true;
+        for(var ghRelease of obj){
+            for(var ghReleaseAsset of ghRelease["assets"]){
+                allDownloadCount += ghReleaseAsset["download_count"];
+                if(isFirst){
+                    latestDownloadCount += ghReleaseAsset["download_count"];
+                }
+            }
+            if(isFirst) isFirst = false;
+        }
+    }
+    ghAPIRequest.onload = function() {
+        if(ghAPIRequest.responseType == "json"){
+            analyzeDownloadCount(ghAPIRequest.response);
+        } else if(ghAPIRequest.responseType == ""){
+            analyzeDownloadCount(JSON.parse(ghAPIRequest.responseText))
+        }
+        document.getElementById("latestDownloadCount").innerHTML = "最新版ダウンロード数: " + latestDownloadCount.toString();
+        document.getElementById("allDownloadCount").innerHTML = "総ダウンロード数: " + allDownloadCount.toString();
+    }
+    ghAPIRequest.open("GET","https://api.github.com/repos/wl-amigo/LoopMID2LoopOGG/releases");
+    ghAPIRequest.send();
     </script>
 
 
