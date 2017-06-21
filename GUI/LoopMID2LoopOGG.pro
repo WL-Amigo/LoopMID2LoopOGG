@@ -44,30 +44,7 @@ FORMS    += forms/mainwindow.ui \
     forms/MultiConvertingDialog.ui
 
 # Link to LoopMID2LoopOGG-CLI
-
-SOURCES += ../LoopMID2LoopOGG-CLI/src/LoopMIDIModifier.cpp \
-        ../LoopMID2LoopOGG-CLI/src/LoopOGGGenerator.cpp \
-        ../LoopMID2LoopOGG-CLI/src/RIFFWaveEditor.cpp \
-        ../LoopMID2LoopOGG-CLI/src/midiinfocollector.cpp \
-        ../LoopMID2LoopOGG-CLI/src/midisettings.cpp \
-        ../LoopMID2LoopOGG-CLI/src/TiMidityCommandBuilder.cpp \
-        ../LoopMID2LoopOGG-CLI/src/EncoderExecutor.cpp \
-        ../LoopMID2LoopOGG-CLI/src/OggVorbisEncoderExecutor.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/Binasc.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiEvent.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiEventList.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiFile.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/MidiMessage.cpp \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/src-library/Options.cpp
-
-HEADERS += ../LoopMID2LoopOGG-CLI/includes/LoopMIDIModifier.hpp \
-        ../LoopMID2LoopOGG-CLI/includes/LoopOGGGenerator.hpp \
-        ../LoopMID2LoopOGG-CLI/includes/MIDIInfoCollector.hpp \
-        ../LoopMID2LoopOGG-CLI/includes/midisettings.h \
-        ../LoopMID2LoopOGG-CLI/includes/RIFFWaveEditor.h
-
-INCLUDEPATH += ../LoopMID2LoopOGG-CLI/includes/ \
-        ../LoopMID2LoopOGG-CLI/libs/midifile/include/
+include(../Core/LoopMID2LoopOGG-core.pri)
 
 RESOURCES += \
     resource.qrc
