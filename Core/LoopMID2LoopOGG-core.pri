@@ -17,7 +17,8 @@ SOURCES += $$PWD/src/midiinfocollector.cpp \
     $$PWD/libs/midifile/src-library/MidiFile.cpp \
     $$PWD/libs/midifile/src-library/MidiMessage.cpp \
     $$PWD/libs/midifile/src-library/Options.cpp \
-    $$PWD/src/QAACEncoderExecutor.cpp
+    $$PWD/src/QAACEncoderExecutor.cpp \
+    $$PWD/src/MultipleEncoderExecutor.cpp
 
 HEADERS += \
     $$PWD/includes/MIDIInfoCollector.hpp \
@@ -28,4 +29,5 @@ HEADERS += \
     $$PWD/includes/TiMidityCommandBuilder.hpp \
     $$PWD/includes/EncoderExecutor.hpp \
     $$PWD/includes/OggVorbisEncoderExecutor.hpp \
-    $$PWD/includes/QAACEncoderExecutor.hpp
+    $$PWD/includes/QAACEncoderExecutor.hpp \
+    $$PWD/includes/MultipleEncoderExecutor.hpp
