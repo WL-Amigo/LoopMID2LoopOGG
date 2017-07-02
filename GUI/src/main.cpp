@@ -76,6 +76,9 @@ static void updateSettings(bool reset = false) {
     me = QMetaEnum::fromType<ConfigEnums::Encoder::OVQualityModeEnum>();
     updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode, me.valueToKey(static_cast<int>(ConfigEnums::Encoder::OVQualityModeEnum::normal)), reset);
     updateSetting(s, ConfigKey::Encoder::OggVorbisQualityValue, 4, reset);
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
+    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode, me.valueToKey(static_cast<int>(ConfigEnums::Encoder::QAACQualityModeEnum::normal)), reset);
+    updateSetting(s, ConfigKey::Encoder::QAACAverageBitRate, 128, reset);
 }
 
 int main(int argc, char *argv[]) {

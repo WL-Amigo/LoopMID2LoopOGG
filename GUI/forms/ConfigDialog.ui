@@ -249,7 +249,7 @@ border: none;</string>
           </size>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="CPOutput">
           <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,1">
