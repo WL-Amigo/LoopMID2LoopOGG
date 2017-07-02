@@ -11,6 +11,7 @@
 
 #include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
+#include "Utils.h"
 
 static void setFusionStyle(QApplication &app) {
     // set fusion style
@@ -95,6 +96,9 @@ int main(int argc, char *argv[]) {
     a.installTranslator(&translator);
     //    QLocale::setDefault(QLocale::Japanese);
     qDebug().noquote() << QLocale::system().name();
+#ifdef Q_OS_WIN
+    qDebug().noquote() << "isWindows64(): " << Utils::isWindows64();
+#endif
 
     QSettings s;
     if (s.value("reset", true).toBool()
