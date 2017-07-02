@@ -58,7 +58,7 @@ namespace ConfigEnums {
 
 namespace Output {
 Q_NAMESPACE
-enum class FileType { ogg, wav };
+enum class FileType { ogg, aac, oggAndAac, wav };
 Q_ENUM_NS(FileType)
 enum class Mode { optimized, soundtrack };
 Q_ENUM_NS(Mode)
