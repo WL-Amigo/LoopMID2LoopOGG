@@ -46,6 +46,8 @@ ConfigDialog::ConfigDialog(QWidget* parent)
            "href=\"https://www.apple.com/itunes/\">here</a>."));
     connect(ui->HowToEnableAACTipsButtonO, &QPushButton::clicked,
             this->m_HowToEnableAACTips, &QMessageBox::show);
+    connect(ui->HowToEnableAACTipsButtonE, &QPushButton::clicked,
+            this->m_HowToEnableAACTips, &QMessageBox::show);
 
     // set platform specific behavior
     setPlatformSpecificBehavior();
