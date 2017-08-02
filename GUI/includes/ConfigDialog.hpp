@@ -3,6 +3,7 @@
 
 #include <QLineEdit>
 #include <QListWidgetItem>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QString>
@@ -32,6 +33,7 @@ private slots:
 
 private:
     Ui::ConfigDialog* ui;
+    QMessageBox* m_HowToEnableAACTips;
 };
 
 class CDChangePageSlotObject : public QObject {

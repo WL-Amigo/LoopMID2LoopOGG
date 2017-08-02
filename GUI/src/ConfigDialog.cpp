@@ -12,7 +12,11 @@
 #include "GlobalConstants.hpp"
 
 ConfigDialog::ConfigDialog(QWidget* parent)
-    : QWidget(parent), ui(new Ui::ConfigDialog) {
+    : QWidget(parent),
+      ui(new Ui::ConfigDialog),
+      m_HowToEnableAACTips(new QMessageBox(QMessageBox::NoIcon,
+                                           tr("How to enable AAC?"), "",
+                                           QMessageBox::Ok, this)) {
     ui->setupUi(this);
 
     // setup config selector buttons
@@ -28,6 +32,17 @@ ConfigDialog::ConfigDialog(QWidget* parent)
 
     // restore current settings
     restoreSettingsToUI();
+
+    // set tips
+    this->m_HowToEnableAACTips->setTextFormat(Qt::RichText);
+    this->m_HowToEnableAACTips->setText(
+        tr("This application needs latest "
+           "iTunes or QuickTime installation"
+           "for encoding to AAC file.<br/>"
+           "You can get iTunes <a "
+           "href=\"https://www.apple.com/itunes/\">here</a>."));
+    connect(ui->HowToEnableAACTipsButtonO, &QPushButton::clicked,
+            this->m_HowToEnableAACTips, &QMessageBox::show);
 
     // set platform specific behavior
     setPlatformSpecificBehavior();
@@ -267,6 +282,8 @@ void ConfigDialog::setPlatformSpecificBehavior() {
     ui->OFFAACRadio->hide();
     ui->OFFOggAndAACRadio->hide();
     ui->EncQAACQualityGroupBox->hide();
+    ui->HowToEnableAACTipsButtonE->hide();
+    ui->HowToEnableAACTipsButtonO->hide();
 #endif
 }
 
