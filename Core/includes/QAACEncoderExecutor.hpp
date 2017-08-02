@@ -9,6 +9,7 @@ public:
     virtual ~QAACEncoderExecutor() {}
     virtual int execute(QString inputFilePath, QString outputFilePath,
                         qint32 loopStart = -1, qint32 loopLength = -1);
+    bool isQAACAvailable();
 };
 
 #endif  // QAACENCODEREXECUTOR_HPP

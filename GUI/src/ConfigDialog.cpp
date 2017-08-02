@@ -9,6 +9,9 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include "QAACEncoderExecutor.hpp"
+#include "includes/EncoderExecutorProvider.hpp"
+
 #include "GlobalConstants.hpp"
 
 ConfigDialog::ConfigDialog(QWidget* parent)
@@ -276,6 +279,18 @@ void ConfigDialog::saveSettingsAndClose() {
 }
 
 void ConfigDialog::setPlatformSpecificBehavior() {
+    // for Windows
+#ifdef Q_OS_WIN
+    // check qaac availability
+    auto qaacEE = EncoderExecutorProvider::getQAAC();
+    if(qaacEE.isNull()){
+        // if qaac not available, disenable aac related settings
+        ui->OFFAACRadio->hide();
+        ui->OFFOggAndAACRadio->hide();
+        ui->EncQAACQualityGroupBox->hide();
+    }
+#endif
+
 // for Linux
 #ifdef Q_OS_LINUX
     // disenable AAC related settings

@@ -5,6 +5,22 @@
 #include <QStringList>
 #include <QtMath>
 
+bool QAACEncoderExecutor::isQAACAvailable() {
+    // check qaac availability
+
+    // spawn qaac with --check flag
+    QProcess qaacProc;
+    qaacProc.start(this->m_binaryPath, {"--check"});
+    if(!qaacProc.waitForFinished()){
+        return false;
+    }
+
+    // check output string includes "CoreAudioToolbox"
+    // which indicates AAS is installed
+    QString output = QString::fromUtf8(qaacProc.readAllStandardError());
+    return output.contains("CoreAudioToolbox");
+}
+
 QAACEncoderExecutor::QAACEncoderExecutor() {
     this->m_qualityValue = 128.0;  // Average Bit Rate [kbps]
 }

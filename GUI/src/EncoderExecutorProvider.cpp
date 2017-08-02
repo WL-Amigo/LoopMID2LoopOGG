@@ -78,6 +78,11 @@ QSharedPointer<QAACEncoderExecutor> EncoderExecutorProvider::getQAAC() {
         qaacEE->setBinaryPath(QCoreApplication::applicationDirPath() + "/qaac/x86/qaac.exe");
     }
 
+    // if qaac encoder feature is not available, return null pointer
+    if(!qaacEE->isQAACAvailable()){
+        return QSharedPointer<QAACEncoderExecutor>(nullptr);
+    }
+
     QMetaEnum me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
     auto qualityMode = static_cast<ConfigEnums::Encoder::QAACQualityModeEnum>(
                 me.keyToValue(s.value(ConfigKey::Encoder::QAACQualityMode).toString().toUtf8().data()));

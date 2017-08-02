@@ -12,7 +12,7 @@ class EncoderExecutorProvider
 public:
     static QSharedPointer<EncoderExecutor> getCurrent();
 
-private:
+public:
     static QSharedPointer<OggVorbisEncoderExecutor> getOggVorbis();
     static QSharedPointer<QAACEncoderExecutor> getQAAC();
 };
