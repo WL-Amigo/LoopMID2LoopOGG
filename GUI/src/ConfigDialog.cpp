@@ -9,10 +9,17 @@
 #include <QPushButton>
 #include <QSettings>
 
+#include "QAACEncoderExecutor.hpp"
+#include "includes/EncoderExecutorProvider.hpp"
+
 #include "GlobalConstants.hpp"
 
 ConfigDialog::ConfigDialog(QWidget* parent)
-    : QWidget(parent), ui(new Ui::ConfigDialog) {
+    : QWidget(parent),
+      ui(new Ui::ConfigDialog),
+      m_HowToEnableAACTips(new QMessageBox(QMessageBox::NoIcon,
+                                           tr("How to enable AAC?"), "",
+                                           QMessageBox::Ok, this)) {
     ui->setupUi(this);
 
     // setup config selector buttons
@@ -28,9 +35,23 @@ ConfigDialog::ConfigDialog(QWidget* parent)
 
     // restore current settings
     restoreSettingsToUI();
+
+    // set tips
+    this->m_HowToEnableAACTips->setTextFormat(Qt::RichText);
+    this->m_HowToEnableAACTips->setText(
+        tr("This application needs latest "
+           "iTunes or QuickTime installation"
+           "for encoding to AAC file.<br/>"
+           "You can get iTunes <a "
+           "href=\"https://www.apple.com/itunes/\">here</a>."));
+    connect(ui->HowToEnableAACTipsButtonO, &QPushButton::clicked,
+            this->m_HowToEnableAACTips, &QMessageBox::show);
+
+    // set platform specific behavior
+    setPlatformSpecificBehavior();
 }
 
-ConfigDialog::~ConfigDialog() { delete ui; }
+ConfigDialog::~ConfigDialog() { delete ui; delete m_HowToEnableAACTips; }
 
 void ConfigDialog::setupConfigSelectorButtons() {
     // connect each config selector button to page
@@ -74,6 +95,14 @@ void ConfigDialog::restoreSettingsToUI() {
     if (temp ==
         me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg))) {
         ui->OFFOggRadio->setChecked(true);
+    } else if (temp ==
+               me.valueToKey(
+                   static_cast<int>(ConfigEnums::Output::FileType::aac))) {
+        ui->OFFAACRadio->setChecked(true);
+    } else if (temp ==
+               me.valueToKey(static_cast<int>(
+                   ConfigEnums::Output::FileType::oggAndAac))) {
+        ui->OFFOggAndAACRadio->setChecked(true);
     } else if (temp ==
                me.valueToKey(
                    static_cast<int>(ConfigEnums::Output::FileType::wav))) {
@@ -137,6 +166,24 @@ void ConfigDialog::restoreSettingsToUI() {
     }
     ui->EncOVQValueSpinBox->setValue(
         s.value(ConfigKey::Encoder::OggVorbisQualityValue).toInt());
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
+    auto qaacQualityMode =
+        static_cast<ConfigEnums::Encoder::QAACQualityModeEnum>(
+            me.keyToValue(s.value(ConfigKey::Encoder::QAACQualityMode)
+                              .toString()
+                              .toUtf8()
+                              .data()));
+    if (qaacQualityMode == ConfigEnums::Encoder::QAACQualityModeEnum::normal) {
+        ui->EncQAACQNormalRadio->setChecked(true);
+    } else if (qaacQualityMode ==
+               ConfigEnums::Encoder::QAACQualityModeEnum::priorSize) {
+        ui->EncQAACQPriorSizeRadio->setChecked(true);
+    } else if (qaacQualityMode ==
+               ConfigEnums::Encoder::QAACQualityModeEnum::custom) {
+        ui->EncQAACQCustomRadio->setChecked(true);
+    }
+    ui->EncQAACABRSpinBox->setValue(
+        s.value(ConfigKey::Encoder::QAACAverageBitRate).toInt());
 }
 
 void ConfigDialog::saveSettingsAndClose() {
@@ -149,6 +196,14 @@ void ConfigDialog::saveSettingsAndClose() {
         s.setValue(ConfigKey::Output::FileType,
                    me.valueToKey(
                        static_cast<int>(ConfigEnums::Output::FileType::ogg)));
+    } else if (ui->OFFAACRadio->isChecked()) {
+        s.setValue(ConfigKey::Output::FileType,
+                   me.valueToKey(
+                       static_cast<int>(ConfigEnums::Output::FileType::aac)));
+    } else if (ui->OFFOggAndAACRadio->isChecked()) {
+        s.setValue(ConfigKey::Output::FileType,
+                   me.valueToKey(static_cast<int>(
+                       ConfigEnums::Output::FileType::oggAndAac)));
     } else if (ui->OFFWaveRadio->isChecked()) {
         s.setValue(ConfigKey::Output::FileType,
                    me.valueToKey(
@@ -205,9 +260,46 @@ void ConfigDialog::saveSettingsAndClose() {
                me.valueToKey(static_cast<int>(ovQualityMode)));
     s.setValue(ConfigKey::Encoder::OggVorbisQualityValue,
                ui->EncOVQValueSpinBox->value());
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
+    ConfigEnums::Encoder::QAACQualityModeEnum qaacQualityMode;
+    if (ui->EncQAACQNormalRadio->isChecked()) {
+        qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::normal;
+    } else if (ui->EncQAACQPriorSizeRadio->isChecked()) {
+        qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::priorSize;
+    } else if (ui->EncQAACQCustomRadio->isChecked()) {
+        qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::custom;
+    }
+    s.setValue(ConfigKey::Encoder::QAACQualityMode,
+               me.valueToKey(static_cast<int>(qaacQualityMode)));
+    s.setValue(ConfigKey::Encoder::QAACAverageBitRate,
+               ui->EncQAACABRSpinBox->value());
 
     // close this window
     close();
+}
+
+void ConfigDialog::setPlatformSpecificBehavior() {
+    // for Windows
+#ifdef Q_OS_WIN
+    // check qaac availability
+    auto qaacEE = EncoderExecutorProvider::getQAAC();
+    if(!qaacEE.isNull()){
+        // if qaac not available, disenable aac related settings
+        ui->OFFAACRadio->setEnabled(false);
+        ui->OFFOggAndAACRadio->setEnabled(false);
+        ui->EncQAACQualityGroupBox->setEnabled(false);
+    }
+#endif
+
+// for Linux
+#ifdef Q_OS_LINUX
+    // disenable AAC related settings
+    ui->OFFAACRadio->hide();
+    ui->OFFOggAndAACRadio->hide();
+    ui->EncQAACQualityGroupBox->hide();
+    ui->HowToEnableAACTipsButtonE->hide();
+    ui->HowToEnableAACTipsButtonO->hide();
+#endif
 }
 
 // ChangePageSlotObject

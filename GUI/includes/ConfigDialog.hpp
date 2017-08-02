@@ -3,6 +3,7 @@
 
 #include <QLineEdit>
 #include <QListWidgetItem>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QString>
@@ -25,12 +26,14 @@ private:
     void setupFileBrowseLineEdits();
     void connectCSBToPage(QToolButton* toolButton, QWidget* targetPageWidget);
     void restoreSettingsToUI();
+    void setPlatformSpecificBehavior();
 
 private slots:
     void saveSettingsAndClose();
 
 private:
     Ui::ConfigDialog* ui;
+    QMessageBox* m_HowToEnableAACTips;
 };
 
 class CDChangePageSlotObject : public QObject {

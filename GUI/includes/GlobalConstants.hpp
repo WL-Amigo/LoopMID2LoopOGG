@@ -7,10 +7,9 @@ typedef const QString CONFIGKEY;
 
 namespace GlobalConstants {
 
-const QString CURRENT_VERSION = "1.2.0"; // current software version
+const QString CURRENT_VERSION = "1.2.0";  // current software version
 
-const quint32 DEFAULT_SAMPLERATE = 44100; // default samplerate
-
+const quint32 DEFAULT_SAMPLERATE = 44100;  // default samplerate
 }
 
 // --- configuration key strings ---
@@ -35,8 +34,8 @@ CONFIGKEY LoopNumber = "output/loopNumber";
 
 // --- TiMidity
 namespace TiMidity {
-CONFIGKEY ConfigFilePath = "timidity/configFilePath"; // relative
-CONFIGKEY SoundfontDirPath = "timidity/soundfontDirectoryPath"; // relative
+CONFIGKEY ConfigFilePath = "timidity/configFilePath";            // relative
+CONFIGKEY SoundfontDirPath = "timidity/soundfontDirectoryPath";  // relative
 }
 
 // --- Effect
@@ -49,6 +48,8 @@ CONFIGKEY ReverbLevel = "effect/reverbLevel";
 namespace Encoder {
 CONFIGKEY OggVorbisQualityMode = "encoder/oggvorbis/qualityMode";
 CONFIGKEY OggVorbisQualityValue = "encoder/oggvorbis/qualityValue";
+CONFIGKEY QAACQualityMode = "encoder/qaac/qualityMode";
+CONFIGKEY QAACAverageBitRate = "encoder/qaac/averageBitRate";
 }
 }
 
@@ -57,24 +58,18 @@ namespace ConfigEnums {
 
 namespace Output {
 Q_NAMESPACE
-enum class FileType{
-    ogg,
-    wav
-};
+enum class FileType { ogg, aac, oggAndAac, wav };
 Q_ENUM_NS(FileType)
-enum class Mode{
-    optimized,
-    soundtrack
-};
+enum class Mode { optimized, soundtrack };
 Q_ENUM_NS(Mode)
 }
 
-namespace Effect{
+namespace Effect {
 Q_NAMESPACE
 enum class ReverbModeEnum {
-  disenable,
-  enable,
-  enableGlobal,
+    disenable,
+    enable,
+    enableGlobal,
 };
 Q_ENUM_NS(ReverbModeEnum)
 }
@@ -82,13 +77,18 @@ Q_ENUM_NS(ReverbModeEnum)
 namespace Encoder {
 Q_NAMESPACE
 enum class OVQualityModeEnum {
-  normal,
-  priorSize,
-  custom,
+    normal,
+    priorSize,
+    custom,
 };
 Q_ENUM_NS(OVQualityModeEnum)
+enum class QAACQualityModeEnum {
+    normal,
+    priorSize,
+    custom,
+};
+Q_ENUM_NS(QAACQualityModeEnum)
+}
 }
 
-}
-
-#endif // GLOBALCONSTANTS_HPP
+#endif  // GLOBALCONSTANTS_HPP

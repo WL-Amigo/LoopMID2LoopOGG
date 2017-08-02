@@ -3,11 +3,18 @@
 
 #include "EncoderExecutor.hpp"
 #include "OggVorbisEncoderExecutor.hpp"
+#include "QAACEncoderExecutor.hpp"
+
+#include <QSharedPointer>
 
 class EncoderExecutorProvider
 {
 public:
-    static OggVorbisEncoderExecutor getOggVorbis();
+    static QSharedPointer<EncoderExecutor> getCurrent();
+
+public:
+    static QSharedPointer<OggVorbisEncoderExecutor> getOggVorbis();
+    static QSharedPointer<QAACEncoderExecutor> getQAAC();
 };
 
 #endif // ENCODEREXECUTORPROVIDER_HPP

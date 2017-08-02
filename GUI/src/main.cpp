@@ -1,14 +1,15 @@
 #include <QApplication>
 #include <QDebug>
 #include <QMap>
+#include <QMetaEnum>
 #include <QSettings>
 #include <QString>
 #include <QStyleFactory>
+#include <QSysInfo>
 #include <QTranslator>
 #include <QVariant>
-#include <QMetaEnum>
-#include <QSysInfo>
 
+#include "Utils.h"
 #include "includes/GlobalConstants.hpp"
 #include "mainwindow.h"
 
@@ -34,6 +35,9 @@ static void setFusionStyle(QApplication &app) {
 
     palette.setColor(QPalette::Disabled, QPalette::Text, Qt::darkGray);
     palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
+    palette.setColor(QPalette::Disabled, QPalette::WindowText, Qt::darkGray);
+
+    palette.setColor(QPalette::Link, QColor(200, 200, 255));
 
     app.setPalette(palette);
 }
@@ -54,9 +58,15 @@ static void updateSettings(bool reset = false) {
 
     // output configuration
     me = QMetaEnum::fromType<ConfigEnums::Output::FileType>();
-    updateSetting(s, ConfigKey::Output::FileType, me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg)), reset);
+    updateSetting(
+        s, ConfigKey::Output::FileType,
+        me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg)),
+        reset);
     me = QMetaEnum::fromType<ConfigEnums::Output::Mode>();
-    updateSetting(s, ConfigKey::Output::Mode, me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized)), reset);
+    updateSetting(
+        s, ConfigKey::Output::Mode,
+        me.valueToKey(static_cast<int>(ConfigEnums::Output::Mode::optimized)),
+        reset);
     updateSetting(s, ConfigKey::Output::MaxSamplesAfterLoopEnd, 22050, reset);
     updateSetting(s, ConfigKey::Output::FadeoutStartSec, 2.0f, reset);
     updateSetting(s, ConfigKey::Output::FadeoutLengthSec, 6.0f, reset);
@@ -64,18 +74,31 @@ static void updateSettings(bool reset = false) {
 
     // TiMidity++ configuration
     QString appDirStr = QCoreApplication::applicationDirPath();
-    updateSetting(s, ConfigKey::TiMidity::ConfigFilePath, "sf2/SGM_v2.01.cfg", reset);
+    updateSetting(s, ConfigKey::TiMidity::ConfigFilePath, "sf2/SGM_v2.01.cfg",
+                  reset);
     updateSetting(s, ConfigKey::TiMidity::SoundfontDirPath, "sf2/", reset);
 
     // effect configuration
     me = QMetaEnum::fromType<ConfigEnums::Effect::ReverbModeEnum>();
-    updateSetting(s, ConfigKey::Effect::ReverbMode, me.valueToKey(static_cast<int>(ConfigEnums::Effect::ReverbModeEnum::enable)), reset);
+    updateSetting(s, ConfigKey::Effect::ReverbMode,
+                  me.valueToKey(static_cast<int>(
+                      ConfigEnums::Effect::ReverbModeEnum::enable)),
+                  reset);
     updateSetting(s, ConfigKey::Effect::ReverbLevel, 64, reset);
 
     // encoder configuration
     me = QMetaEnum::fromType<ConfigEnums::Encoder::OVQualityModeEnum>();
-    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode, me.valueToKey(static_cast<int>(ConfigEnums::Encoder::OVQualityModeEnum::normal)), reset);
+    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode,
+                  me.valueToKey(static_cast<int>(
+                      ConfigEnums::Encoder::OVQualityModeEnum::normal)),
+                  reset);
     updateSetting(s, ConfigKey::Encoder::OggVorbisQualityValue, 4, reset);
+    me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
+    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode,
+                  me.valueToKey(static_cast<int>(
+                      ConfigEnums::Encoder::QAACQualityModeEnum::normal)),
+                  reset);
+    updateSetting(s, ConfigKey::Encoder::QAACAverageBitRate, 128, reset);
 }
 
 int main(int argc, char *argv[]) {
@@ -92,11 +115,14 @@ int main(int argc, char *argv[]) {
     a.installTranslator(&translator);
     //    QLocale::setDefault(QLocale::Japanese);
     qDebug().noquote() << QLocale::system().name();
+#ifdef Q_OS_WIN
+    qDebug().noquote() << "isWindows64(): " << Utils::isWindows64();
+#endif
 
     QSettings s;
-    if (s.value("reset", true).toBool()
-        || s.value("lastUsedVersion", "").toString()
-               != GlobalConstants::CURRENT_VERSION) {
+    if (s.value("reset", true).toBool() ||
+        s.value("lastUsedVersion", "").toString() !=
+            GlobalConstants::CURRENT_VERSION) {
         updateSettings(s.value("reset", true).toBool());
         s.setValue("reset", false);
         s.setValue("lastUsedVersion", GlobalConstants::CURRENT_VERSION);
