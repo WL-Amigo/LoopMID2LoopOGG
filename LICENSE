@@ -32,6 +32,7 @@ Copyright 2016 アミーゴ(WhiteLuckers)
 
 * [TiMidity++](http://twsynth.osdn.jp/) (GPL version 2.0)
 * [oggenc](https://xiph.org/downloads/) (GPL version 2.0)
+* [qaac](https://sites.google.com/site/qaacpage/) (public domain, 使用されているライブラリについてはリンク先を参照)
 
 ### ライブラリ
 
@@ -42,7 +43,7 @@ Copyright 2016 アミーゴ(WhiteLuckers)
 
 GPL version 2.0 の原文は、同梱の LICENSE.gplv2 で参照できます。
 
-LGPL version 3 の原文は、同梱のLICENSE.lgplv3 で参照できます。
+LGPL version 3 の原文は、同梱の　LICENSE.lgplv3 で参照できます。
 
 Qtフレームワーク内で使用されているサードパーティライブラリについては[こちら](https://doc.qt.io/qt-5/licenses-used-in-qt.html)をご覧下さい。
 
