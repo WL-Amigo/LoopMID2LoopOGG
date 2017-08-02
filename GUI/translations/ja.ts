@@ -45,139 +45,186 @@
     </message>
     <message>
         <location filename="../forms/ConfigDialog.ui" line="278"/>
+        <source>AAC (with loop tag)</source>
+        <translation>AAC (ループタグ付き)</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="285"/>
+        <source>Ogg Vorbis &amp;&amp; AAC (with loop tag)</source>
+        <translation>Ogg Vorbis &amp;&amp; AAC (ループタグ付き)</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="292"/>
         <source>Wave</source>
         <translation>Waveファイル</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="288"/>
+        <location filename="../forms/ConfigDialog.ui" line="302"/>
         <source>Output Mode</source>
         <translation>出力モード</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="294"/>
+        <location filename="../forms/ConfigDialog.ui" line="308"/>
         <source>Optimized mode (for game use)</source>
         <translation>サイズ節約モード (ゲーム素材として利用したい方向け)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="301"/>
+        <location filename="../forms/ConfigDialog.ui" line="315"/>
         <source>Options for optimized mode</source>
         <translation>サイズ節約モードのオプション</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="307"/>
+        <location filename="../forms/ConfigDialog.ui" line="321"/>
         <source>minimum samples after end of loop</source>
         <translation>ループ終了後に残す最大サンプル数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="324"/>
+        <location filename="../forms/ConfigDialog.ui" line="338"/>
         <source>Sound-track mode (for listening use)</source>
         <translation>サウンドトラックモード (鑑賞したい方向け)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="331"/>
+        <location filename="../forms/ConfigDialog.ui" line="345"/>
         <source>Options for sound-track mode</source>
         <translation>サウンドトラックモードのオプション</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="337"/>
+        <location filename="../forms/ConfigDialog.ui" line="351"/>
         <source>number of loop</source>
         <translation>出力に含めるループ回数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="354"/>
+        <location filename="../forms/ConfigDialog.ui" line="368"/>
         <source>fade-out length (sec.)</source>
         <translation>フェードアウト秒数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="381"/>
+        <location filename="../forms/ConfigDialog.ui" line="395"/>
         <source>fade-out start time (sec.)</source>
         <translation>ループ後からのフェードアウト開始秒数</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="411"/>
+        <location filename="../forms/ConfigDialog.ui" line="441"/>
+        <location filename="../forms/ConfigDialog.ui" line="734"/>
+        <location filename="../src/ConfigDialog.cpp" line="21"/>
+        <source>How to enable AAC?</source>
+        <translation>AACへの変換を有効にするには？</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="454"/>
         <source>Paths</source>
         <translation>各種ファイル/ディレクトリパス</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="417"/>
+        <location filename="../forms/ConfigDialog.ui" line="460"/>
         <source>config file</source>
         <translation>コンフィグファイル</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="429"/>
-        <location filename="../forms/ConfigDialog.ui" line="450"/>
+        <location filename="../forms/ConfigDialog.ui" line="472"/>
+        <location filename="../forms/ConfigDialog.ui" line="493"/>
         <source>Browse...</source>
         <translation>参照...</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="438"/>
+        <location filename="../forms/ConfigDialog.ui" line="481"/>
         <source>soundfont directory</source>
         <translation>サウンドフォント格納ディレクトリ</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="479"/>
+        <location filename="../forms/ConfigDialog.ui" line="522"/>
         <source>Reverb</source>
         <translation>リバーブ(残響)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="485"/>
+        <location filename="../forms/ConfigDialog.ui" line="528"/>
         <source>Disenable</source>
         <comment>reverb</comment>
         <translation>無効</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="492"/>
+        <location filename="../forms/ConfigDialog.ui" line="535"/>
         <source>Enable(controlled by MIDI CC)</source>
         <translation>有効(MIDIコントロールチェンジによる制御)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="499"/>
+        <location filename="../forms/ConfigDialog.ui" line="542"/>
         <source>Enable(override by specified level)</source>
         <translation>有効(指定レベルで固定)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="508"/>
+        <location filename="../forms/ConfigDialog.ui" line="551"/>
         <source>Reverb Level(1 - 127):</source>
         <translation>リバーブレベル(1 - 127):</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="547"/>
+        <location filename="../forms/ConfigDialog.ui" line="590"/>
         <source>Ogg Vorbis Quality</source>
         <translation>Ogg Vorbis エンコード品質</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="553"/>
+        <location filename="../forms/ConfigDialog.ui" line="596"/>
         <source>Normal(q = 4)</source>
         <translation>標準(q = 4)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="560"/>
+        <location filename="../forms/ConfigDialog.ui" line="603"/>
         <source>Give priority to size(q = 1)</source>
         <translation>サイズ優先(q = 1)</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="567"/>
+        <location filename="../forms/ConfigDialog.ui" line="610"/>
         <source>Specify custom quality value</source>
         <translation>品質値を指定</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="576"/>
+        <location filename="../forms/ConfigDialog.ui" line="619"/>
         <source>Quality Value(-1 - 10):</source>
         <translation>品質値(-1 - 10):</translation>
     </message>
     <message>
-        <location filename="../forms/ConfigDialog.ui" line="639"/>
+        <location filename="../forms/ConfigDialog.ui" line="650"/>
+        <source>AAC Quality (QAAC)</source>
+        <translation>AAC エンコード品質</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="656"/>
+        <source>Normal (128kbps)</source>
+        <translation>標準 (128kbps)</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="663"/>
+        <source>Give priority to size (64kbps, AAC-HE)</source>
+        <translation>サイズ優先 (64kbps AAC-HE)</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="670"/>
+        <source>Specify Average Bit Rate</source>
+        <translation>平均ビットレートを指定</translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="679"/>
+        <source>Average Bit Rate (kbps): </source>
+        <translation>平均ビットレート (kbps): </translation>
+    </message>
+    <message>
+        <location filename="../forms/ConfigDialog.ui" line="768"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;07やさしさゴシック&apos;; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS UI Gothic&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:12pt;&quot;&gt;LoopMID 2 LoopOGG&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Sans Serif&apos;; font-size:6pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Presented by &lt;/span&gt;&lt;a href=&quot;https://wl-amigo.github.io/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; text-decoration: underline; color:#007af4;&quot;&gt;WhiteLuckers&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt;&quot;&gt;Presented by &lt;/span&gt;&lt;a href=&quot;https://wl-amigo.github.io/&quot;&gt;&lt;span style=&quot; font-family:&apos;Sans Serif&apos;; text-decoration: underline; color:#007af4;&quot;&gt;WhiteLuckers&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="49"/>
+        <location filename="../src/ConfigDialog.cpp" line="42"/>
+        <source>This application needs latest iTunes or QuickTime installationfor encoding to AAC file.&lt;br/&gt;You can get iTunes &lt;a href=&quot;https://www.apple.com/itunes/&quot;&gt;here&lt;/a&gt;.</source>
+        <translation>AACへの変換を有効にするためには、最新の iTunes もしくは QuickTime がインストールされていることが必要です。&lt;br/&gt;iTunesは &lt;a href=&quot;https://www.apple.com/jp/itunes/download/&quot;&gt;ここ&lt;/a&gt; からダウンロードすることが出来ます。</translation>
+    </message>
+    <message>
+        <location filename="../src/ConfigDialog.cpp" line="70"/>
         <source>TiMidity++ config file (*.cfg)</source>
         <translation>TiMidity++ コンフィグファイル (*.cfg)</translation>
     </message>
@@ -216,12 +263,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>FileBrowseLineEditConnector</name>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="253"/>
+        <location filename="../src/ConfigDialog.cpp" line="345"/>
         <source>Select directory...</source>
         <translation>ディレクトリを選択...</translation>
     </message>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="257"/>
+        <location filename="../src/ConfigDialog.cpp" line="349"/>
         <source>Select file...</source>
         <translation>ファイルを選択...</translation>
     </message>
@@ -302,23 +349,23 @@ p, li { white-space: pre-wrap; }
         <translation>状態</translation>
     </message>
     <message>
-        <location filename="../src/MultiConvertingDialog.cpp" line="75"/>
+        <location filename="../src/MultiConvertingDialog.cpp" line="76"/>
         <source>pending or converting...</source>
         <translation>変換待機中 or 変換中...</translation>
     </message>
     <message>
-        <location filename="../src/MultiConvertingDialog.cpp" line="108"/>
+        <location filename="../src/MultiConvertingDialog.cpp" line="109"/>
         <source>Finished!</source>
         <translation>変換完了！</translation>
     </message>
     <message>
-        <location filename="../src/MultiConvertingDialog.cpp" line="116"/>
+        <location filename="../src/MultiConvertingDialog.cpp" line="117"/>
         <source>Done!</source>
         <comment>single work</comment>
         <translation>完了！</translation>
     </message>
     <message>
-        <location filename="../src/MultiConvertingDialog.cpp" line="121"/>
+        <location filename="../src/MultiConvertingDialog.cpp" line="122"/>
         <source>Failed by some error...</source>
         <comment>single work</comment>
         <translation>失敗… (何らかのエラー)</translation>
