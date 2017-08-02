@@ -25,6 +25,7 @@ private:
     void setupFileBrowseLineEdits();
     void connectCSBToPage(QToolButton* toolButton, QWidget* targetPageWidget);
     void restoreSettingsToUI();
+    void setPlatformSpecificBehavior();
 
 private slots:
     void saveSettingsAndClose();

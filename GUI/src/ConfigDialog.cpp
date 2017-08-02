@@ -28,6 +28,9 @@ ConfigDialog::ConfigDialog(QWidget* parent)
 
     // restore current settings
     restoreSettingsToUI();
+
+    // set platform specific behavior
+    setPlatformSpecificBehavior();
 }
 
 ConfigDialog::~ConfigDialog() { delete ui; }
@@ -74,9 +77,13 @@ void ConfigDialog::restoreSettingsToUI() {
     if (temp ==
         me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::ogg))) {
         ui->OFFOggRadio->setChecked(true);
-    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::aac))) {
+    } else if (temp ==
+               me.valueToKey(
+                   static_cast<int>(ConfigEnums::Output::FileType::aac))) {
         ui->OFFAACRadio->setChecked(true);
-    } else if (temp == me.valueToKey(static_cast<int>(ConfigEnums::Output::FileType::oggAndAac))) {
+    } else if (temp ==
+               me.valueToKey(static_cast<int>(
+                   ConfigEnums::Output::FileType::oggAndAac))) {
         ui->OFFOggAndAACRadio->setChecked(true);
     } else if (temp ==
                me.valueToKey(
@@ -142,17 +149,23 @@ void ConfigDialog::restoreSettingsToUI() {
     ui->EncOVQValueSpinBox->setValue(
         s.value(ConfigKey::Encoder::OggVorbisQualityValue).toInt());
     me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
-    auto qaacQualityMode = static_cast<ConfigEnums::Encoder::QAACQualityModeEnum>(
-                me.keyToValue(s.value(ConfigKey::Encoder::QAACQualityMode).toString().toUtf8().data()));
-    if(qaacQualityMode == ConfigEnums::Encoder::QAACQualityModeEnum::normal) {
+    auto qaacQualityMode =
+        static_cast<ConfigEnums::Encoder::QAACQualityModeEnum>(
+            me.keyToValue(s.value(ConfigKey::Encoder::QAACQualityMode)
+                              .toString()
+                              .toUtf8()
+                              .data()));
+    if (qaacQualityMode == ConfigEnums::Encoder::QAACQualityModeEnum::normal) {
         ui->EncQAACQNormalRadio->setChecked(true);
-    } else if (qaacQualityMode == ConfigEnums::Encoder::QAACQualityModeEnum::priorSize){
+    } else if (qaacQualityMode ==
+               ConfigEnums::Encoder::QAACQualityModeEnum::priorSize) {
         ui->EncQAACQPriorSizeRadio->setChecked(true);
-    } else if (qaacQualityMode == ConfigEnums::Encoder::QAACQualityModeEnum::custom){
+    } else if (qaacQualityMode ==
+               ConfigEnums::Encoder::QAACQualityModeEnum::custom) {
         ui->EncQAACQCustomRadio->setChecked(true);
     }
     ui->EncQAACABRSpinBox->setValue(
-                s.value(ConfigKey::Encoder::QAACAverageBitRate).toInt());
+        s.value(ConfigKey::Encoder::QAACAverageBitRate).toInt());
 }
 
 void ConfigDialog::saveSettingsAndClose() {
@@ -165,14 +178,14 @@ void ConfigDialog::saveSettingsAndClose() {
         s.setValue(ConfigKey::Output::FileType,
                    me.valueToKey(
                        static_cast<int>(ConfigEnums::Output::FileType::ogg)));
-    } else if(ui->OFFAACRadio->isChecked()){
+    } else if (ui->OFFAACRadio->isChecked()) {
         s.setValue(ConfigKey::Output::FileType,
                    me.valueToKey(
                        static_cast<int>(ConfigEnums::Output::FileType::aac)));
-    } else if(ui->OFFOggAndAACRadio->isChecked()){
+    } else if (ui->OFFOggAndAACRadio->isChecked()) {
         s.setValue(ConfigKey::Output::FileType,
-                   me.valueToKey(
-                       static_cast<int>(ConfigEnums::Output::FileType::oggAndAac)));
+                   me.valueToKey(static_cast<int>(
+                       ConfigEnums::Output::FileType::oggAndAac)));
     } else if (ui->OFFWaveRadio->isChecked()) {
         s.setValue(ConfigKey::Output::FileType,
                    me.valueToKey(
@@ -231,18 +244,30 @@ void ConfigDialog::saveSettingsAndClose() {
                ui->EncOVQValueSpinBox->value());
     me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
     ConfigEnums::Encoder::QAACQualityModeEnum qaacQualityMode;
-    if(ui->EncQAACQNormalRadio->isChecked()){
+    if (ui->EncQAACQNormalRadio->isChecked()) {
         qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::normal;
-    } else if(ui->EncQAACQPriorSizeRadio->isChecked()){
+    } else if (ui->EncQAACQPriorSizeRadio->isChecked()) {
         qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::priorSize;
-    } else if(ui->EncQAACQCustomRadio->isChecked()){
+    } else if (ui->EncQAACQCustomRadio->isChecked()) {
         qaacQualityMode = ConfigEnums::Encoder::QAACQualityModeEnum::custom;
     }
-    s.setValue(ConfigKey::Encoder::QAACQualityMode, me.valueToKey(static_cast<int>(qaacQualityMode)));
-    s.setValue(ConfigKey::Encoder::QAACAverageBitRate, ui->EncQAACABRSpinBox->value());
+    s.setValue(ConfigKey::Encoder::QAACQualityMode,
+               me.valueToKey(static_cast<int>(qaacQualityMode)));
+    s.setValue(ConfigKey::Encoder::QAACAverageBitRate,
+               ui->EncQAACABRSpinBox->value());
 
     // close this window
     close();
+}
+
+void ConfigDialog::setPlatformSpecificBehavior() {
+// for Linux
+#ifdef Q_OS_LINUX
+    // disenable AAC related settings
+    ui->OFFAACRadio->hide();
+    ui->OFFOggAndAACRadio->hide();
+    ui->EncQAACQualityGroupBox->hide();
+#endif
 }
 
 // ChangePageSlotObject
