@@ -283,7 +283,7 @@ void ConfigDialog::setPlatformSpecificBehavior() {
 #ifdef Q_OS_WIN
     // check qaac availability
     auto qaacEE = EncoderExecutorProvider::getQAAC();
-    if(!qaacEE.isNull()){
+    if(qaacEE.isNull()){
         // if qaac not available, disenable aac related settings
         ui->OFFAACRadio->setEnabled(false);
         ui->OFFOggAndAACRadio->setEnabled(false);
