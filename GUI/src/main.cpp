@@ -37,6 +37,8 @@ static void setFusionStyle(QApplication &app) {
     palette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
     palette.setColor(QPalette::Disabled, QPalette::WindowText, Qt::darkGray);
 
+    palette.setColor(QPalette::Link, QColor(200, 200, 255));
+
     app.setPalette(palette);
 }
 
