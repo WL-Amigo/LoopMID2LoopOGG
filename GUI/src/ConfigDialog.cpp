@@ -51,7 +51,7 @@ ConfigDialog::ConfigDialog(QWidget* parent)
     setPlatformSpecificBehavior();
 }
 
-ConfigDialog::~ConfigDialog() { delete ui; }
+ConfigDialog::~ConfigDialog() { delete ui; delete m_HowToEnableAACTips; }
 
 void ConfigDialog::setupConfigSelectorButtons() {
     // connect each config selector button to page
