@@ -7,7 +7,7 @@ typedef const QString CONFIGKEY;
 
 namespace GlobalConstants {
 
-const QString CURRENT_VERSION = "1.2.0";  // current software version
+const QString CURRENT_VERSION = "1.3.0";  // current software version
 
 const quint32 DEFAULT_SAMPLERATE = 44100;  // default samplerate
 }
