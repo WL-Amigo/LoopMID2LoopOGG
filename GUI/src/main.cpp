@@ -94,7 +94,7 @@ static void updateSettings(bool reset = false) {
                   reset);
     updateSetting(s, ConfigKey::Encoder::OggVorbisQualityValue, 4, reset);
     me = QMetaEnum::fromType<ConfigEnums::Encoder::QAACQualityModeEnum>();
-    updateSetting(s, ConfigKey::Encoder::OggVorbisQualityMode,
+    updateSetting(s, ConfigKey::Encoder::QAACQualityMode,
                   me.valueToKey(static_cast<int>(
                       ConfigEnums::Encoder::QAACQualityModeEnum::normal)),
                   reset);
