@@ -3,26 +3,25 @@
 
 #include <QObject>
 
-#include <QString>
 #include <QAudioBuffer>
 #include <QAudioFormat>
 #include <QSharedPointer>
+#include <QString>
 
 #include "ogg/ogg.h"
+#include "stdio.h"
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
-#include "stdio.h"
 
-class OggLoopDecoder : public QObject
-{
-	Q_OBJECT
+class OggLoopDecoder : public QObject {
+    Q_OBJECT
 
 public:
-    static const qint64 defaultDecodeLength = 1024 * 16;
+    static const qint64 defaultDecodeLength = 1024 * 32;
 
 private:
     FILE* oggFile;
-	OggVorbis_File oggStream;
+    OggVorbis_File oggStream;
     vorbis_comment* vorbisComment;
     vorbis_info* vorbisInfo;
 
@@ -31,12 +30,12 @@ private:
     ogg_int64_t loopEnd;
     bool opened;
     bool loopEnable;
-    int endian; // 0 : Little endian, 1 : Big endian
+    int endian;  // 0 : Little endian, 1 : Big endian
 
     QString errorReason;
 
 public:
-	OggLoopDecoder(QObject* parent);
+    OggLoopDecoder(QObject* parent);
 
     bool open(QString& fileName);
     bool open(const char* fileName);
@@ -47,19 +46,17 @@ public:
     bool seekTo(size_t sample);
     void setLoop(bool newLoopEnable);
     void setEndianness(int newEndian);
-	qint64 getCullentPositionAbout();
-	qint64 getAllSampleNum();
-	QString getTitle();
+    qint64 getCullentPositionAbout();
+    qint64 getAllSampleNum();
+    QString getTitle();
 
     QString getErrorReason();
 
 signals:
-	void looped(qint64 rewindedPosition);
+    void looped(qint64 rewindedPosition);
 
 protected:
     QString getOggErrorString(int code);
-
-
 };
 
-#endif // OGGLOOPDECODER_H
+#endif  // OGGLOOPDECODER_H
