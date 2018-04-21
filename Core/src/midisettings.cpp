@@ -14,7 +14,7 @@ MIDISettings::MIDISettings(int channel) {
 void MIDISettings::reset() {
     this->channel = 0;
     this->pitchbend = 0x4000;
-    this->pitchbendSensitivity = 0;
+    this->pitchbendSensitivity = 2;
     this->program = 0;
     for (int idx = 0; idx < 128; idx++) {
         this->controlls[idx] = -1;
