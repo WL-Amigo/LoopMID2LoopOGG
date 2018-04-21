@@ -55,8 +55,8 @@ bool LoopMIDIModifier::split(MIDIInfoCollector &infoCollector,
 bool LoopMIDIModifier::split() {
     // collect settings
     introLastSettings = infoCollector.collectSettingsAt(this->cc111Tick);
-    introLastMasterSettings
-        = infoCollector.getMasterSettingsAt(this->cc111Tick);
+    introLastMasterSettings =
+        infoCollector.getMasterSettingsAt(this->cc111Tick);
 
     int songLastTick = infoCollector.findSongLastTick();
     loopLastSettings = infoCollector.collectSettingsAt(songLastTick);
@@ -120,7 +120,8 @@ bool LoopMIDIModifier::createFirstLoopSMF() {
         for (int event = 0; event < sourceMIDIFile[track].size(); event++) {
             me = &(sourceMIDIFile[track][event]);
             if (me->tick < this->cc111Tick) continue;
-            this->copyEventProperly(output, me, track, SetupTickRange - this->cc111Tick);
+            this->copyEventProperly(output, me, track,
+                                    SetupTickRange - this->cc111Tick);
         }
     }
 
@@ -133,25 +134,31 @@ bool LoopMIDIModifier::createFirstLoopSMF() {
     return true;
 }
 
-void LoopMIDIModifier::copyEventProperly(MidiFile &target, MidiEvent* sourceEvent, int track, int offsetTick){
-    if (sourceEvent->isController() && (*sourceEvent)[1] == 111) return;  // skip CC111
+void LoopMIDIModifier::copyEventProperly(MidiFile &target,
+                                         MidiEvent *sourceEvent, int track,
+                                         int offsetTick) {
+    if (sourceEvent->isController() && (*sourceEvent)[1] == 111)
+        return;  // skip CC111
     if (sourceEvent->isNoteOff())
         return;  // skip note off event (note-off will be inserted
-                   // with note-on)
+                 // with note-on)
 
-    target.addEvent(track, sourceEvent->tick + offsetTick,
-                    *sourceEvent);
-    if(sourceEvent->isNoteOn()){
-        if(sourceEvent->isLinked()){
+    target.addEvent(track, sourceEvent->tick + offsetTick, *sourceEvent);
+    if (sourceEvent->isNoteOn()) {
+        if (sourceEvent->isLinked()) {
             // add correspond note-off
-            target.addEvent(track, sourceEvent->getLinkedEvent()->tick + offsetTick,
+            target.addEvent(track,
+                            sourceEvent->getLinkedEvent()->tick + offsetTick,
                             *(sourceEvent->getLinkedEvent()));
         } else {
-            qDebug().noquote() << "LoopMIDIModifier: find note-on event which don't have correspond note-off";
+            qDebug().noquote() << "LoopMIDIModifier: find note-on event which "
+                                  "don't have correspond note-off";
             // interpolate correspond note-off (assume tick as End of Track)
             MidiEvent noteoffOnEOT(*sourceEvent);
             noteoffOnEOT.setCommandNibble(0x8);
-            target.addEvent(track, this->infoCollector.findSongLastTick() + offsetTick, noteoffOnEOT);
+            target.addEvent(track,
+                            this->infoCollector.findSongLastTick() + offsetTick,
+                            noteoffOnEOT);
         }
     }
 }

@@ -14,7 +14,9 @@ MIDIInfoCollector::MIDIInfoCollector(std::string &filename) {
         this->midifile.read(filename);
 
     // convert delta to absolute if tick count mode is delta
-    if (!(this->midifile.isAbsoluteTicks())) { this->midifile.absoluteTicks(); }
+    if (!(this->midifile.isAbsoluteTicks())) {
+        this->midifile.absoluteTicks();
+    }
 
     // sort all tracks for proper analysis
     this->midifile.sortTracks();
@@ -130,7 +132,9 @@ int MIDIInfoCollector::findSongStartTick() {
 QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
     QVector<MIDISettings> settings(16);  // MIDI Channel maximum
     // set channel to each setting structure
-    for (int idx = 0; idx < 16; idx++) { settings[idx].channel = idx; }
+    for (int idx = 0; idx < 16; idx++) {
+        settings[idx].channel = idx;
+    }
 
     // join tracks for analysis
     midifile.joinTracks();
@@ -145,8 +149,8 @@ QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
 
         // get pitchbend
         if (mev->isPitchbend()) {
-            settings[mev->getChannel()].pitchbend
-                = (int)(*mev)[1] + ((int)(*mev)[2] << 8 & 0xFF00);
+            settings[mev->getChannel()].pitchbend =
+                (int)(*mev)[1] + ((int)(*mev)[2] << 8 & 0xFF00);
         }
 
         // get control change
@@ -154,9 +158,9 @@ QVector<MIDISettings> MIDIInfoCollector::collectSettingsAt(int absTick) {
             settings[mev->getChannel()].controlls[(*mev)[1]] = (int)(*mev)[2];
 
         // get pitchbend range
-        if (mev->isController() && (*mev)[1] == 6
-            && settings[mev->getChannel()].controlls[100] == 0
-            && settings[mev->getChannel()].controlls[101] == 0) {
+        if (mev->isController() && (*mev)[1] == 6 &&
+            settings[mev->getChannel()].controlls[100] == 0 &&
+            settings[mev->getChannel()].controlls[101] == 0) {
             settings[mev->getChannel()].pitchbendSensitivity = (int)(*mev)[2];
         }
 
@@ -235,10 +239,10 @@ int MIDIInfoCollector::getLoopAppendOffsetSample(int sampleRate) {
         return 0;
     else {
         double cc111Sec = this->midifile.getTimeInSeconds(cc111Tick);
-        double firstNoteSecAfterLoop
-            = this->midifile.getTimeInSeconds(firstNoteTickAfterLoop);
-        return (int)(floor((double)sampleRate
-                           * (firstNoteSecAfterLoop - cc111Sec)));
+        double firstNoteSecAfterLoop =
+            this->midifile.getTimeInSeconds(firstNoteTickAfterLoop);
+        return (int)(floor((double)sampleRate *
+                           (firstNoteSecAfterLoop - cc111Sec)));
     }
 
     return -1;  // should not be reached
@@ -337,8 +341,8 @@ void MIDIInfoCollector::test() {
     */
 
     // analyse beat on song start
-    MIDIMasterSettings masterSettingsOnStart
-        = this->getMasterSettingsAt(songStartTick);
+    MIDIMasterSettings masterSettingsOnStart =
+        this->getMasterSettingsAt(songStartTick);
     qDebug() << "Beat at" << songStartTick;
     qDebug() << "\tBeat numerator:" << masterSettingsOnStart.beatNum;
     qDebug() << "\tBeat denominator:" << masterSettingsOnStart.beatDenom;

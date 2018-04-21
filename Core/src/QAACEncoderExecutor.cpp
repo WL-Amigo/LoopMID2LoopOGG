@@ -11,7 +11,7 @@ bool QAACEncoderExecutor::isQAACAvailable() {
     // spawn qaac with --check flag
     QProcess qaacProc;
     qaacProc.start(this->m_binaryPath, {"--check"});
-    if(!qaacProc.waitForFinished()){
+    if (!qaacProc.waitForFinished()) {
         return false;
     }
 

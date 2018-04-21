@@ -113,7 +113,8 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         QString outputName;
         inputName = fileNameBase + IntroSMFSuffix;
         outputName = fileNameBase + IntroWAVSuffix;
-        this->timidityCommandBuilder.build(command, inputName, TiMidityDevice::RIFFWave, outputName);
+        this->timidityCommandBuilder.build(
+            command, inputName, TiMidityDevice::RIFFWave, outputName);
 
         if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
@@ -123,7 +124,8 @@ bool LoopOGGGenerator::convertSMFToWAV() {
 
         inputName = fileNameBase + FirstLoopSMFSuffix;
         outputName = fileNameBase + FirstLoopWAVSuffix;
-        this->timidityCommandBuilder.build(command, inputName, TiMidityDevice::RIFFWave, outputName);
+        this->timidityCommandBuilder.build(
+            command, inputName, TiMidityDevice::RIFFWave, outputName);
 
         if (QProcess::execute(timidityXXBinary, command) != 0) return false;
 
@@ -136,7 +138,8 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         }
         QString outputName;
         outputName = fileNameBase + FirstLoopWAVSuffix;
-        this->timidityCommandBuilder.build(command, inputFile, TiMidityDevice::RIFFWave, outputName);
+        this->timidityCommandBuilder.build(
+            command, inputFile, TiMidityDevice::RIFFWave, outputName);
 
         return QProcess::execute(timidityXXBinary, command) == 0;
     }
@@ -170,15 +173,15 @@ bool LoopOGGGenerator::generateLoopWAV() {
 
         // get true loop start
         int introToLoopOS = rweIntro.getOverlap(this->loopStartOnMIDI);
-        int loopToLoopOS
-            = rweLoop.getOverlap(this->loopLength + this->loopOffset);
-        this->loopStart
-            = this->loopStartOnMIDI + qMax(introToLoopOS, loopToLoopOS);
+        int loopToLoopOS =
+            rweLoop.getOverlap(this->loopLength + this->loopOffset);
+        this->loopStart =
+            this->loopStartOnMIDI + qMax(introToLoopOS, loopToLoopOS);
 
         // mix wav with form of Intro + Loop + Loop
         rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopOffset);
-        rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopLength
-                                    + this->loopOffset);
+        rweIntro.mixAt(rweLoop, this->loopStartOnMIDI + this->loopLength +
+                                    this->loopOffset);
 
         // save to complete loop wave
         //        rweIntro.save(CompleteLoopWAV);
@@ -186,8 +189,8 @@ bool LoopOGGGenerator::generateLoopWAV() {
     } else {
         RIFFWaveEditor rwe;
         rwe.open(FirstLoopSourceWAV);
-        this->loopStart = this->loopStartOnMIDI
-                          + rwe.getOverlap(this->loopLength + this->loopOffset);
+        this->loopStart = this->loopStartOnMIDI +
+                          rwe.getOverlap(this->loopLength + this->loopOffset);
         rwe.mixAt(rwe, this->loopLength + this->loopOffset);
         //        rwe.save(CompleteLoopWAV);
         saveWAVWithTailProcess(rwe);
@@ -196,11 +199,11 @@ bool LoopOGGGenerator::generateLoopWAV() {
     return true;
 }
 
-bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor &savingWAV) {
+bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor& savingWAV) {
     QSettings s;
     QString tailProcessMode = s.value("output/mode").toString();
-    quint32 remainingSamplesAfterLoop
-        = s.value("output/maxSamplesAfterLoopEnd").toUInt();
+    quint32 remainingSamplesAfterLoop =
+        s.value("output/maxSamplesAfterLoopEnd").toUInt();
     qreal fadeoutStartSec = s.value("output/fadeoutStartSec").toReal();
     qreal fadeoutLengthSec = s.value("output/fadeoutLengthSec").toReal();
     quint32 loopNum = s.value("output/loopNumber").toUInt();
@@ -209,8 +212,8 @@ bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor &savingWAV) {
 
     if (tailProcessMode == "optimized") {  // optimized mode for game use
         // cutout unnecessary samples
-        savingWAV.cutoutAfter(this->loopStart + this->loopLength
-                              + remainingSamplesAfterLoop);
+        savingWAV.cutoutAfter(this->loopStart + this->loopLength +
+                              remainingSamplesAfterLoop);
         // save to file
         return savingWAV.save(CompleteLoopWAV);
 
@@ -234,21 +237,24 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
     QString outputFilename = getFileNameBase(outputDir);
     QString filenameBase = getFileNameBase();
 
-//    QStringList command;
-//    QString loopStartStr = QString::asprintf("LOOPSTART=%u", this->loopStart);
-//    QString loopLengthStr
-//        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
-//    command << "-c" << loopStartStr;
-//    command << "-c" << loopLengthStr;
-//    command << "-Q";  // enable quiet mode
-//    command << "-q"
-//            << "4";  // TODO: able to set by configuration
-//    command << "-o" << outputFilename;
-//    command << filenameBase + CompleteLoopWAVSuffix;
+    //    QStringList command;
+    //    QString loopStartStr = QString::asprintf("LOOPSTART=%u",
+    //    this->loopStart);
+    //    QString loopLengthStr
+    //        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
+    //    command << "-c" << loopStartStr;
+    //    command << "-c" << loopLengthStr;
+    //    command << "-Q";  // enable quiet mode
+    //    command << "-q"
+    //            << "4";  // TODO: able to set by configuration
+    //    command << "-o" << outputFilename;
+    //    command << filenameBase + CompleteLoopWAVSuffix;
 
-//    // spawn oggenc
-//    return QProcess::execute(oggEncBinary, command) == 0;
-    return this->m_encoderExecutor->execute(filenameBase + CompleteLoopWAVSuffix, outputFilename, this->loopStart, this->loopLength) == 0;
+    //    // spawn oggenc
+    //    return QProcess::execute(oggEncBinary, command) == 0;
+    return this->m_encoderExecutor->execute(
+               filenameBase + CompleteLoopWAVSuffix, outputFilename,
+               this->loopStart, this->loopLength) == 0;
 }
 
 bool LoopOGGGenerator::resaveWAV() {

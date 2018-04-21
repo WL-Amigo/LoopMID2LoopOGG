@@ -79,15 +79,14 @@ bool RIFFWaveEditor::open(QFile &wavefile) {
 
 bool RIFFWaveEditor::checkApplicability(const QByteArray &formatChunk) {
     // formatChunk should be content of format chunk (without "fmt " and size)
-    return formatChunk[0] == 0x01
-           && formatChunk[1] == 0x00  // it should be Linear PCM Format
-           && formatChunk[2] == 0x02
-           && formatChunk[3] == 0x00  // channel # should be 2
-           && (getUInt32FromByteArray(formatChunk.mid(4, 4)) * 4
-               == getUInt32FromByteArray(
-                      formatChunk.mid(8, 4)))  // validity check
-           && formatChunk[12] == 0x04 && formatChunk[13] == 0x00
-           && formatChunk[14] == 0x10 && formatChunk[15] == 0x00;
+    return formatChunk[0] == 0x01 &&
+           formatChunk[1] == 0x00  // it should be Linear PCM Format
+           && formatChunk[2] == 0x02 &&
+           formatChunk[3] == 0x00  // channel # should be 2
+           && (getUInt32FromByteArray(formatChunk.mid(4, 4)) * 4 ==
+               getUInt32FromByteArray(formatChunk.mid(8, 4)))  // validity check
+           && formatChunk[12] == 0x04 && formatChunk[13] == 0x00 &&
+           formatChunk[14] == 0x10 && formatChunk[15] == 0x00;
 }
 
 quint32 RIFFWaveEditor::getSampleRate(const QByteArray &formatChunk) {
@@ -99,11 +98,11 @@ void RIFFWaveEditor::loadWaveForm(const QByteArray &dataChunk) {
     quint32 dataSize = dataChunk.size();
     for (quint32 idx = 0; idx < dataSize; idx += 4) {
         this->lChannelFloat.append(
-            static_cast<float>(getInt16FromByteArray(dataChunk.mid(idx, 2)))
-            / 32768.0f);
-        this->rChannelFloat.append(
-            static_cast<float>(getInt16FromByteArray(dataChunk.mid(idx + 2, 2)))
-            / 32768.0f);
+            static_cast<float>(getInt16FromByteArray(dataChunk.mid(idx, 2))) /
+            32768.0f);
+        this->rChannelFloat.append(static_cast<float>(getInt16FromByteArray(
+                                       dataChunk.mid(idx + 2, 2))) /
+                                   32768.0f);
     }
 }
 
@@ -183,16 +182,16 @@ bool RIFFWaveEditor::saveWithLoop(QFile &wavefile, quint32 loopStart,
     this->serializeWaveForm(waveformData);
 
     // write common datas
-    quint32 actualWaveformDataSize
-        = waveformData.size() + (loopLength * 4 * (loopNum - 1));
+    quint32 actualWaveformDataSize =
+        waveformData.size() + (loopLength * 4 * (loopNum - 1));
     saveCommonData(wavefile, actualWaveformDataSize);
 
     // write data chunk with loop
     wavefile.write("data");
     wavefile.write(reinterpret_cast<const char *>(&actualWaveformDataSize), 4);
     quint64 wroteSize = 0;
-    wroteSize
-        += wavefile.write(waveformData.mid(0, loopStart * 4));  // write intro
+    wroteSize +=
+        wavefile.write(waveformData.mid(0, loopStart * 4));  // write intro
     for (quint32 lidx = 0; lidx < loopNum; lidx++) {
         wroteSize += wavefile.write(
             waveformData.mid(loopStart * 4, loopLength * 4));  // write loop
@@ -210,10 +209,10 @@ void RIFFWaveEditor::serializeWaveForm(QByteArray &dataChunkDest) {
     quint32 dataSize = lChannelFloat.size();
     Q_ASSERT(dataSize = rChannelFloat.size());
     for (quint32 idx = 0; idx < dataSize; idx++) {
-        qint16 lSample
-            = static_cast<qint16>(qRound(lChannelFloat[idx] * 32767.0f));
-        qint16 rSample
-            = static_cast<qint16>(qRound(rChannelFloat[idx] * 32767.0f));
+        qint16 lSample =
+            static_cast<qint16>(qRound(lChannelFloat[idx] * 32767.0f));
+        qint16 rSample =
+            static_cast<qint16>(qRound(rChannelFloat[idx] * 32767.0f));
         dataChunkDest.append(reinterpret_cast<const char *>(&lSample), 2);
         dataChunkDest.append(reinterpret_cast<const char *>(&rSample), 2);
     }
@@ -239,12 +238,12 @@ void RIFFWaveEditor::mixAt(RIFFWaveEditor &source, quint32 offsetSample) {
                                  ? overlapSample
                                  : source.lChannelFloat.size();
         for (int olidx = 0; olidx < iterationRange; olidx++) {
-            lChannelFloat[offsetSample + olidx]
-                = lChannelFloat[offsetSample + olidx]
-                  + source.lChannelFloat[olidx];
-            rChannelFloat[offsetSample + olidx]
-                = rChannelFloat[offsetSample + olidx]
-                  + source.rChannelFloat[olidx];
+            lChannelFloat[offsetSample + olidx] =
+                lChannelFloat[offsetSample + olidx] +
+                source.lChannelFloat[olidx];
+            rChannelFloat[offsetSample + olidx] =
+                rChannelFloat[offsetSample + olidx] +
+                source.rChannelFloat[olidx];
         }
     }
     // case: there are brank samples between this and source (overlapSample < 0)
@@ -315,9 +314,9 @@ void RIFFWaveEditor::expFadeout(quint32 offsetSample, quint32 fadeLength) {
     quint32 endSample = offsetSample + fadeLength;
     float fadeLengthFloat = static_cast<float>(fadeLength);
     for (quint32 sidx = offsetSample; sidx < endSample; sidx++) {
-        float amp = 1.0f - qPow(0.1, static_cast<float>(fadeLengthFloat
-                                                        - (sidx - offsetSample))
-                                         / fadeLengthFloat * 1.0f);
+        float amp = 1.0f - qPow(0.1, static_cast<float>(fadeLengthFloat -
+                                                        (sidx - offsetSample)) /
+                                         fadeLengthFloat * 1.0f);
         lChannelFloat[sidx] *= amp;
         rChannelFloat[sidx] *= amp;
     }
