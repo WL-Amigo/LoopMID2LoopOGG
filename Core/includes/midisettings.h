@@ -1,9 +1,9 @@
 #ifndef MIDISETTINGS_H
 #define MIDISETTINGS_H
 
+#include <QtCore>
 
-class MIDISettings
-{
+class MIDISettings {
 public:
     int channel;
     int pitchbend;
@@ -20,20 +20,22 @@ private:
     void reset();
 };
 
-class MIDIMasterSettings
-{
+class MIDIMasterSettings {
 public:
     // beat related settings
     int beatNum;
     int beatDenom;
-    int cpb; // Clocks per Beat
-    int tsnpq; // Thirty-second notes per quarter
+    int cpb;    // Clocks per Beat
+    int tsnpq;  // Thirty-second notes per quarter
 
     double tempo;
+    quint8 masterVolume;
+    bool gmSystemOn;
+    bool gsReset;
 
     MIDIMasterSettings();
 
     bool equalTo(MIDIMasterSettings& other);
 };
 
-#endif // MIDISETTINGS_H
+#endif  // MIDISETTINGS_H

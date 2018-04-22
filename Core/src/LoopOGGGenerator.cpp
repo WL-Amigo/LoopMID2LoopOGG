@@ -8,6 +8,7 @@
 #include <QSettings>
 #include <iostream>
 #include "LoopMIDIModifier.hpp"
+#include "Utils.h"
 
 static const QString IntroSMFSuffix = "_i.mid";
 static const QString FirstLoopSMFSuffix = "_l1.mid";
@@ -30,7 +31,7 @@ LoopOGGGenerator::LoopOGGGenerator(QString sourceSMFName, QString outputDir,
       loopLength(0),
       loopOffset(0),
       loopStart(0),
-      tempFileDest(QCoreApplication::applicationDirPath() + "/tmp/"),
+      tempFileDest(Utils::getTemporaryDirName()),
       timidityXXBinary(timidityXXBinaryPath),
       m_encoderExecutor(encoderExecutor),
       timidityCommandBuilder(configuredTCB),

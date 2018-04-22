@@ -11,3 +11,12 @@ bool Utils::isWindows64() {
 }
 
 #endif
+
+QString Utils::getTemporaryDirName() {
+#ifdef Q_OS_WIN
+    return QCoreApplication::applicationDirPath() + "/tmp/";
+#endif
+#ifdef Q_OS_LINUX
+    return "/tmp/";
+#endif
+}
