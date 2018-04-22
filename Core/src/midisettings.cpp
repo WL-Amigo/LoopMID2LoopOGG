@@ -50,10 +50,16 @@ MIDIMasterSettings::MIDIMasterSettings() {
     this->cpb = 24;
     this->tsnpq = 8;
     this->tempo = 120.0;
+    this->masterVolume = 100;
+    this->gmSystemOn = false;
+    this->gsReset = false;
 }
 
 bool MIDIMasterSettings::equalTo(MIDIMasterSettings &other) {
     return this->beatNum == other.beatNum &&
            this->beatDenom == other.beatDenom && this->cpb == other.cpb &&
-           this->tsnpq == other.tsnpq && this->tempo == other.tempo;
+           this->tsnpq == other.tsnpq && this->tempo == other.tempo &&
+           this->masterVolume == other.masterVolume &&
+           this->gmSystemOn == other.gmSystemOn &&
+           this->gsReset == other.gmSystemOn;
 }

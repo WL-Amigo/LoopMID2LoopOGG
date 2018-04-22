@@ -2,7 +2,7 @@
 #include <QDebug>
 
 // constants
-const quint32 SetupTickRange = 240;
+const quint32 SetupTickRange = 480;
 
 LoopMIDIModifier::LoopMIDIModifier(MIDIInfoCollector &infoCollector,
                                    QString targetIntroSMF,
@@ -167,49 +167,78 @@ void LoopMIDIModifier::writeSettings(MidiFile &target,
                                      const QVector<MIDISettings> &settings,
                                      const MIDIMasterSettings &masterSettings) {
     MidiEvent me;
+    MidiEvent sysex;
 
     // write master settings
     //   write tempo information
     me.setMetaTempo(masterSettings.tempo);
     target.addEvent(0, 0, me);
+    //   write GM System On
+    if (masterSettings.gmSystemOn) {
+        sysex.clear();
+        sysex.insert(sysex.end(), {0xF0, 0x7E, 0x7F, 0x09, 0x01, 0xF7});
+        target.addEvent(0, 0, sysex);
+    }
+    // write GS Reset
+    if (masterSettings.gsReset) {
+        sysex.clear();
+        sysex.insert(sysex.end(), {0xF0, 0x41, 0x10, 0x42, 0x12, 0x40, 0x00,
+                                   0x7F, 0x00, 0x41, 0xF7});
+        target.addEvent(0, 60, sysex);
+    }
+    //   write master volume setting
+    if (masterSettings.masterVolume != 100) {
+        sysex.clear();
+        sysex.insert(sysex.end(),
+                     {0xF0, 0x7F, 0x7F, 0x04, 0x01, 0x00, 0x00, 0xF7});
+        sysex[6] = masterSettings.masterVolume & static_cast<quint8>(0x7F);
+        target.addEvent(0, 120, sysex);
+    }
 
     //   TODO: write beat information?
+    const int sysExPadding = 120;
 
     // write settings for channels
     for (int channel = 0; channel < settings.size(); channel++) {
         // write program change
         me.setCommand(0xC0 | (channel & 0x0F), settings[channel].program);
         Q_ASSERT(me.isPatchChange());
-        target.addEvent(0, 1, me);
+        target.addEvent(0, sysExPadding + 1, me);
 
         // write pitch bend sensitivity
         //   write CC101 to 0
         me.setCommand(0xB0 | (channel & 0x0F), 101, 0);
         Q_ASSERT(me.isController());
-        target.addEvent(0, 2, me);
+        target.addEvent(0, sysExPadding + 2, me);
         //   write CC100 to 0
         me.setCommand(0xB0 | (channel & 0x0F), 100, 0);
         Q_ASSERT(me.isController());
-        target.addEvent(0, 3, me);
+        target.addEvent(0, sysExPadding + 3, me);
         //   write CC6 to pitch bend sensitivity
         me.setCommand(0xB0 | (channel & 0x0F), 6,
                       settings[channel].pitchbendSensitivity);
         Q_ASSERT(me.isController());
-        target.addEvent(0, 4, me);
+        target.addEvent(0, sysExPadding + 4, me);
         //   write CC36 to 0 (unused LSB)
         me.setCommand(0xB0 | (channel & 0x0F), 36, 0);
         Q_ASSERT(me.isController());
-        target.addEvent(0, 5, me);
+        target.addEvent(0, sysExPadding + 5, me);
 
         // write pitch bend
         me.setCommand(0xE0 | (channel & 0x0F),
                       settings[channel].pitchbend & 0x00FF,
                       (settings[channel].pitchbend & 0xFF00) >> 8);
         Q_ASSERT(me.isPitchbend());
-        target.addEvent(0, 6, me);
+        target.addEvent(0, sysExPadding + 6, me);
 
+        qDebug().noquote() << "writeSettings: channel #" << channel;
+        qDebug().noquote() << "writeSettings: control#7: "
+                           << settings[channel].controlls[7];
+        qDebug().noquote() << "writeSettings: control#11: "
+                           << settings[channel].controlls[11];
         // write all controller
-        for (int ctrl = 0; ctrl < 128; ctrl++) {
+        // (discard after 120 because they have special effect)
+        for (int ctrl = 0; ctrl < 120; ctrl++) {
             // skip if the controller isn't set
             if (settings[channel].controlls[ctrl] == -1) continue;
             // skip if the controller related to RPN/NRPN
@@ -218,7 +247,7 @@ void LoopMIDIModifier::writeSettings(MidiFile &target,
             me.setCommand(0xB0 | (channel & 0x0F), ctrl,
                           settings[channel].controlls[ctrl]);
             Q_ASSERT(me.isController());
-            target.addEvent(0, 7 + ctrl, me);
+            target.addEvent(0, sysExPadding + 7 + ctrl, me);
         }
     }
 }

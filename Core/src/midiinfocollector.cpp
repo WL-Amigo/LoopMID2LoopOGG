@@ -201,6 +201,37 @@ MIDIMasterSettings MIDIInfoCollector::getMasterSettingsAt(int absTick) {
                          << ", to:" << ret.tempo;
             }
         }
+
+        // System Exclusive message
+        if ((*event)[0] == 0xF0) {
+            if (event->size() == 8 && (*event)[1] == 0x7F &&
+                (*event)[2] == 0x7F && (*event)[3] == 0x04 &&
+                (*event)[4] == 0x01 && (*event)[7] == 0xF7) {
+                qDebug() << Q_FUNC_INFO
+                         << ": Master volume SysEX command detected :"
+                         << static_cast<quint8>((*event)[5])
+                         << static_cast<quint8>((*event)[6]);
+
+                ret.masterVolume = static_cast<quint8>((*event)[6]);
+            } else if (event->size() == 6 && (*event)[1] == 0x7E &&
+                       (*event)[2] == 0x7F && (*event)[3] == 0x09 &&
+                       (*event)[4] == 0x01 && (*event)[5] == 0xF7) {
+                qDebug() << Q_FUNC_INFO
+                         << ": GM System On SysEX command detected";
+                ret.gmSystemOn = true;
+            } else if (event->size() == 11 && (*event)[1] == 0x41 &&
+                       (*event)[2] == 0x10 && (*event)[3] == 0x42 &&
+                       (*event)[4] == 0x12 && (*event)[5] == 0x40 &&
+                       (*event)[6] == 0x00 && (*event)[7] == 0x7F &&
+                       (*event)[8] == 0x00 && (*event)[9] == 0x41 &&
+                       (*event)[10] == 0xF7) {
+                qDebug() << Q_FUNC_INFO << ": GS Reset SysEX command detected";
+                ret.gsReset = true;
+            } else {
+                qDebug() << Q_FUNC_INFO << ": SysEX command detected";
+                qDebug() << QVector<unsigned char>::fromStdVector(*event);
+            }
+        }
     }
 
     // split joined track
