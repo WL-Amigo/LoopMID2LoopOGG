@@ -196,58 +196,96 @@ void LoopMIDIModifier::writeSettings(MidiFile &target,
     }
 
     //   TODO: write beat information?
-    const int sysExPadding = 120;
+    const int sysExPadding = 121;
 
     // write settings for channels
     for (int channel = 0; channel < settings.size(); channel++) {
+        int eventOffset = sysExPadding;
+        auto& channelSettings = settings[channel];
+
         // write program change
-        me.setCommand(0xC0 | (channel & 0x0F), settings[channel].program);
-        Q_ASSERT(me.isPatchChange());
-        target.addEvent(0, sysExPadding + 1, me);
+        eventOffset = this->writeProgramChange(target, channel, eventOffset, channelSettings.program, channelSettings.controlls[0], channelSettings.controlls[32]);
 
         // write pitch bend sensitivity
-        //   write CC101 to 0
-        me.setCommand(0xB0 | (channel & 0x0F), 101, 0);
-        Q_ASSERT(me.isController());
-        target.addEvent(0, sysExPadding + 2, me);
-        //   write CC100 to 0
-        me.setCommand(0xB0 | (channel & 0x0F), 100, 0);
-        Q_ASSERT(me.isController());
-        target.addEvent(0, sysExPadding + 3, me);
-        //   write CC6 to pitch bend sensitivity
-        me.setCommand(0xB0 | (channel & 0x0F), 6,
-                      settings[channel].pitchbendSensitivity);
-        Q_ASSERT(me.isController());
-        target.addEvent(0, sysExPadding + 4, me);
-        //   write CC36 to 0 (unused LSB)
-        me.setCommand(0xB0 | (channel & 0x0F), 36, 0);
-        Q_ASSERT(me.isController());
-        target.addEvent(0, sysExPadding + 5, me);
+        eventOffset = this->writePitchBendSensitivity(target, channel, eventOffset, channelSettings.pitchbendSensitivity);
 
         // write pitch bend
-        me.setCommand(0xE0 | (channel & 0x0F),
-                      settings[channel].pitchbend & 0x00FF,
-                      (settings[channel].pitchbend & 0xFF00) >> 8);
-        Q_ASSERT(me.isPitchbend());
-        target.addEvent(0, sysExPadding + 6, me);
+        eventOffset = this->writePitchBend(target, channel, eventOffset, channelSettings.pitchbend);
 
-        qDebug().noquote() << "writeSettings: channel #" << channel;
-        qDebug().noquote() << "writeSettings: control#7: "
-                           << settings[channel].controlls[7];
-        qDebug().noquote() << "writeSettings: control#11: "
-                           << settings[channel].controlls[11];
         // write all controller
         // (discard after 120 because they have special effect)
         for (int ctrl = 0; ctrl < 120; ctrl++) {
             // skip if the controller isn't set
             if (settings[channel].controlls[ctrl] == -1) continue;
-            // skip if the controller related to RPN/NRPN
-            if (ctrl == 6 || ctrl == 36 || (ctrl >= 98 && ctrl <= 101))
-                continue;
-            me.setCommand(0xB0 | (channel & 0x0F), ctrl,
-                          settings[channel].controlls[ctrl]);
-            Q_ASSERT(me.isController());
-            target.addEvent(0, sysExPadding + 7 + ctrl, me);
+            // skip if the controller related to ...
+            // * RPN/NRPN
+            // * Bank Select MSB/LSB
+            // * Data Entry MSB/LSB
+            if (ctrl == 0 || ctrl == 32 || ctrl == 6 || ctrl == 36 ||
+                (ctrl >= 98 && ctrl <= 101))
+              continue;
+
+            eventOffset = this->writeControlChange(target, channel, eventOffset, ctrl, channelSettings.controlls[ctrl]);
         }
     }
+}
+
+int LoopMIDIModifier::writeProgramChange(MidiFile& target, int channel, int eventTick, quint8 program, quint8 bankMSB, quint8 bankLSB){
+    MidiEvent me;
+
+    // write program change
+    me.setCommand(0xC0 | (channel & 0x0F), program);
+    Q_ASSERT(me.isPatchChange());
+    target.addEvent(0, eventTick, me);
+
+    return eventTick + 1;
+}
+
+int LoopMIDIModifier::writePitchBendSensitivity(MidiFile& target, int channel, int eventTick, quint8 pitchbendSensitivity){
+    MidiEvent me;
+
+    // write pitch bend sensitivity
+    //   write CC101 to 0
+    me.setCommand(0xB0 | (channel & 0x0F), 101, 0);
+    Q_ASSERT(me.isController());
+    target.addEvent(0, eventTick++, me);
+    //   write CC100 to 0
+    me.setCommand(0xB0 | (channel & 0x0F), 100, 0);
+    Q_ASSERT(me.isController());
+    target.addEvent(0, eventTick++, me);
+    //   write CC6 to pitch bend sensitivity
+    me.setCommand(0xB0 | (channel & 0x0F), 6,
+                  pitchbendSensitivity);
+    Q_ASSERT(me.isController());
+    target.addEvent(0, eventTick++, me);
+    //   write CC36 to 0 (unused LSB)
+    me.setCommand(0xB0 | (channel & 0x0F), 36, 0);
+    Q_ASSERT(me.isController());
+    target.addEvent(0, eventTick++, me);
+
+    return eventTick;
+}
+
+int LoopMIDIModifier::writePitchBend(MidiFile& target, int channel, int eventTick, int pitchbend){
+    MidiEvent me;
+
+    me.setCommand(0xE0 | (channel & 0x0F),
+                  pitchbend & 0x00FF,
+                  (pitchbend & 0xFF00) >> 8);
+    Q_ASSERT(me.isPitchbend());
+    target.addEvent(0, eventTick, me);
+
+    return eventTick + 1;
+}
+
+int LoopMIDIModifier::writeControlChange(MidiFile& target, int channel, int eventTick, quint8 controlNum, int controlValue){
+    MidiEvent me;
+
+    me.setCommand(0xB0 | (channel & 0x0F),
+                  controlNum,
+                  controlValue);
+    Q_ASSERT(me.isController());
+    target.addEvent(0, eventTick, me);
+
+    return eventTick + 1;
 }
