@@ -1,4 +1,4 @@
-﻿#include "LoopOGGGenerator.hpp"
+#include "LoopOGGGenerator.hpp"
 #include <qmath.h>
 #include <QCoreApplication>
 #include <QDebug>
@@ -75,7 +75,6 @@ bool LoopOGGGenerator::convert() {
 }
 
 bool LoopOGGGenerator::analyzeSMF() {
-    //    std::string smfname = smf.fileName().toUtf8().toStdString();
     std::string smfname = QFile::encodeName(smf.fileName()).toStdString();
     qDebug() << QString::fromStdString(smfname);
     MIDIInfoCollector mic(smfname);
@@ -134,7 +133,6 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         QStringList command;
         QString inputFile = this->smf.fileName();
         if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
-            // inputFile = QFile::encodeName(inputFile);
             inputFile.remove(0, 1);
         }
         QString outputName;
@@ -185,7 +183,6 @@ bool LoopOGGGenerator::generateLoopWAV() {
                                     this->loopOffset);
 
         // save to complete loop wave
-        //        rweIntro.save(CompleteLoopWAV);
         saveWAVWithTailProcess(rweIntro);
     } else {
         RIFFWaveEditor rwe;
@@ -193,7 +190,6 @@ bool LoopOGGGenerator::generateLoopWAV() {
         this->loopStart = this->loopStartOnMIDI +
                           rwe.getOverlap(this->loopLength + this->loopOffset);
         rwe.mixAt(rwe, this->loopLength + this->loopOffset);
-        //        rwe.save(CompleteLoopWAV);
         saveWAVWithTailProcess(rwe);
     }
 
@@ -238,21 +234,6 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
     QString outputFilename = getFileNameBase(outputDir);
     QString filenameBase = getFileNameBase();
 
-    //    QStringList command;
-    //    QString loopStartStr = QString::asprintf("LOOPSTART=%u",
-    //    this->loopStart);
-    //    QString loopLengthStr
-    //        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
-    //    command << "-c" << loopStartStr;
-    //    command << "-c" << loopLengthStr;
-    //    command << "-Q";  // enable quiet mode
-    //    command << "-q"
-    //            << "4";  // TODO: able to set by configuration
-    //    command << "-o" << outputFilename;
-    //    command << filenameBase + CompleteLoopWAVSuffix;
-
-    //    // spawn oggenc
-    //    return QProcess::execute(oggEncBinary, command) == 0;
     return this->m_encoderExecutor->execute(
                filenameBase + CompleteLoopWAVSuffix, outputFilename,
                this->loopStart, this->loopLength) == 0;
@@ -273,8 +254,7 @@ QString LoopOGGGenerator::getFileNameBase() {
 
 QString LoopOGGGenerator::getFileNameBase(QString outputPath) {
     QFileInfo fi(this->smf);
-    QString filename(fi.fileName());
-    filename.remove(".mid");
+    QString filename(fi.baseName());
     QString filenameBase = outputPath + QDir::separator() + filename;
     if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
         if (filenameBase.indexOf('/') == 0)
