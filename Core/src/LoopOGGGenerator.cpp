@@ -1,4 +1,4 @@
-#include "LoopOGGGenerator.hpp"
+﻿#include "LoopOGGGenerator.hpp"
 #include <qmath.h>
 #include <QCoreApplication>
 #include <QDebug>
@@ -285,18 +285,14 @@ void LoopOGGGenerator::saveLoopInformation() {
 void LoopOGGGenerator::sweepTemporaryFiles() {
     // remove all temporary files
     QString fileNameBase = getFileNameBase();
-    if (QFileInfo::exists(fileNameBase + IntroSMFSuffix))
+    if constexpr (!Utils::IsDebug) {
         QFile::remove(fileNameBase + IntroSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + IntroWAVSuffix))
-        QFile::remove(fileNameBase + IntroWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + FirstLoopSMFSuffix))
         QFile::remove(fileNameBase + FirstLoopSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + FirstLoopWAVSuffix))
-        QFile::remove(fileNameBase + FirstLoopWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + AfterLoopSMFSuffix))
         QFile::remove(fileNameBase + AfterLoopSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + AfterLoopWAVSuffix))
-        QFile::remove(fileNameBase + AfterLoopWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + CompleteLoopWAVSuffix))
-        QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
+    }
+
+    QFile::remove(fileNameBase + IntroWAVSuffix);
+    QFile::remove(fileNameBase + FirstLoopWAVSuffix);
+    QFile::remove(fileNameBase + AfterLoopWAVSuffix);
+    QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
 }

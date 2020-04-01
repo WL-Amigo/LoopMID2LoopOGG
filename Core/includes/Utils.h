@@ -10,6 +10,12 @@ public:
     static bool isWindows64();
 #endif
     static QString getTemporaryDirName();
+
+#ifdef QT_DEBUG
+    static const bool IsDebug = true;
+#else
+    static const bool IsDebug = false;
+#endif
 };
 
 #endif  // UTILS_H
