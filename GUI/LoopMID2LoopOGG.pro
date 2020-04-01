@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = LoopMID2LoopOGG
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++17
 
 
 SOURCES += src/main.cpp\
