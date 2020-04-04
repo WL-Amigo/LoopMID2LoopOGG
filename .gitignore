@@ -5,3 +5,8 @@
 build-LoopMID2LoopOGG*
 build-OggLoopPlayer*
 *.qm
+build_release/
+dist/
+dist-full/
+l_*
+external-resources/
