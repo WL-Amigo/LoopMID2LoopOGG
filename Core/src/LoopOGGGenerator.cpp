@@ -51,6 +51,12 @@ bool LoopOGGGenerator::convert() {
     QString outputFileType = s.value("output/fileType").toString();
     // run converting process sequencially
     qDebug() << smf.fileName();
+
+    // make temporally directory if necessary
+    if (!this->tempFileDest.exists()) {
+        this->tempFileDest.mkdir(this->tempFileDest.absolutePath());
+    }
+
     if (!this->analyzeSMF()) return false;
     if (this->needSplit) {
         if (!this->splitSMF()) return false;
