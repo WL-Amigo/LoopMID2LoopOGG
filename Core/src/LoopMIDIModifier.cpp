@@ -233,12 +233,16 @@ void LoopMIDIModifier::writeSettings(MidiFile &target,
 int LoopMIDIModifier::writeProgramChange(MidiFile& target, int channel, int eventTick, quint8 program, quint8 bankMSB, quint8 bankLSB){
     MidiEvent me;
 
+    // write bank select MSB/LSB
+    eventTick = this->writeControlChange(target, channel, eventTick, 0, bankMSB);
+    eventTick = this->writeControlChange(target, channel, eventTick, 32, bankLSB);
+
     // write program change
     me.setCommand(0xC0 | (channel & 0x0F), program);
     Q_ASSERT(me.isPatchChange());
-    target.addEvent(0, eventTick, me);
+    target.addEvent(0, eventTick++, me);
 
-    return eventTick + 1;
+    return eventTick;
 }
 
 int LoopMIDIModifier::writePitchBendSensitivity(MidiFile& target, int channel, int eventTick, quint8 pitchbendSensitivity){
