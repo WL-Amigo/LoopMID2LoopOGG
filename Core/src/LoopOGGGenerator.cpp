@@ -51,6 +51,12 @@ bool LoopOGGGenerator::convert() {
     QString outputFileType = s.value("output/fileType").toString();
     // run converting process sequencially
     qDebug() << smf.fileName();
+
+    // make temporally directory if necessary
+    if (!this->tempFileDest.exists()) {
+        this->tempFileDest.mkdir(this->tempFileDest.absolutePath());
+    }
+
     if (!this->analyzeSMF()) return false;
     if (this->needSplit) {
         if (!this->splitSMF()) return false;
@@ -75,7 +81,6 @@ bool LoopOGGGenerator::convert() {
 }
 
 bool LoopOGGGenerator::analyzeSMF() {
-    //    std::string smfname = smf.fileName().toUtf8().toStdString();
     std::string smfname = QFile::encodeName(smf.fileName()).toStdString();
     qDebug() << QString::fromStdString(smfname);
     MIDIInfoCollector mic(smfname);
@@ -134,7 +139,6 @@ bool LoopOGGGenerator::convertSMFToWAV() {
         QStringList command;
         QString inputFile = this->smf.fileName();
         if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
-            // inputFile = QFile::encodeName(inputFile);
             inputFile.remove(0, 1);
         }
         QString outputName;
@@ -185,7 +189,6 @@ bool LoopOGGGenerator::generateLoopWAV() {
                                     this->loopOffset);
 
         // save to complete loop wave
-        //        rweIntro.save(CompleteLoopWAV);
         saveWAVWithTailProcess(rweIntro);
     } else {
         RIFFWaveEditor rwe;
@@ -193,7 +196,6 @@ bool LoopOGGGenerator::generateLoopWAV() {
         this->loopStart = this->loopStartOnMIDI +
                           rwe.getOverlap(this->loopLength + this->loopOffset);
         rwe.mixAt(rwe, this->loopLength + this->loopOffset);
-        //        rwe.save(CompleteLoopWAV);
         saveWAVWithTailProcess(rwe);
     }
 
@@ -238,21 +240,6 @@ bool LoopOGGGenerator::convertWAVToOGGWithLoopTag() {
     QString outputFilename = getFileNameBase(outputDir);
     QString filenameBase = getFileNameBase();
 
-    //    QStringList command;
-    //    QString loopStartStr = QString::asprintf("LOOPSTART=%u",
-    //    this->loopStart);
-    //    QString loopLengthStr
-    //        = QString::asprintf("LOOPLENGTH=%u", this->loopLength);
-    //    command << "-c" << loopStartStr;
-    //    command << "-c" << loopLengthStr;
-    //    command << "-Q";  // enable quiet mode
-    //    command << "-q"
-    //            << "4";  // TODO: able to set by configuration
-    //    command << "-o" << outputFilename;
-    //    command << filenameBase + CompleteLoopWAVSuffix;
-
-    //    // spawn oggenc
-    //    return QProcess::execute(oggEncBinary, command) == 0;
     return this->m_encoderExecutor->execute(
                filenameBase + CompleteLoopWAVSuffix, outputFilename,
                this->loopStart, this->loopLength) == 0;
@@ -273,8 +260,7 @@ QString LoopOGGGenerator::getFileNameBase() {
 
 QString LoopOGGGenerator::getFileNameBase(QString outputPath) {
     QFileInfo fi(this->smf);
-    QString filename(fi.fileName());
-    filename.remove(".mid");
+    QString filename(fi.baseName());
     QString filenameBase = outputPath + QDir::separator() + filename;
     if (QSysInfo::windowsVersion() != QSysInfo::WV_None) {
         if (filenameBase.indexOf('/') == 0)
@@ -305,18 +291,14 @@ void LoopOGGGenerator::saveLoopInformation() {
 void LoopOGGGenerator::sweepTemporaryFiles() {
     // remove all temporary files
     QString fileNameBase = getFileNameBase();
-    if (QFileInfo::exists(fileNameBase + IntroSMFSuffix))
+    if constexpr (!Utils::IsDebug) {
         QFile::remove(fileNameBase + IntroSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + IntroWAVSuffix))
-        QFile::remove(fileNameBase + IntroWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + FirstLoopSMFSuffix))
         QFile::remove(fileNameBase + FirstLoopSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + FirstLoopWAVSuffix))
-        QFile::remove(fileNameBase + FirstLoopWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + AfterLoopSMFSuffix))
         QFile::remove(fileNameBase + AfterLoopSMFSuffix);
-    if (QFileInfo::exists(fileNameBase + AfterLoopWAVSuffix))
-        QFile::remove(fileNameBase + AfterLoopWAVSuffix);
-    if (QFileInfo::exists(fileNameBase + CompleteLoopWAVSuffix))
-        QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
+    }
+
+    QFile::remove(fileNameBase + IntroWAVSuffix);
+    QFile::remove(fileNameBase + FirstLoopWAVSuffix);
+    QFile::remove(fileNameBase + AfterLoopWAVSuffix);
+    QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
 }

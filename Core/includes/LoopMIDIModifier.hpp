@@ -22,6 +22,22 @@ private:
     bool createAfterLoopSMF();
     void copyEventProperly(MidiFile &target, MidiEvent* sourceEvent, int track, int offsetTick);
     void writeSettings(MidiFile& target, const QVector<MIDISettings>& settings, const MIDIMasterSettings& masterSettings);
+    /**
+     * @returns next event tick
+     */
+    int writeProgramChange(MidiFile& target, int channel, int eventTick, quint8 program, quint8 bankMSB, quint8 bankLSB);
+    /**
+     * @returns next event tick
+     */
+    int writePitchBendSensitivity(MidiFile& target, int channel, int eventTick, quint8 pitchbendSensitivity);
+    /**
+     * @returns next event tick
+     */
+    int writePitchBend(MidiFile& target, int channel, int eventTick, int pitchbend);
+    /**
+     * @returns next event tick
+     */
+    int writeControlChange(MidiFile& target, int channel, int eventTick, quint8 controlNum, int controlValue);
 
 private:
     QFile sourceSMF;
