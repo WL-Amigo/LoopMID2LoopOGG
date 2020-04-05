@@ -19,6 +19,10 @@ void MIDISettings::reset() {
     for (int idx = 0; idx < 128; idx++) {
         this->controlls[idx] = -1;
     }
+
+    // set initial value for several CC
+    this->controlls[0] = 0;
+    this->controlls[32] = 0;
 }
 
 bool MIDISettings::equalTo(MIDISettings &other) {
