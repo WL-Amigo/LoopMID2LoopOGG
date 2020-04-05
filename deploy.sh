@@ -23,7 +23,8 @@ popd
 cp -t $DEPLOY_DIR/ LICENSE LICENSE.gplv2 LICENSE.lgplv3 LICENSE.libogg LICENSE.libvorbis LICENSE.midifile
 cp ./README.md $DEPLOY_DIR/README.txt
 cp ./LICENSE.SGM $DEPLOY_DIR/LICENSE.SGM.txt
-cp -r ./external-resources/TiMidity++/ $DEPLOY_DIR/
+cp -r ./external-resources/timidity-twsynth-CVS081206/ $DEPLOY_DIR/
+mv $DEPLOY_DIR/timidity-twsynth-CVS081206/ $DEPLOY_DIR/TiMidity++/
 cp -r ./external-resources/qaac/ $DEPLOY_DIR/
 cp ./external-resources/oggenc2.exe $DEPLOY_DIR/
 
