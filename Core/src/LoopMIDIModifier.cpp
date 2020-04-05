@@ -142,8 +142,17 @@ void LoopMIDIModifier::copyEventProperly(MidiFile &target,
     if (sourceEvent->isNoteOff())
         return;  // skip note off event (note-off will be inserted
                  // with note-on)
+    if (sourceEvent->isController() &&
+        ((*sourceEvent)[1] == 0 || (*sourceEvent)[1] == 32)) {
+        // If event is Control Change related to Bank Select,
+        // set sequence marker to -1 or 0 to avoid performing Program Change before Bank Select
+        // (Sequence marker on events are already assigned sequencially)
+        sourceEvent->seq = (*sourceEvent)[1] == 0 ? -1 : 0;
+    }
 
-    target.addEvent(track, sourceEvent->tick + offsetTick, *sourceEvent);
+    int newEventIndex = target.addEvent(track, sourceEvent->tick + offsetTick, *sourceEvent);
+    // write seq to new event
+    target.getEvent(track, newEventIndex).seq = sourceEvent->seq;
     if (sourceEvent->isNoteOn()) {
         if (sourceEvent->isLinked()) {
             // add correspond note-off
