@@ -68,11 +68,11 @@ void ConfigDialog::setupFileBrowseLineEdits() {
     // connect each correspond line edit and push button
     auto fblec =
         new FileBrowseLineEditConnector(this, ui->TPConfigFileBrowseButton,
-                                        ui->TPConfigFileLineEdit, false, false);
+                                        ui->TPConfigFileLineEdit, false, true);
     fblec->setAcceptFileTypes(tr("TiMidity++ config file (*.cfg)"));
     fblec =
         new FileBrowseLineEditConnector(this, ui->TPSFDirectoryBrowseButton,
-                                        ui->TPSFDirectoryLineEdit, true, false);
+                                        ui->TPSFDirectoryLineEdit, true, true);
 }
 
 void ConfigDialog::connectCSBToPage(QToolButton* toolButton,

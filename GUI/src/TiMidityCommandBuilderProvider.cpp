@@ -22,8 +22,10 @@ TiMidityCommandBuilder TiMidityCommandBuilderProvider::getDefault(){
         tmReverbType = TiMidityReverbType::FreeVerbGlobal;
     }
 
-    tcb.setConfigFilePath(QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + s.value(ConfigKey::TiMidity::ConfigFilePath).toString()))
-            ->setSoundfontDirectoryPath(QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator() + s.value(ConfigKey::TiMidity::SoundfontDirPath).toString()))
+    QDir appDir(QCoreApplication::applicationDirPath());
+
+    tcb.setConfigFilePath(QDir::cleanPath(appDir.absoluteFilePath(s.value(ConfigKey::TiMidity::ConfigFilePath).toString())))
+            ->setSoundfontDirectoryPath(QDir::cleanPath(appDir.absoluteFilePath(s.value(ConfigKey::TiMidity::SoundfontDirPath).toString())))
             ->setReverbType(tmReverbType)
             ->setReverbValue(s.value(ConfigKey::Effect::ReverbLevel).toInt());
     return tcb;
