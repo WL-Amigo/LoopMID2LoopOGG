@@ -108,7 +108,7 @@ int MIDIInfoCollector::findFirstNoteOnTickAfter(int tick) {
 
     // find first note-on event and get tick
     MidiEvent *event = nullptr;
-    int retTick = 0;
+    int retTick = -1;
     for (int idx = 0; idx < this->midifile[0].size(); idx++) {
         event = &this->midifile[0][idx];
         if (event->isNoteOn() && event->tick >= tick) {
@@ -284,6 +284,10 @@ bool MIDIInfoCollector::hasIntro() {
     int songStartTick = this->findSongStartTick();
 
     return !(cc111Tick <= songStartTick);
+}
+
+bool MIDIInfoCollector::isOneshot() {
+    return this->findFirstNoteOnTickAfter(this->getLoopStartTick()) == -1;
 }
 
 void MIDIInfoCollector::getAllEOT() {

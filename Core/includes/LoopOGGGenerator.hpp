@@ -27,6 +27,7 @@ private:
     bool saveWAVWithTailProcess(RIFFWaveEditor &savingWAV);
     bool convertWAVToOGGWithLoopTag();
     bool resaveWAV();
+    bool convertAsOneshot();
     QString getFileNameBase();
     QString getFileNameBase(QString outputPath);
     void saveLoopInformation();
@@ -34,6 +35,7 @@ private:
 
 private:
     bool needSplit;
+    bool isOneshot;
     QFile smf;
     quint32 loopStartOnMIDI;
     quint32 loopLength;

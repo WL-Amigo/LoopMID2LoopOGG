@@ -19,6 +19,7 @@ public:
     int getLoopLengthSample(int sampleRate);
     int getLoopAppendOffsetSample(int sampleRate);
     bool hasIntro();
+    bool isOneshot();
     MidiEvent* getLoopStartControl();
     int getLoopStartTick();
     QVector<MIDISettings> collectSettingsAt(int absTick);
