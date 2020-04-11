@@ -22,6 +22,7 @@ public:
     void linearFadeout(quint32 offsetSample, quint32 fadeLength);
     void safeLinearFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
                                    quint32 loopStart, quint32 loopLength);
+    void amplify(int ampPercentage);
 
 private:  // methods
     bool checkApplicability(const QByteArray& formatChunk);
@@ -30,6 +31,7 @@ private:  // methods
     bool saveCommonData(QFile& wavefile, quint32 waveformSize);
     quint32 getSampleRate(const QByteArray& formatChunk);
     float getMaxAmplitude();
+    void multiplyAmp(double amp);
     void compressAllByMaxAmplitude();
     void compressDynamicallyByMaxAmplitude(qreal ratio);
     void prepareSafeFadeoutWithLoop(quint32 offsetSample, quint32 fadeLength,
