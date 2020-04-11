@@ -58,6 +58,9 @@ bool LoopOGGGenerator::convert() {
     }
 
     if (!this->analyzeSMF()) return false;
+    if (this->isOneshot) {
+        return this->convertAsOneshot();
+    }
     if (this->needSplit) {
         if (!this->splitSMF()) return false;
     }
@@ -91,6 +94,8 @@ bool LoopOGGGenerator::analyzeSMF() {
 
     // get nesessality of splitting SMF
     this->needSplit = mic.hasIntro();
+
+    this->isOneshot = mic.isOneshot();
 
     // get offset of appending loop sample
     this->loopOffset = mic.getLoopAppendOffsetSample(SampleRate);
@@ -301,4 +306,31 @@ void LoopOGGGenerator::sweepTemporaryFiles() {
     QFile::remove(fileNameBase + FirstLoopWAVSuffix);
     QFile::remove(fileNameBase + AfterLoopWAVSuffix);
     QFile::remove(fileNameBase + CompleteLoopWAVSuffix);
+}
+
+bool LoopOGGGenerator::convertAsOneshot() {
+    auto fileNameBase = this->getFileNameBase();
+    auto wavFileName = fileNameBase + ".wav";
+    auto outputFileType = QSettings().value("output/fileType").toString();
+    auto sourceSMFName = Utils::IsWindows ? this->smf.fileName().mid(1) : this->smf.fileName();
+
+    // execute TiMidity++
+    QStringList timidityCommand;
+    this->timidityCommandBuilder.build(timidityCommand, sourceSMFName, TiMidityDevice::RIFFWave, wavFileName);
+    if(QProcess::execute(timidityXXBinary, timidityCommand) != 0) {
+        return false;
+    }
+
+    // execute encoder or move wav
+    if(outputFileType == "wav") {
+        QFile::copy(wavFileName, this->getFileNameBase(this->outputDir) + ".wav");
+    } else {
+        if(this->m_encoderExecutor->execute(wavFileName, this->getFileNameBase(this->outputDir)) != 0) {
+            return false;
+        }
+    }
+
+    QFile::remove(wavFileName);
+
+    return true;
 }

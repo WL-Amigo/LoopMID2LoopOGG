@@ -16,6 +16,12 @@ public:
 #else
     static const bool IsDebug = false;
 #endif
+
+#ifdef Q_OS_WIN
+    static const bool IsWindows = true;
+#else
+    static const bool IsWindows = false;
+#endif
 };
 
 #endif  // UTILS_H
