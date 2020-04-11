@@ -218,6 +218,9 @@ bool LoopOGGGenerator::saveWAVWithTailProcess(RIFFWaveEditor& savingWAV) {
 
     QFile CompleteLoopWAV(getFileNameBase() + CompleteLoopWAVSuffix);
 
+    // apply output volume amplification
+    savingWAV.amplify(s.value("outputAmp", 100).toInt());
+
     if (tailProcessMode == "optimized") {  // optimized mode for game use
         // cutout unnecessary samples
         savingWAV.cutoutAfter(this->loopStart + this->loopLength +
@@ -320,6 +323,13 @@ bool LoopOGGGenerator::convertAsOneshot() {
     if(QProcess::execute(timidityXXBinary, timidityCommand) != 0) {
         return false;
     }
+
+    // apply output volume amplification
+    auto wavEditor = RIFFWaveEditor();
+    auto wavFile = QFile(wavFileName);
+    wavEditor.open(wavFile);
+    wavEditor.amplify(QSettings().value("outputAmp", 100).toInt());
+    wavEditor.save(wavFile);
 
     // execute encoder or move wav
     if(outputFileType == "wav") {

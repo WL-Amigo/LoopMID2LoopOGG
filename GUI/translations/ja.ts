@@ -224,7 +224,7 @@ p, li { white-space: pre-wrap; }
         <translation>AACへの変換を有効にするためには、最新の iTunes もしくは QuickTime がインストールされていることが必要です。&lt;br/&gt;iTunesは &lt;a href=&quot;https://www.apple.com/jp/itunes/download/&quot;&gt;ここ&lt;/a&gt; からダウンロードすることが出来ます。</translation>
     </message>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="70"/>
+        <location filename="../src/ConfigDialog.cpp" line="72"/>
         <source>TiMidity++ config file (*.cfg)</source>
         <translation>TiMidity++ コンフィグファイル (*.cfg)</translation>
     </message>
@@ -263,12 +263,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>FileBrowseLineEditConnector</name>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="345"/>
+        <location filename="../src/ConfigDialog.cpp" line="347"/>
         <source>Select directory...</source>
         <translation>ディレクトリを選択...</translation>
     </message>
     <message>
-        <location filename="../src/ConfigDialog.cpp" line="349"/>
+        <location filename="../src/ConfigDialog.cpp" line="351"/>
         <source>Select file...</source>
         <translation>ファイルを選択...</translation>
     </message>
@@ -296,22 +296,27 @@ p, li { white-space: pre-wrap; }
         <translation>参照...</translation>
     </message>
     <message>
-        <location filename="../forms/mainwindow.ui" line="106"/>
+        <location filename="../forms/mainwindow.ui" line="96"/>
+        <source>Output Amplification:</source>
+        <translation>出力音量倍率(％):</translation>
+    </message>
+    <message>
+        <location filename="../forms/mainwindow.ui" line="134"/>
         <source>File</source>
         <translation>ファイル</translation>
     </message>
     <message>
-        <location filename="../forms/mainwindow.ui" line="117"/>
+        <location filename="../forms/mainwindow.ui" line="145"/>
         <source>Exit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../forms/mainwindow.ui" line="122"/>
+        <location filename="../forms/mainwindow.ui" line="150"/>
         <source>Config</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="35"/>
+        <location filename="../src/mainwindow.cpp" line="54"/>
         <source>Select Output Direcotry...</source>
         <translation>出力先ディレクトリの選択...</translation>
     </message>

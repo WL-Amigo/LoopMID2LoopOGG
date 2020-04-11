@@ -262,6 +262,15 @@ quint32 RIFFWaveEditor::getLengthInSample() {
     return lChannelFloat.size();
 }
 
+void RIFFWaveEditor::multiplyAmp(double amp) {
+    // multiply all samples by factor
+    quint32 len = this->getLengthInSample();
+    for (quint32 idx = 0; idx < len; idx++) {
+        lChannelFloat[idx] *= amp;
+        rChannelFloat[idx] *= amp;
+    }
+}
+
 void RIFFWaveEditor::compressAllByMaxAmplitude() {
     qDebug() << "compressAllByMaxAmplitude(): called";
     // search sample that has max amplitude
@@ -270,12 +279,8 @@ void RIFFWaveEditor::compressAllByMaxAmplitude() {
     // calculate compress factor
     float factor = 1.0f / maxAmp;
 
-    // multiply all samples by factor
-    quint32 len = this->getLengthInSample();
-    for (quint32 idx = 0; idx < len; idx++) {
-        lChannelFloat[idx] *= factor;
-        rChannelFloat[idx] *= factor;
-    }
+    // apply amplitude multiplication
+    this->multiplyAmp(factor);
 
     return;
 }
@@ -367,4 +372,12 @@ void RIFFWaveEditor::safeLinearFadeoutWithLoop(quint32 offsetSample,
                                                quint32 loopLength) {
     prepareSafeFadeoutWithLoop(offsetSample, fadeLength, loopStart, loopLength);
     linearFadeout(offsetSample, fadeLength);
+}
+
+void RIFFWaveEditor::amplify(int ampPercentage) {
+    if(ampPercentage == 100) {
+        return;
+    }
+
+    this->multiplyAmp(static_cast<double>(ampPercentage) / 100.0);
 }
