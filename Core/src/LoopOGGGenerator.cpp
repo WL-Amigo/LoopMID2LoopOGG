@@ -299,7 +299,7 @@ void LoopOGGGenerator::saveLoopInformation() {
 void LoopOGGGenerator::sweepTemporaryFiles() {
     // remove all temporary files
     QString fileNameBase = getFileNameBase();
-    if constexpr (!Utils::IsDebug) {
+    if (!Utils::IsDebug) {
         QFile::remove(fileNameBase + IntroSMFSuffix);
         QFile::remove(fileNameBase + FirstLoopSMFSuffix);
         QFile::remove(fileNameBase + AfterLoopSMFSuffix);
@@ -326,7 +326,7 @@ bool LoopOGGGenerator::convertAsOneshot() {
 
     // apply output volume amplification
     auto wavEditor = RIFFWaveEditor();
-    auto wavFile = QFile(wavFileName);
+    QFile wavFile(wavFileName);
     wavEditor.open(wavFile);
     wavEditor.amplify(QSettings().value("outputAmp", 100).toInt());
     wavEditor.save(wavFile);

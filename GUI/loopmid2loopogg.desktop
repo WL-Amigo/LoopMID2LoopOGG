@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=LoopMID2LoopOGG
+Comment=Looping MIDI file to looping Ogg Vorbis converter
+Exec=LoopMID2LoopOGG
+Icon=LoopMID2LoopOGG
+Categories=Music;
