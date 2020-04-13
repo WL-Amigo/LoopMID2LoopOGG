@@ -10,6 +10,7 @@ mkdir $DEPLOY_DIR/
 rm -rf $FULL_DEPLOY_DIR/
 
 pushd $BUILD_DIR/
+lrelease ../GUI/LoopMID2LoopOGG.pro
 qmake ../GUI/LoopMID2LoopOGG.pro -spec win32-g++ -config release
 mingw32-make -j8
 popd
