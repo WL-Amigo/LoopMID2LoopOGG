@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>LoopMID2LoopOGG プロジェクトページ</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/d0663bbcdc.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+  <link rel="stylesheet" href="css/micromodal.css">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+
+  <div class="logo-wrap">
+    <img src="images/Logo.svg" class="logo">
+  </div>
+
+  <div class="download-counter">
+    <span id="latestDownloadCount"></span>
+    <span style="margin-left: 40px;">&nbsp;</span>
+    <span id="allDownloadCount"></span>
+  </div>
+
+  <div class="buttons-wrap">
+    <a class="button download-button" data-micromodal-trigger="modal-1">
+      <img src="images/treasure_461414.svg" />
+      ダウンロード
+    </a>
+  </div>
+
+  <div class="container">
+    <div class="shares-wrap">
+      <div class="row">
+        <div class="six columns">
+          <a href="https://twitter.com/intent/tweet?button_hashtag=LoopMID2LoopOGG&url=https%3A%2F%2Fwl-amigo.github.io%2FLoopMID2LoopOGG%2F&text=RPG%e3%83%84%e3%82%af%e3%83%bc%e3%83%ab%e6%ba%96%e6%8b%a0%e3%81%ae%e3%83%ab%e3%83%bc%e3%83%97%e3%81%99%e3%82%8bMIDI%e3%82%92%e3%83%ab%e3%83%bc%e3%83%97%e3%81%99%e3%82%8bOGG%2fAAC%e3%81%b8%e5%a4%89%e6%8f%9b%e3%81%99%e3%82%8b%e3%83%84%e3%83%bc%e3%83%ab%e3%80%8eLoopMID2LoopOGG%e3%80%8f"
+            class="shares-link" data-url="https://wl-amigo.github.io/LoopMID2LoopOGG/" target="_blank">
+            <i class="fab fa-twitter"></i> ツイッターで共有する
+          </a>
+        </div>
+        <div class="six columns">
+          <a href="https://github.com/WL-Amigo/LoopMID2LoopOGG" class="shares-link">
+            <i class="fab fa-github"></i> GitHubリポジトリ
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrap">
+      <p>
+        LoopMID2LoopOGG は、「RPGツクール2000規格で作成された、対応するRPGツクール(2000,2003,XP,VX,VXAce
+        等)においてループする標準MIDIファイルを、対応するRPGツクール(VXAce,MV 等)や対応する環境においてループするOGG Vorbisファイル、及びAACファイルへ変換する」ツールです。
+      </p>
+      <p>
+        対応OS: Windows, Linux (by AppImage)
+      </p>
+
+      <h2>出来ること</h2>
+      <ul class="fa-ul">
+        <li class="featured"><span class="fa-li"><i class="fas fa-magic"></i></span>
+          RPGツクール2000規格で作成されたいわゆるMIDI素材(CC111を用いてループするように作られたMIDI素材)を、LOOPSTART/LOOPLENGTHタグによるループ情報を埋め込んだOGG
+          Vorbisファイル、及びAACファイルへ変換することが出来ます。<br />
+          <small>(AACへの変換には予めiTunesまたはQuickTimeがインストールされていることが必要になります)</small>
+        </li>
+        <li class="featured"><span class="fa-li"><i class="fas fa-magic"></i></span>
+          ループ再生に不要なデータを削って出力する「サイズ節約モード」と、音楽プレイヤーで聴くために指定回数ループとフェードアウトを行って出力する「サウンドトラックモード」が使えます。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span>
+          変換する前に、変換結果を確認するためのプレビュー再生を簡単に行うことが出来ます(プレビュー再生ではループ再生はされません)。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span>
+          複数のMIDI素材をまとめて変換することもできます。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span> 他の形式への変換用にWAV出力もできます。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span>
+          変換時に同時にループ情報(LOOPSTART/LOOPLENGTH)を書きだしたjsonファイルも得られます。
+          <br /> テキストエディタで開けばサンプル数単位のループ情報を得られます。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span> エフェクト・エンコード品質等の調整が出来ます。
+        </li>
+        <li class="subfeature"><span class="fa-li"><i class="fas fa-magic"></i></span> 出力音量の調整が出来ます。(但し音割れを防ぐため内部制御が掛かります)
+        </li>
+      </ul>
+
+      <h2>セットアップ手順</h2>
+      <ol>
+        <li><a data-micromodal-trigger="modal-1" style="cursor: pointer;">ダウンロード</a>を押し、注意事項を読んで頂いた上で <b>音源同梱版</b>
+          のZIPパッケージをダウンロードします。(音源を同梱しているためサイズは大きめですので、ダウンロードに時間が掛かります)</li>
+        <li>1番でダウンロードしたZIPパッケージを、適当な場所に展開します。</li>
+        <li>これで準備完了です。 “LoopMID2LoopOGG.exe” をダブルクリックすると起動できます。</li>
+      </ol>
+      <p>Timidity++の使い方を知っている方は別のサウンドフォントを使うことも出来ます。詳しくは<a
+          href="https://github.com/WL-Amigo/LoopMID2LoopOGG#-loopmid2loopogg" target="_blank">README</a>をご覧下さい。</p>
+
+      <h2>アップデート手順</h2>
+      <ol>
+        <li>ページ上部またはページ下部のダウンロードボタンを押し、注意事項を読んで頂いた上で <b>アプリのみ版</b> のZIPパッケージをダウンロードします。</li>
+        <li>1番でダウンロードしたZIPパッケージを、セットアップで本アプリを設置した場所に展開します。上書きするかどうかを聞かれたら全て「はい」を押して下さい。</li>
+        <li>以上でアップデート完了です。設定等はアプリとは別の場所に記録されているので、そのまま利用続行できます。</li>
+      </ol>
+
+      <h2>資料集</h2>
+      <div class="row materials-wrap">
+        <div class="six columns">
+          <!--a href="" class="material-link">MIDI素材を配布されている作者様<br />HPへのリンク集</a-->
+          <span class="material-link-na">MIDI素材を配布されている作者様<br />HPへのリンク集(準備中)</span>
+        </div>
+        <div class="six columns">
+          <!--a href="" class="material-link">本ツールの技術的詳細について</a-->
+          <span class="material-link-na">本ツールの技術的詳細について(準備中)</span>
+        </div>
+      </div>
+      <div class="row materials-wrap">
+        <div class="six columns">
+          <span class="material-link-na">正常に変換できないMIDI素材リスト(準備中)</span>
+        </div>
+      </div>
+
+      <div style="height: 2em;">
+      </div>
+
+      <div class="buttons-wrap">
+        <a class="button download-button" data-micromodal-trigger="modal-1">
+          <img src="images/treasure_461414.svg" />
+          ダウンロード
+        </a>
+        <br />
+        <a href="./attention.html" class="shares-link" style="font-size: 16px;">上記ダウンロードボタンが反応しない方はこちら</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="height: 2em;">
+  </div>
+
+  <div class="footer">
+    <p>
+      変換受付部分の画像に利用している音符の画像は、<a href="http://www.flaticon.com/">www.flaticon.com</a> の
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> による素材 <a
+        href="http://www.flaticon.com/free-icon/musical-note-in-black_26876">Musical note in black</a> を利用しています。
+    </p>
+    <p>
+      本ページの背景は <a href="http://www5d.biglobe.ne.jp/~gakai/index.htm">きまぐれアフター</a>, 及び <a
+        href="https://subtlepatterns.com/">Subtle Patterns</a> より加工の上利用させて頂いております。
+    </p>
+    <p>
+      本ページでは、フォントとして <a href="https://googlefonts.github.io/japanese/#mplus1p">M+ 1p</a>, 及び <a
+        href="https://fonts.google.com/specimen/Atomic+Age">Atomic Age(Google Fonts)</a> を利用させて頂いております。
+    </p>
+    <p>
+      本ページの見出し飾りは <a href="http://frames-design.com/">フレームデザイン</a> より加工の上利用させて頂いております。
+    </p>
+    <p>
+      ダウンロードボタンの宝箱アイコンは <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> の
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> による素材
+      <a href="https://www.flaticon.com/free-icon/treasure_461414">Tresure</a> を利用しています。
+    </p>
+    <p>
+      Powered by <a href="https://pages.github.com/">GitHub Pages(hosting)</a>,
+      <a href="http://getskeleton.com/">Skeleton(css framework)</a>,
+      <a href="https://fontawesome.com/">Font Awesome</a>,
+      and <a href="https://micromodal.now.sh/">Micromodal.js</a>.
+    </p>
+    <p>
+      Presented by <a href="https://wl-amigo.github.io/">WhiteLuckers</a>.
+    </p>
+  </div>
+
+  <div id="modal-1" class="modal micromodal-slide" aria-hidden="true">
+    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+      <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <header class="modal__header">
+          <h4 id="modal-1-title">ツール利用前のお願い</h4>
+        </header>
+        <div id="modal-1-content" class="modal__content">
+          <p>本ツールを利用される場合、必ず同梱のREADME.txt、もしくは
+            <a href="https://github.com/WL-Amigo/LoopMID2LoopOGG#-loopmid2loopogg" target="_blank">GitHub 上の
+              README</a>をご覧下さい。
+            <b>本ツールを入手・利用した時点で、本ツールの構成要素に付されている全てのライセンス条項にあなたが同意し、READMEの「
+              <a href="https://github.com/WL-Amigo/LoopMID2LoopOGG#%E3%83%84%E3%83%BC%E3%83%AB%E5%88%A9%E7%94%A8%E4%B8%8A%E3%81%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A0%85"
+                target="_blank">ツール利用上の注意事項</a>
+              」を理解し同意したものと見なします。</b>
+          </p>
+          <p>
+            <b>特に、音源同梱版をそのまま使われる際は、必ず同梱の LICENSE.SGM.txt
+              を変換したBGM等を同梱するソフトウェア(ゲーム等)にコピーして同梱するか、もしくは内容のコピーをソフトウェア内のユーザから見える位置(クレジット等)に記載するようにして下さい。</b>
+          </p>
+          <div class="download-links-container">
+            <a href="https://github.com/WL-Amigo/LoopMID2LoopOGG/releases/download/1.3.1/LoopMID2LoopOGG-V1.3.1-Win32-full.zip" class="button button-primary">Windows-音源同梱版</a>
+            <a href="https://github.com/WL-Amigo/LoopMID2LoopOGG/releases/download/1.3.1/LoopMID2LoopOGG-V1.3.1-Win32-apponly.zip" class="button">Windows-アプリのみ版</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script>
+    MicroModal.init({
+      awaitCloseAnimation: true,
+    });
+
+    // Download counter
+    fetch("https://api.github.com/repos/wl-amigo/LoopMID2LoopOGG/releases")
+      .then((res) => res.json())
+      .then((obj) => {
+        let allDownloadCount = 0;
+        let latestDownloadCount = 0;
+        let isFirst = true;
+        for (var ghRelease of obj) {
+          for (var ghReleaseAsset of ghRelease["assets"]) {
+            allDownloadCount += ghReleaseAsset["download_count"];
+            if (isFirst) {
+              latestDownloadCount += ghReleaseAsset["download_count"];
+            }
+          }
+          if (isFirst) isFirst = false;
+        }
+
+        document.getElementById("latestDownloadCount").innerHTML = `最新版ダウンロード数: ${latestDownloadCount}`
+        document.getElementById("allDownloadCount").innerHTML = `総ダウンロード数: ${allDownloadCount}`;
+      })
+  </script>
+
+
+</body>
+
+</html>
