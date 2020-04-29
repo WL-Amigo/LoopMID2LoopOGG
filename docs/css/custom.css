@@ -1,0 +1,148 @@
+body {
+    background-image: url("../images/BG100d-darken.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: #FFF;
+    font-size: 14pt;
+    font-family: "M PLUS 1p", Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+h2 {
+    text-align: center;
+}
+
+h2::before {
+    content: url("../images/ornament-L.svg");
+    margin-right: 16px;
+}
+
+h2::after {
+    content: url("../images/ornament-R.svg");
+    margin-left: 16px;
+}
+
+.logo-wrap {
+    text-align: center;
+}
+
+.logo {
+    max-width: 1000px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.content-wrap {
+    border-radius: 10px;
+    border: none;
+    background-image: url("../images/strange_bullseyes_dark.png");
+    background-repeat: repeat;
+    padding: 20px;
+}
+
+.buttons-wrap {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.buttons-wrap a {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.download-button {
+    box-shadow: 0 0 5px 3px rgba(255,255,255,0.7); /* CSS3 */
+    -webkit-box-shadow: 0 0 5px 3px rgba(255,255,255,0.7); /* Safari, Chrome用 */
+    -moz-box-shadow: 0 0 5px 3px rgba(255,255,255,0.7); /* Firefox用 */
+    background-color: #05091f;
+    font-size: 1.5em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    height: auto;
+    color: #FFF;
+    display: inline-flex;
+    align-items: center;
+}
+
+.download-button:hover {
+    color: #FFF;
+    text-shadow: 0 0 5px #FFF;
+    box-shadow: 0 0 5px 5px rgba(255,255,255,0.7); /* CSS3 */
+    -webkit-box-shadow: 0 0 5px 5px rgba(255,255,255,0.7); /* Safari, Chrome用 */
+    -moz-box-shadow: 0 0 5px 5px rgba(255,255,255,0.7); /* Firefox用 */
+}
+
+.download-button img {
+    height: 1.5em;
+    padding-right: 0.3em;
+}
+
+.download-links-container {
+    display: flex;
+    justify-content: center;
+}
+
+.download-links-container .button {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.shares-wrap,
+.materials-wrap {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.shares-link,
+.material-link {
+    text-decoration: none;
+    color: #b9edfe;
+}
+
+.shares-link:hover,
+.material-link:hover {
+    color: #b9edfe;
+    text-shadow: 0 0 5px #FFF;
+}
+
+.material-link-na {
+    color: #333;
+}
+
+.footer {
+    text-align: center;
+    font-size: 0.8em;
+    color: #DDD;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+.featured {
+    text-shadow: 0 0 5px #e0f9ff;
+}
+
+.subfeature{
+    font-size: 0.9em;
+    color: #EEE;
+}
+
+.download-counter{
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+.ie-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}
