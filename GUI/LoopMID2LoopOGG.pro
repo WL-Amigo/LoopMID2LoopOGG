@@ -51,3 +51,20 @@ RESOURCES += \
 
 TRANSLATIONS += \
     translations/ja.ts
+
+linux-g++ {
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+    target.path = $$PREFIX/bin
+
+    desktop.path = $$PREFIX/share/applications/
+    desktop.files += loopmid2loopogg.desktop
+
+    icon.path = $$PREFIX/share/icons/default/256x256/apps
+    icon.files += resources/LoopMID2LoopOGG.png
+
+    INSTALLS += desktop
+    INSTALLS += icon
+    INSTALLS += target
+}
